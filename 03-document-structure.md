@@ -1,0 +1,373 @@
+# Chapter 3: Document Structure - The Art of the Outline
+
+You've mastered the basics: headings, folding, moving things around. Now let's explore the full power of Org-Mode's document structure. This is where you'll learn to think in outlines.
+
+## Headings: More Than Meets the Asterisk
+
+We've established that asterisks create headings:
+
+```org
+* One asterisk = Level 1
+** Two asterisks = Level 2
+*** Three asterisks = Level 3
+```
+
+But headings in Org-Mode are more than visual organization—they're structural containers with their own properties, metadata, and behaviors.
+
+### The Anatomy of a Heading
+
+A complete heading can include several components:
+
+```org
+* TODO Write documentation :work:urgent:
+  SCHEDULED: <2025-01-15 Wed>
+  :PROPERTIES:
+  :EFFORT: 2:00
+  :END:
+
+  This is the heading body. Everything until the next heading belongs to
+  this section.
+```
+
+Let's break this down:
+- `*` - The level indicator
+- `TODO` - A state keyword (we'll cover this deeply in Chapter 6)
+- `Write documentation` - The heading text itself
+- `:work:urgent:` - Tags (Chapter 7)
+- `SCHEDULED:` - A planning keyword with timestamp
+- `:PROPERTIES:` - A property drawer with metadata
+- The body content below
+
+Each component is optional. A heading can be just `* Simple` or a metadata-rich container. The choice is yours.
+
+## Text Formatting: Yes, It's Still Plain Text
+
+Org-Mode supports rich text formatting using simple markup:
+
+```org
+*bold text*
+/italic text/
+_underlined text_
+=verbatim text= (displayed in monospace)
+~code~ (also monospace)
++strikethrough text+
+```
+
+When Org-Mode displays these, they render beautifully, but open the file in any text editor and it's still human-readable. This is the plain-text philosophy in action.
+
+### Escaping Special Characters
+
+Need to write an actual asterisk without creating a heading? Precede it with a comma or use a zero-width space:
+
+```org
+,* This is not a heading
+```
+
+## Lists: Bullets, Numbers, and Checkboxes
+
+Org-Mode has sophisticated list support. Simple to start, powerful when you need it.
+
+### Unordered Lists
+
+```org
+* Shopping List
+  - Milk
+  - Eggs
+    - Free range if possible
+    - Brown eggs preferred
+  - Coffee
+    - Dark roast
+  - Bread
+```
+
+Start a line with `-`, `+`, or `*` (if not at the start of the line) to create a list item. Press `M-RET` on a list item to create another at the same level.
+
+### Ordered Lists
+
+```org
+* Recipe Steps
+  1. Preheat oven to 350°F
+  2. Mix dry ingredients
+     1. Flour
+     2. Sugar
+     3. Baking powder
+  3. Add wet ingredients
+  4. Bake for 25 minutes
+```
+
+Org-Mode automatically renumbers lists when you add or remove items. Move an item with `M-up/down` and the numbers update automatically. It's the little things.
+
+### Description Lists
+
+```org
+* Git Commands
+  - git add :: Stage changes for commit
+  - git commit :: Save staged changes to history
+  - git push :: Send commits to remote repository
+  - git pull :: Fetch and merge remote changes
+```
+
+The `::` separator creates description lists—perfect for glossaries, definitions, or any term/description pairs.
+
+### Checkbox Lists
+
+Here's where lists get seriously useful:
+
+```org
+* Project Tasks
+  - [ ] Design mockups
+  - [ ] Get client approval
+  - [X] Set up development environment
+  - [ ] Write tests
+  - [ ] Implement features
+    - [X] User authentication
+    - [ ] Dashboard
+    - [ ] Reports
+  - [ ] Deploy to staging
+```
+
+`[ ]` creates an unchecked box, `[X]` is checked. Press `C-c C-c` (Control-c twice) on a checkbox to toggle it.
+
+The magic: parent items show completion statistics:
+
+```org
+* Project Tasks [1/5]
+  - [ ] Task 1
+  - [X] Task 2
+  - [ ] Task 3
+  - [ ] Task 4
+  - [ ] Task 5
+```
+
+Or as a percentage:
+
+```org
+* Project Tasks [20%]
+```
+
+Add `[/]` or `[%]` after the heading text, and Org-Mode calculates it automatically when you toggle child checkboxes. This is phenomenal for tracking progress in nested task lists.
+
+## Structural Editing: Your Outline Swiss Army Knife
+
+You've learned the basic movement commands. Let's expand your toolkit.
+
+### Creating and Promoting Headings
+
+- `M-RET` - New heading at same level
+- `M-S-RET` - New TODO heading at same level (Shift-Alt-Enter)
+- `C-RET` - New heading after current subtree
+- `M-left/right` - Promote/demote heading (changes level)
+- `M-S-left/right` - Promote/demote subtree (heading + all children)
+
+### Moving Things Around
+
+- `M-up/down` - Move heading/list item up or down
+- `M-S-up/down` - Move entire subtree up or down
+- `C-c C-w` - Refile heading to another location (powerful—we'll revisit this)
+
+### Marking and Narrowing
+
+- `C-c @` - Mark subtree (select the whole thing)
+- `C-x n s` - Narrow to subtree (hide everything else—pure focus)
+- `C-x n w` - Widen back to full document
+
+Narrowing is underrated. Working on one section of a large document? Narrow to it and eliminate all distractions. The rest of the file temporarily ceases to exist.
+
+## Drawers: Hidden Storage
+
+Drawers are collapsible sections for metadata that you don't need to see all the time:
+
+```org
+* Project Meeting Notes
+  :PROPERTIES:
+  :MEETING_DATE: 2025-01-15
+  :ATTENDEES: Alice, Bob, Carol
+  :END:
+
+  :LOGBOOK:
+  - Note taken on [2025-01-15 Wed 14:30] \\
+    Discussed Q1 roadmap
+  :END:
+
+  The actual meeting notes go here.
+```
+
+The `:PROPERTIES:` drawer stores key-value pairs. The `:LOGBOOK:` drawer (auto-created) stores notes and state changes. Press TAB on a drawer to collapse/expand it.
+
+You can create custom drawers too:
+
+```org
+* Project
+  :RESOURCES:
+  - https://docs.example.com
+  - https://github.com/example/repo
+  :END:
+```
+
+## Blocks: Special Sections
+
+Blocks are regions with special formatting or behavior:
+
+### Quote Blocks
+
+```org
+#+BEGIN_QUOTE
+The best way to predict the future is to invent it.
+— Alan Kay
+#+END_QUOTE
+```
+
+### Example Blocks
+
+```org
+#+BEGIN_EXAMPLE
+This text is displayed in monospace
+and preserves    spacing     exactly.
+#+END_EXAMPLE
+```
+
+### Source Code Blocks
+
+```org
+#+BEGIN_SRC python
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+#+END_SRC
+```
+
+We'll dive deep into code blocks in Chapter 11 (spoiler: they're executable).
+
+### Center Blocks
+
+```org
+#+BEGIN_CENTER
+This text will be centered when exported.
+#+END_CENTER
+```
+
+Press `C-c '` (Control-c single-quote) inside a code block to edit it in a dedicated buffer with full syntax highlighting and language-specific features. Edit, then `C-c '` again to return. It's magical.
+
+## Comments and Comment Blocks
+
+Sometimes you need notes that don't export:
+
+```org
+# This is a comment line (won't export)
+
+* A Regular Heading
+
+This exports.
+
+#+BEGIN_COMMENT
+This entire block is a comment.
+It won't export to HTML, PDF, or anything else.
+Great for draft notes or internal documentation.
+#+END_COMMENT
+
+This also exports.
+```
+
+You can also comment entire subtrees:
+
+```org
+* COMMENT This heading won't export
+  Neither will anything inside it.
+  Great for drafts or deprecated sections.
+```
+
+## Footnotes: Academic Precision
+
+Org-Mode has first-class footnote support:
+
+```org
+The Org-Mode manual[fn:1] is comprehensive but dense. Some prefer community
+guides[fn:2] for learning.
+
+* Footnotes
+
+[fn:1] https://orgmode.org/manual/
+
+[fn:2] Various blogs and tutorials exist, though quality varies.
+```
+
+Or use inline footnotes:
+
+```org
+Org-Mode was created in 2003[fn::Though it built on earlier work in Outline mode].
+```
+
+Press `C-c C-c` on a footnote reference to jump to its definition. Press it again to jump back. Org-Mode handles numbering automatically.
+
+## Horizontal Rules
+
+Sometimes you need a visual separator:
+
+```org
+* Section One
+
+Content here.
+
+-----
+
+* Section Two
+
+More content.
+```
+
+Five or more dashes on a line creates a horizontal rule.
+
+## Archiving Old Content
+
+Documents grow. Eventually you'll want to move completed or outdated items without deleting them:
+
+```org
+* Active Projects
+** TODO Current work
+** DONE Old project
+   :PROPERTIES:
+   :ARCHIVE: this/file/name.org::* Archived Projects
+   :END:
+```
+
+`C-c C-x C-a` archives the current subtree, moving it to your archive file (or archive location) while preserving its structure and metadata.
+
+Think of it as a "soft delete" that maintains history without cluttering your active workspace.
+
+## The Sparse Tree: X-Ray Vision for Your Document
+
+Here's a killer feature: sparse trees let you filter your document to show only matching items.
+
+- `C-c / r` - Show headings matching a regexp
+- `C-c / t` - Show TODO items
+- `C-c / p` - Show items with specific properties
+- `C-c / T` - Show items with specific tags
+
+The document folds to show only matches and their context. Everything else disappears. When you're done, `C-c C-c` clears the sparse tree.
+
+Working on a specific tag across a 5000-line document? Sparse tree it. Need to see all TODO items? Sparse tree. This feature alone justifies the plain-text approach.
+
+## Your Document Structure Philosophy
+
+Here's the thing about outlines: there's no "correct" structure. Some people organize by project. Others by time (daily/weekly notes). Some by area of responsibility. Many combine approaches.
+
+Org-Mode doesn't care. It provides the tools; you provide the structure. Experiment. Reorganize. Your `.org` files should evolve as you do.
+
+## Practical Exercise
+
+Create a document that uses:
+
+1. At least three levels of headings
+2. Both ordered and unordered lists
+3. A checkbox list with nested items
+4. A few formatted text elements (bold, italic, code)
+5. At least one block (quote, example, or code)
+6. A comment that won't export
+7. Practice using sparse trees to filter your content
+
+Play with structural editing. Move things around. Feel the outline become an extension of your thought process.
+
+## Next Up: Tables
+
+You've mastered document structure. In the next chapter, we'll tackle one of Org-Mode's most surprisingly powerful features: tables that act like spreadsheets, all in plain text. You're going to love it.

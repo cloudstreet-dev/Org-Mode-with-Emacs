@@ -1,0 +1,479 @@
+# Chapter 6: TODO Items and Workflow - Getting Things Done (Your Way)
+
+Here's where Org-Mode transforms from "nice note-taking tool" to "life management system." TODO items turn ordinary headings into actionable tasks, and Org-Mode's workflow features let you track them with precision that would make a project manager weep with joy.
+
+## The Simplest TODO
+
+Add `TODO` before any heading text:
+
+```org
+* TODO Write chapter on TODO items
+* TODO Buy groceries
+* TODO Achieve inbox zero (optimistic)
+```
+
+That's it. The heading is now a task.
+
+Press `C-c C-t` (Control-c Control-t) on a TODO item to cycle its state:
+
+```
+TODO → DONE → (no keyword)
+```
+
+Press it again:
+```
+(no keyword) → TODO → DONE → (no keyword)
+```
+
+Marking something DONE feels unreasonably satisfying. Try it.
+
+## TODO Keywords: Beyond Binary
+
+Binary TODO/DONE is limiting. Real workflows have intermediate states. Configure custom keywords:
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN-PROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+```
+
+The `|` separates "not done" from "done" states. Now your workflow becomes:
+
+```org
+* TODO Write draft
+* IN-PROGRESS Review code
+* WAITING Approval from client
+* DONE Deploy to production
+* CANCELLED Deprecated feature
+```
+
+`C-c C-t` cycles through all states. The letter in parentheses (like `(t)`) is a quick-access key: `C-c C-t t` jumps directly to TODO.
+
+### Multiple Workflows
+
+Different projects need different workflows:
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)")
+        (sequence "BUG(b)" "INVESTIGATING(v)" "|" "FIXED(f)")
+        (sequence "IDEA(e)" "PLANNING(p)" "|" "IMPLEMENTED(m)" "REJECTED(r)")))
+```
+
+Choose workflow per heading with `C-c C-t` then selecting the sequence.
+
+Or set workflow per-file:
+
+```org
+#+TODO: TODO IN-PROGRESS WAITING | DONE CANCELLED
+#+TODO: DRAFT REVIEW | PUBLISHED
+```
+
+### Visual Distinction
+
+Keywords can have colors and faces:
+
+```elisp
+(setq org-todo-keyword-faces
+      '(("TODO" . org-warning)
+        ("IN-PROGRESS" . "yellow")
+        ("WAITING" . "orange")
+        ("CANCELLED" . "blue")
+        ("DONE" . "green")))
+```
+
+Now your tasks are color-coded. At a glance, see what's urgent, in progress, or blocked.
+
+## Checkboxes vs. TODO Items
+
+Remember checkboxes from Chapter 3?
+
+```org
+* TODO Plan birthday party
+  - [ ] Book venue
+  - [ ] Send invitations
+  - [ ] Order cake
+  - [ ] Buy decorations
+```
+
+**When to use checkboxes:**
+- Sub-tasks that aren't important enough for individual TODO items
+- Steps that won't appear in agenda views
+- Quick lists within a larger task
+
+**When to use TODO items:**
+- Tasks you want in your agenda
+- Items you'll track separately
+- Tasks with their own deadlines or schedules
+
+Checkboxes are lightweight. TODO items are full-featured. Choose appropriately.
+
+## Priorities: The ABC's of Urgency
+
+Not all TODOs are equal. Add priorities:
+
+```org
+* TODO [#A] Critical bug in production
+* TODO [#B] Update documentation
+* TODO [#C] Refactor old code
+* TODO Regular task (no priority)
+```
+
+Set priority with `C-c ,` (Control-c comma):
+- Type `a` for priority A (highest)
+- Type `b` for priority B
+- Type `c` for priority C (lowest)
+- `SPC` to remove priority
+
+Priorities affect agenda view sorting (Chapter 8). Your critical items rise to the top.
+
+## Tracking State Changes
+
+Want to know when something changed state? Add this to your config:
+
+```elisp
+(setq org-log-done 'time)  ; Log timestamp when marking DONE
+```
+
+Now when you mark something DONE:
+
+```org
+* DONE Write documentation
+  CLOSED: [2025-01-15 Wed 14:32]
+```
+
+For more detail:
+
+```elisp
+(setq org-log-done 'note)  ; Prompt for a note when marking DONE
+```
+
+You'll get:
+
+```org
+* DONE Fix authentication bug
+  CLOSED: [2025-01-15 Wed 14:32]
+  - Note taken on [2025-01-15 Wed 14:32] \\
+    Fixed by updating token validation logic
+```
+
+Track your progress. Future you will wonder "when did I complete this?" Now you'll know.
+
+### Tracking All State Changes
+
+```elisp
+(setq org-log-into-drawer t)  ; Keep logs in a LOGBOOK drawer
+```
+
+Per-keyword logging:
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN-PROGRESS(i!)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")))
+```
+
+- `!` - Log timestamp
+- `@` - Prompt for note
+- `@/!` - Note when entering, timestamp when leaving
+
+Now your tasks track their entire lifecycle:
+
+```org
+* DONE Implement feature
+  CLOSED: [2025-01-15 Wed 16:45]
+  :LOGBOOK:
+  - State "DONE"       from "IN-PROGRESS" [2025-01-15 Wed 16:45]
+  - State "IN-PROGRESS" from "TODO"       [2025-01-14 Tue 09:15]
+  - State "TODO"       from ""            [2025-01-13 Mon 11:20]
+  :END:
+```
+
+This is project management gold.
+
+## Deadlines and Scheduling
+
+Tasks need timeframes:
+
+```org
+* TODO Submit quarterly report
+  DEADLINE: <2025-01-31 Wed>
+
+* TODO Weekly team meeting
+  SCHEDULED: <2025-01-16 Thu 10:00>
+```
+
+Add deadlines with `C-c C-d`, schedules with `C-c C-s`. Both pop up a calendar interface.
+
+**DEADLINE** - When something must be done. Org starts warning you in advance (default: 14 days).
+
+**SCHEDULED** - When you plan to work on something. It appears in your agenda on that date.
+
+### The Difference Matters
+
+```org
+* TODO Prepare presentation
+  SCHEDULED: <2025-01-10 Wed>
+  DEADLINE: <2025-01-15 Mon>
+```
+
+Translation: "I plan to start working on this Wednesday, but it must be done by Monday."
+
+In your agenda, this appears on the 10th (to remind you to start) and gets increasingly insistent as the 15th approaches.
+
+### Repeating Tasks
+
+Some tasks recur:
+
+```org
+* TODO Weekly review
+  SCHEDULED: <2025-01-15 Wed +1w>
+
+* TODO Pay rent
+  DEADLINE: <2025-01-01 Mon +1m>
+
+* TODO Water plants
+  SCHEDULED: <2025-01-15 Wed .+3d>
+```
+
+Repeating intervals:
+- `+1w` - Every week (if you mark it done late, next date calculates from original date)
+- `.+1w` - Every week from completion date (if done late, next date is 1 week from whenever you complete it)
+- `++1w` - Every week, but never shows past dates (won't accumulate missed instances)
+
+Mark a repeating task DONE, and Org automatically creates the next instance. Your recurring tasks manage themselves.
+
+## Effort Estimates
+
+How long will a task take?
+
+```org
+* TODO Write documentation
+  :PROPERTIES:
+  :EFFORT: 2:30
+  :END:
+```
+
+That's 2 hours, 30 minutes. Use `C-c C-x e` to set effort.
+
+Configure standard effort values:
+
+```elisp
+(setq org-global-properties
+      '(("Effort_ALL" . "0:15 0:30 1:00 2:00 4:00 8:00")))
+```
+
+Now `C-c C-x e` offers completion from predefined values.
+
+Why track effort? Because agenda views can show your task load, help plan your day, and warn when you're overcommitted (Chapter 8).
+
+## Blocking and Dependencies
+
+Some tasks can't start until others finish:
+
+```org
+* TODO Write code
+  :PROPERTIES:
+  :ID: task-write-code
+  :END:
+
+* TODO Write tests
+  :PROPERTIES:
+  :DEPENDS: task-write-code
+  :END:
+```
+
+Enable blocking:
+
+```elisp
+(setq org-enforce-todo-dependencies t)
+```
+
+Now you can't mark "Write tests" as DONE until "Write code" is complete. Org enforces task order.
+
+For more complex dependencies, use `org-edna` package. It supports:
+- Task chains
+- Conditional triggers
+- Scheduled dependencies
+- Property-based logic
+
+Project management in plain text.
+
+## Task Hierarchies
+
+Tasks can contain subtasks:
+
+```org
+* TODO Launch product [0/3]
+** TODO Design phase [0/2]
+*** TODO Create mockups
+*** TODO User testing
+** TODO Development phase
+** TODO Marketing phase
+```
+
+The `[0/3]` shows completion statistics (auto-calculated from child TODOs).
+
+Configure:
+
+```elisp
+(setq org-hierarchical-todo-statistics t)  ; Count only direct children
+```
+
+Without this, statistics include all descendants (TODOs at any depth).
+
+Mark subtasks done, and the parent updates automatically:
+
+```org
+* TODO Launch product [1/3]
+** DONE Design phase [2/2]
+*** DONE Create mockups
+*** DONE User testing
+** TODO Development phase
+** TODO Marketing phase
+```
+
+Visual progress tracking without manual updates.
+
+## Breaking Down Large Tasks
+
+Massive tasks paralyze. Break them down:
+
+```org
+* TODO Write book
+** TODO Outline chapters
+** TODO Write chapter 1
+** TODO Write chapter 2
+** TODO Write chapter 3
+...
+** TODO Edit complete manuscript
+** TODO Find publisher
+```
+
+Each subtask is manageable. The parent shows overall progress. Suddenly the impossible becomes achievable.
+
+## Task Refiling
+
+As tasks evolve, they need to move. Press `C-c C-w` to refile a heading:
+
+1. `C-c C-w` prompts for target location
+2. Type to search for headings (with completion)
+3. Select destination
+4. Task moves, preserving metadata and subtasks
+
+Configure refile targets:
+
+```elisp
+(setq org-refile-targets
+      '((org-agenda-files :maxlevel . 3)
+        (nil :maxlevel . 3)))
+```
+
+This allows refiling to any heading (up to level 3) in your agenda files or current file.
+
+Refiling keeps your system organized without manual cut-paste operations.
+
+## Task Templates and Inheritance
+
+Properties can inherit from parent headings:
+
+```org
+* Project: New Website
+  :PROPERTIES:
+  :CATEGORY: website
+  :CLIENT: ACME Corp
+  :END:
+
+** TODO Design homepage
+** TODO Implement backend
+** TODO Deploy
+```
+
+All subtasks inherit `CATEGORY` and `CLIENT` properties (if inheritance is enabled for those properties). Configure which properties inherit:
+
+```elisp
+(setq org-use-property-inheritance '("CLIENT" "PROJECT"))
+```
+
+Define once, use everywhere.
+
+## Archiving Completed Tasks
+
+Finished tasks clutter your files. Archive them:
+
+```org
+* DONE Old project
+```
+
+Press `C-c C-x C-a` to archive. The task moves to an archive file (default: `filename_archive.org`), leaving your main file clean.
+
+Configure archive location:
+
+```elisp
+(setq org-archive-location "~/org/archive.org::* From %s")
+```
+
+The `%s` expands to the source filename. Your archive maintains context.
+
+For one-off archive locations:
+
+```org
+* DONE Special project
+  :PROPERTIES:
+  :ARCHIVE: archive.org::* Special Projects
+  :END:
+```
+
+Archiving isn't deletion—it's organized storage of historical data.
+
+## Custom TODO Workflows: Real Examples
+
+### Software Development
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "BACKLOG(b)" "TODO(t)" "IN-PROGRESS(i)" "CODE-REVIEW(r)"
+                  "|" "DONE(d)")
+        (sequence "BUG(g)" "INVESTIGATING(v)" "|" "FIXED(f)")
+        (sequence "|" "WONTFIX(w)" "DUPLICATE(u)")))
+```
+
+### Writing Projects
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "IDEA(i)" "DRAFT(d)" "REVISING(r)" "EDITING(e)"
+                  "|" "PUBLISHED(p)")
+        (sequence "|" "REJECTED(x)")))
+```
+
+### GTD (Getting Things Done)
+
+```elisp
+(setq org-todo-keywords
+      '((sequence "NEXT(n)" "TODO(t)" "WAITING(w)" "SOMEDAY(s)"
+                  "|" "DONE(d)" "CANCELLED(c)")))
+```
+
+Org-Mode adapts to your methodology, not the other way around.
+
+## Your Exercise
+
+1. Create a TODO list with at least 10 tasks
+2. Set different priorities on tasks
+3. Add deadlines to at least 3 tasks
+4. Add scheduled dates to at least 2 tasks
+5. Create a task hierarchy with parent/child TODOs
+6. Try different TODO states (configure custom keywords if you're feeling brave)
+7. Create at least one repeating task
+8. Practice refiling tasks between headings
+
+## The Philosophy of TODO Management
+
+Most task management apps force you into their workflow. Org-Mode provides primitives—TODO states, timestamps, properties—and lets you compose your own system.
+
+Want GTD? Build it. Prefer Kanban? Configure it. Invented your own methodology? Implement it.
+
+The best TODO system is the one you'll actually use. Org-Mode gets out of your way and lets you work.
+
+## Next: Tags and Properties
+
+TODO items tell you what to do. Tags and properties tell you how to categorize, search, and filter. They're the metadata layer that transforms task lists into a queryable knowledge base. Let's dive in.

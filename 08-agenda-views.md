@@ -1,0 +1,477 @@
+# Chapter 8: Agenda Views - Mission Control for Your Life
+
+You've scattered TODO items across multiple files, added timestamps, tagged everything, and assigned properties. How do you make sense of it all? Enter the Agenda: Org-Mode's killer feature that aggregates, filters, and presents your entire task universe in actionable views.
+
+This is where Org-Mode graduates from "nice tool" to "how did I ever live without this?"
+
+## The Agenda Dispatcher
+
+Press `C-c a` to open the agenda dispatcher. You'll see options:
+
+```
+a   Agenda for current week or day
+t   List of all TODO entries
+m   Match tags/properties/TODO
+M   Match in all TODO files
+s   Search for keywords
+...
+```
+
+This is mission control. Each letter launches a different view of your data.
+
+## Setting Up Agenda Files
+
+The agenda pulls from designated files. Tell Org which files to scan:
+
+```elisp
+(setq org-agenda-files '("~/org/inbox.org"
+                         "~/org/projects.org"
+                         "~/org/work.org"
+                         "~/org/personal.org"))
+```
+
+Or use a directory (scans all `.org` files):
+
+```elisp
+(setq org-agenda-files '("~/org/"))
+```
+
+The agenda searches these files for TODOs, timestamps, tags—everything we've built so far.
+
+## The Default Agenda View
+
+`C-c a a` - Open the agenda for today/this week
+
+You'll see something like:
+
+```
+Week-agenda (W03):
+Monday     15 January 2025 W03
+  work:       Scheduled:  TODO Team meeting                    :meeting:
+  projects:   10:00-11:00 Client call                          :client:
+Tuesday    16 January 2025
+  inbox:      Scheduled:  TODO Review pull requests            :code:
+Wednesday  17 January 2025
+  work:       Deadline:   TODO Submit report                   :urgent:
+Thursday   18 January 2025
+Friday     19 January 2025
+Saturday   20 January 2025
+Sunday     21 January 2025
+```
+
+Your entire week at a glance. Scheduled items, deadlines, appointments—all aggregated from multiple files.
+
+### Navigating the Agenda
+
+- `n/p` - Next/previous line
+- `f/b` - Forward/backward one day/week
+- `.` - Go to today
+- `j` - Jump to specific date
+- `v d/v w/v m/v y` - View day/week/month/year
+- `r` - Refresh agenda
+- `RET` - Jump to item in source file
+- `TAB` - Show item in another window (without leaving agenda)
+
+### Acting on Agenda Items
+
+Here's the magic: you can manipulate items directly from the agenda:
+
+- `t` - Change TODO state
+- `C-c C-s` - Schedule item
+- `C-c C-d` - Set deadline
+- `:` - Set tags
+- `C-c C-x p` - Set properties
+- `I` - Start clock on item
+- `O` - Stop clock
+- `C-c C-w` - Refile item
+
+Change something in the agenda, and it updates in the source file. The agenda isn't just a view—it's an interface.
+
+## The TODO List
+
+`C-c a t` - Global TODO list
+
+Shows all TODO items from agenda files:
+
+```
+Global list of TODO entries of type: ALL
+Available with `N r': (0)ALL (1)TODO (2)IN-PROGRESS (3)WAITING
+
+  inbox:      TODO Organize desk                    :home:
+  projects:   TODO Write documentation               :work:
+  work:       TODO Review code                       :urgent:code:
+  personal:   TODO Buy groceries                     :errands:
+```
+
+Press `t` on any item to cycle its state. Press `r` to filter by TODO keyword.
+
+This is your master task list, aggregated across your entire system.
+
+## Tag/Property Matching
+
+`C-c a m` - Match tags, properties, TODO states
+
+Examples of searches:
+
+**By tag:**
+- `work` - All items tagged "work"
+- `urgent+work` - Tagged both "urgent" and "work"
+- `urgent|bug` - Tagged "urgent" or "bug"
+- `work-meeting` - Tagged "work" but not "meeting"
+
+**By TODO state:**
+- `TODO="IN-PROGRESS"` - Items in IN-PROGRESS state
+- `TODO<>"DONE"` - Not done
+- `TODO="TODO"|TODO="WAITING"` - TODO or WAITING
+
+**By property:**
+- `CLIENT="ACME"` - CLIENT property equals "ACME"
+- `EFFORT>2:00` - Effort greater than 2 hours
+- `PRIORITY="A"` - Priority A items
+
+**Combined:**
+- `work+urgent+TODO="TODO"+EFFORT<4:00` - Work, urgent, TODO state, under 4 hours
+- `@office+PRIORITY="A"-meeting` - Office context, priority A, not meetings
+
+Results display in agenda format. Act on them with the same keybindings.
+
+## Text Search
+
+`C-c a s` - Search agenda files for keywords
+
+Enter search terms. Org finds all headings and entries containing those words.
+
+Use regular expressions:
+- `C-c a s meeting|discussion` - Contains "meeting" or "discussion"
+- `C-c a s bug.*critical` - "bug" followed eventually by "critical"
+
+Full-text search across your entire Org universe.
+
+## Custom Agenda Views
+
+The real power: define custom views for your workflow.
+
+### Simple Custom Agendas
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("w" "Work tasks" tags-todo "work"
+         ((org-agenda-overriding-header "Work Tasks")))
+
+        ("h" "Home tasks" tags-todo "home"
+         ((org-agenda-overriding-header "Home Tasks")))
+
+        ("u" "Urgent items" tags-todo "urgent"
+         ((org-agenda-sorting-strategy '(priority-down))
+          (org-agenda-overriding-header "Urgent Items")))))
+```
+
+Now `C-c a w` shows work tasks, `C-c a h` shows home tasks, `C-c a u` shows urgent items sorted by priority.
+
+### Block Agendas
+
+Combine multiple views:
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("d" "Daily agenda and tasks"
+         ((agenda "" ((org-agenda-span 1)))
+          (tags-todo "urgent"
+                     ((org-agenda-overriding-header "Urgent Tasks")))
+          (tags-todo "work+TODO=\"IN-PROGRESS\""
+                     ((org-agenda-overriding-header "In Progress")))
+          (todo "WAITING"
+                ((org-agenda-overriding-header "Waiting On")))))))
+```
+
+`C-c a d` displays:
+1. Today's agenda
+2. Urgent tasks
+3. In-progress work items
+4. Items waiting on others
+
+One keystroke, complete daily dashboard.
+
+### Context-Based Views
+
+For GTD-style contexts:
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("c" . "Context views")
+        ("co" "Office" tags-todo "@office")
+        ("ch" "Home" tags-todo "@home")
+        ("ce" "Errands" tags-todo "@errands")
+        ("cp" "Phone calls" tags-todo "@phone")))
+```
+
+`C-c a c` shows context menu, then `o` for office tasks, `h` for home, etc.
+
+### Priority and Effort Views
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("p" "Priority view"
+         ((tags-todo "+PRIORITY=\"A\""
+                     ((org-agenda-overriding-header "High Priority")))
+          (tags-todo "+PRIORITY=\"B\""
+                     ((org-agenda-overriding-header "Medium Priority")))
+          (tags-todo "+PRIORITY=\"C\""
+                     ((org-agenda-overriding-header "Low Priority")))))))
+```
+
+Tasks grouped by priority.
+
+For effort-based planning:
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("e" "Effort view"
+         tags-todo "EFFORT<1:00"
+         ((org-agenda-overriding-header "Quick tasks (<1 hour)")))))
+```
+
+Filter tasks you can knock out quickly.
+
+## Agenda Filtering
+
+Within any agenda view:
+
+- `/` - Filter by tag (prompts for tag name)
+- `=` - Filter by regexp
+- `_` - Filter by category
+- `<` - Filter by effort
+
+Example workflow:
+1. `C-c a a` - Open weekly agenda
+2. `/` then `work` - Show only work-tagged items
+3. `/` again to remove filter
+
+Build filters on the fly as your focus changes.
+
+## Bulk Operations
+
+Process multiple items at once:
+
+1. Mark items with `m`
+2. Press `B` for bulk action menu
+3. Choose action:
+   - `t` - Change TODO state
+   - `s` - Add/remove tags
+   - `d` - Set deadline
+   - `$` - Archive
+   - `r` - Refile
+
+Mark five tasks, press `B t DONE`, mark them all complete at once. Efficiency at scale.
+
+## Time Grid
+
+Show a visual time grid in agenda:
+
+```elisp
+(setq org-agenda-time-grid
+      '((daily today require-timed)
+        (0900 1200 1500 1800 2100)
+        "......" "----------------"))
+```
+
+Your agenda now shows:
+
+```
+Monday     15 January 2025
+  9:00...... ________________
+  projects:   10:00-11:00 Client call
+  12:00...... ________________
+  work:       14:00-15:00 Team meeting
+  15:00...... ________________
+  18:00...... ________________
+  21:00...... ________________
+```
+
+Visual representation of your day's structure.
+
+## Deadline Warnings
+
+Org warns about approaching deadlines:
+
+```elisp
+(setq org-deadline-warning-days 7)  ; Warn 7 days in advance
+```
+
+In agenda:
+
+```
+Monday     15 January 2025
+  inbox:      In   5 d.:  TODO Submit tax documents         :admin:
+  projects:   In   2 d.:  TODO Client deliverable           :work:urgent:
+```
+
+Never miss a deadline again.
+
+## Scheduled vs. Deadline Display
+
+Both show in agenda, but differently:
+
+```org
+* TODO Write report
+  SCHEDULED: <2025-01-15 Wed>
+  DEADLINE: <2025-01-20 Mon>
+```
+
+In agenda:
+- Jan 15: "Scheduled: TODO Write report"
+- Jan 16-19: Nothing (unless you configure otherwise)
+- Jan 20: "Deadline: TODO Write report"
+
+If not done by deadline, it shows as "Past deadline" on subsequent days, with increasing urgency.
+
+Control this with:
+
+```elisp
+(setq org-scheduled-past-days 7)     ; Show scheduled items for 7 days if not done
+(setq org-deadline-warning-days 14)  ; Warn 14 days before deadline
+```
+
+## Habits Tracking
+
+Org-Mode has built-in habit tracking:
+
+```org
+* TODO Exercise
+  SCHEDULED: <2025-01-15 Wed .+1d>
+  :PROPERTIES:
+  :STYLE: habit
+  :END:
+```
+
+The `.+1d` makes it repeat daily from completion date. The `STYLE: habit` property makes Org track it as a habit.
+
+In agenda, habits show with a consistency graph:
+
+```
+  personal:   Scheduled:  TODO Exercise                      :health:
+              ****!****** (consistency graph)
+```
+
+Green for completed, red for missed. Visual habit accountability.
+
+Enable habit tracking:
+
+```elisp
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+```
+
+## Agenda Export
+
+Share your agenda with non-Org users:
+
+```
+C-c a a      (open agenda)
+C-x C-w      (write to file)
+```
+
+Choose format: HTML, PDF, text, iCalendar.
+
+Your plain text task list becomes a shareable document.
+
+For regular exports:
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("X" agenda ""
+         ((org-agenda-span 7)
+          (org-agenda-file-regexp "\\.org$"))
+         ("~/org-exports/weekly-agenda.html"))))
+```
+
+`C-c a X` auto-exports weekly agenda to HTML.
+
+## Column View in Agenda
+
+Remember column view from Chapter 7? Works in agenda too:
+
+`C-c C-x C-c` - Enable column view in agenda
+
+See properties as columns across agenda items. Edit them directly.
+
+## Agenda and Clocking
+
+From agenda:
+- `I` - Clock in to task
+- `O` - Clock out
+- `X` - Cancel current clock
+- `J` - Jump to currently clocked task
+
+Manage time tracking without leaving agenda view (more in Chapter 9).
+
+## Practical Agenda Setups
+
+### The Morning Dashboard
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("m" "Morning view"
+         ((agenda "" ((org-agenda-span 1)))
+          (todo "IN-PROGRESS"
+                ((org-agenda-overriding-header "In Progress")))
+          (tags-todo "+PRIORITY=\"A\""
+                     ((org-agenda-overriding-header "High Priority")))
+          (tags-todo "+urgent"
+                     ((org-agenda-overriding-header "Urgent")))
+          (tags-todo "EFFORT<1:00"
+                     ((org-agenda-overriding-header "Quick Wins")))))))
+```
+
+One keystroke, see your day.
+
+### The Weekly Review
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("r" "Weekly review"
+         ((agenda "" ((org-agenda-span 7)
+                      (org-agenda-start-day "-7d")))
+          (todo "DONE"
+                ((org-agenda-overriding-header "Completed This Week")))
+          (todo "TODO|IN-PROGRESS"
+                ((org-agenda-overriding-header "Open Items")))
+          (stuck ""
+                 ((org-agenda-overriding-header "Stuck Projects")))))))
+```
+
+Review last week, plan next week.
+
+### The Project View
+
+```elisp
+(setq org-agenda-custom-commands
+      '(("p" . "Project views")
+        ("pa" "Project Alpha" tags "project_alpha"
+         ((org-agenda-overriding-header "Project Alpha Tasks")))))
+```
+
+Per-project task views.
+
+## Your Exercise
+
+1. Set up `org-agenda-files` pointing to your org files
+2. Create at least 10 tasks with various schedules, deadlines, and tags
+3. Open the default agenda (`C-c a a`) and explore
+4. Try the global TODO list (`C-c a t`)
+5. Perform tag searches (`C-c a m`)
+6. Create at least one custom agenda view
+7. Practice acting on items from the agenda (change states, refile, set tags)
+8. Try bulk operations (mark multiple, apply changes)
+
+## The Philosophy of Agenda Views
+
+Most task managers present one view of your tasks—theirs. Org-Mode's agenda system says "here are primitives, build what works for you."
+
+Need a GTD-style next actions list? Build it. Want a dashboard of today's priorities? Configure it. Prefer a Kanban-style view? Custom agenda.
+
+The agenda transforms your distributed, plain-text task data into exactly the views you need, when you need them. It's the payoff for maintaining structured, tagged, timestamped tasks.
+
+## Next: Clocking and Time Tracking
+
+You know what you need to do and when. But how long do tasks actually take? How do you spend your time? Chapter 9 reveals Org-Mode's time tracking capabilities—frighteningly detailed time logs that live in plain text. Prepare to discover where your hours actually go.

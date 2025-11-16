@@ -1,0 +1,453 @@
+# Chapter 12: Export and Publishing - From Plain Text to Beautiful Documents
+
+Your org files are packed with knowledge, tasks, code, and data. Sometimes you need to share them with people who don't use Org-Mode (the unfortunate majority). Time to export.
+
+Press `C-c C-e` and watch plain text become polished documents.
+
+## The Export Dispatcher
+
+`C-c C-e` opens the export menu:
+
+```
+Export dispatcher
+
+Select an export method:
+ [h] HTML
+ [l] LaTeX
+ [p] PDF
+ [m] Markdown
+ [a] ASCII/UTF-8/Latin1
+ [o] ODT (OpenDocument)
+ [i] iCalendar
+...
+```
+
+Each format has sub-options (export to file, copy to clipboard, open in browser, etc.).
+
+Most common: `C-c C-e h o` - Export to HTML and open in browser.
+
+## HTML Export
+
+`C-c C-e h h` - Export to HTML file
+
+Org converts:
+- Headings → HTML headers (`<h1>`, `<h2>`, etc.)
+- Lists → `<ul>`, `<ol>`, `<li>`
+- Tables → `<table>` with styling
+- Code blocks → Syntax-highlighted `<pre>` blocks
+- Links → `<a href>`
+- Emphasis → `<strong>`, `<em>`, etc.
+
+The result? Professional web pages from plain text.
+
+### HTML Export Options
+
+Control export with options at file start:
+
+```org
+#+TITLE: My Document
+#+AUTHOR: Your Name
+#+EMAIL: you@example.com
+#+DATE: 2025-01-15
+#+OPTIONS: toc:2 num:t ^:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+```
+
+**Common OPTIONS:**
+- `toc:2` - Table of contents, 2 levels deep
+- `toc:nil` - No table of contents
+- `num:t` - Number headings
+- `num:nil` - Don't number headings
+- `^:nil` - Don't treat `^` as superscript
+- `':t` - Smart quotes
+- `H:3` - Export 3 heading levels (rest become lists)
+
+### Custom CSS
+
+Make it beautiful:
+
+```org
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="my-style.css" />
+#+HTML_HEAD: <style>body { font-family: sans-serif; max-width: 800px; margin: auto; }</style>
+```
+
+Or use export templates (more later).
+
+### HTML5 Export
+
+Modern semantic HTML:
+
+```elisp
+(setq org-html-html5-fancy t)
+(setq org-html-doctype "html5")
+```
+
+Generates clean, semantic markup.
+
+## PDF Export (via LaTeX)
+
+`C-c C-e l p` - Export to PDF via LaTeX
+
+Org generates LaTeX, then compiles to PDF. Result: professional typesetting.
+
+Requires LaTeX installed (TeXLive, MiKTeX, MacTeX).
+
+### LaTeX Configuration
+
+```org
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [12pt,a4paper]
+#+LATEX_HEADER: \usepackage{geometry}
+#+LATEX_HEADER: \geometry{margin=1in}
+```
+
+Control document class, packages, formatting.
+
+### Custom LaTeX Classes
+
+Define document types:
+
+```elisp
+(add-to-list 'org-latex-classes
+             '("myarticle"
+               "\\documentclass{article}
+                \\usepackage[margin=1in]{geometry}
+                \\usepackage{palatino}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+```
+
+Then in org file:
+
+```org
+#+LATEX_CLASS: myarticle
+```
+
+Custom layouts for reports, papers, books.
+
+### Beamer Presentations
+
+Academic presentations:
+
+```org
+#+LATEX_CLASS: beamer
+#+BEAMER_THEME: Madrid
+
+* Introduction
+** Slide One
+   - Point one
+   - Point two
+** Slide Two
+   More content
+```
+
+Export to PDF: instant presentation slides.
+
+## Markdown Export
+
+`C-c C-e m m` - Export to Markdown
+
+For GitHub READMEs, Jekyll blogs, or Markdown-based systems.
+
+Org's Markdown export supports:
+- GitHub Flavored Markdown
+- Standard Markdown
+- Various Markdown dialects
+
+Configure:
+
+```elisp
+(setq org-md-headline-style 'atx)  ; Use ## style headers
+```
+
+## ASCII/Text Export
+
+`C-c C-e t A` - Export to plain text
+
+No formatting, just text. Perfect for email or environments without rich text.
+
+Org maintains structure through indentation and ASCII art.
+
+## ODT (OpenDocument) Export
+
+`C-c C-e o o` - Export to ODT
+
+Opens in LibreOffice, Word, Google Docs. For corporate environments stuck on proprietary formats.
+
+Custom styles:
+
+```org
+#+ODT_STYLES_FILE: "my-styles.odt"
+```
+
+## Publishing Systems
+
+Export single files is fine. Publishing entire sites from org files? Next level.
+
+### Simple Publishing Setup
+
+```elisp
+(setq org-publish-project-alist
+      '(("my-website"
+         :base-directory "~/org/website/"
+         :publishing-directory "~/public_html/"
+         :publishing-function org-html-publish-to-html
+         :section-numbers nil
+         :with-toc nil
+         :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />")))
+```
+
+Run `M-x org-publish-project RET my-website`
+
+Every `.org` file in `~/org/website/` converts to HTML in `~/public_html/`. Upload to server. Instant website.
+
+### Project Components
+
+Separate org files and static assets:
+
+```elisp
+(setq org-publish-project-alist
+      '(("org-files"
+         :base-directory "~/website/org/"
+         :publishing-directory "~/website/public/"
+         :publishing-function org-html-publish-to-html)
+
+        ("static-files"
+         :base-directory "~/website/org/"
+         :publishing-directory "~/website/public/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf"
+         :publishing-function org-publish-attachment)
+
+        ("website" :components ("org-files" "static-files"))))
+```
+
+`M-x org-publish-project RET website` publishes everything.
+
+### Blog with Org
+
+Many use org-publish for blogs:
+
+```
+~/blog/
+  ├── posts/
+  │   ├── 2025-01-15-first-post.org
+  │   ├── 2025-01-20-second-post.org
+  │   └── index.org
+  ├── style.css
+  └── publish.el
+```
+
+Each post is an org file. Publish generates static site. Add git hooks to auto-publish on commit.
+
+Static site generators like Hugo can consume org files directly.
+
+## Selective Export
+
+### Export Subtrees
+
+Don't want to export entire file? Export one subtree:
+
+1. Navigate to heading
+2. `C-c C-e C-s` - Enable subtree export
+3. Choose format
+
+Only that section exports.
+
+### Export Settings per Heading
+
+```org
+* Document for Client
+  :PROPERTIES:
+  :EXPORT_TITLE: Project Proposal
+  :EXPORT_FILE_NAME: proposal.pdf
+  :EXPORT_OPTIONS: toc:nil
+  :END:
+
+** Background
+** Approach
+** Budget
+```
+
+Export this subtree → generates `proposal.pdf` with custom title and no table of contents.
+
+### Tags and Export
+
+Exclude sections:
+
+```org
+#+EXCLUDE_TAGS: noexport draft
+
+* Published Section
+  This exports.
+
+* Draft Section                                  :draft:
+  This doesn't export.
+
+* Internal Notes                                 :noexport:
+  Neither does this.
+```
+
+Perfect for maintaining internal notes alongside published content.
+
+### Include/Exclude by Heading
+
+```org
+* Introduction
+* Methods
+* Results
+* COMMENT Internal Analysis
+  This won't export (COMMENT keyword)
+```
+
+## Export Filters and Hooks
+
+Customize export process:
+
+```elisp
+(defun my-org-export-filter (text backend info)
+  "Replace TODO with custom formatting."
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "TODO" "<span class=\"todo\">TODO</span>" text)))
+
+(add-to-list 'org-export-filter-final-output-functions
+             'my-org-export-filter)
+```
+
+Transform exported content programmatically.
+
+## Code Block Export
+
+Remember `:exports` from Chapter 11?
+
+```org
+#+BEGIN_SRC python :exports both
+print("Hello!")
+#+END_SRC
+```
+
+- `:exports code` - Show only code in export
+- `:exports results` - Show only output
+- `:exports both` - Show code and output
+- `:exports none` - Execute but hide from export
+
+Control what readers see.
+
+## Custom Export Templates
+
+Create reusable export configurations:
+
+```org
+#+SETUPFILE: ~/.emacs.d/org-templates/article.setup
+```
+
+In `article.setup`:
+
+```org
+#+OPTIONS: toc:2 num:t
+#+LATEX_CLASS: article
+#+LATEX_HEADER: \usepackage{my-packages}
+#+HTML_HEAD: <link rel="stylesheet" href="style.css" />
+```
+
+Consistent formatting across documents.
+
+## Export to Different Formats from Same Source
+
+Write once, export many:
+
+```org
+#+TITLE: My Document
+
+* Introduction
+  Content here.
+
+* Details
+  More content.
+```
+
+Export as:
+- HTML for web
+- PDF for print
+- Markdown for GitHub
+- ODT for collaborators on Word
+
+Single source, multiple outputs. Change once, re-export all.
+
+## Advanced: Custom Exporters
+
+Org's export framework is extensible. Define custom backends:
+
+```elisp
+(org-export-define-derived-backend 'my-custom 'html
+  :translate-alist '((headline . my-custom-headline)))
+
+(defun my-custom-headline (headline contents info)
+  ;; Custom headline formatting
+  )
+```
+
+Export to custom formats, APIs, databases—anything.
+
+## iCalendar Export
+
+Export TODOs and scheduled items to calendar format:
+
+`C-c C-e c f` - Export to `.ics` file
+
+Import into Google Calendar, Outlook, Apple Calendar. Your org tasks sync to external calendars.
+
+Automate:
+
+```elisp
+(setq org-icalendar-include-todo t)
+(setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo))
+```
+
+## Continuous Publishing Workflow
+
+Automate publishing:
+
+1. Write in org
+2. Save
+3. Export hook auto-generates HTML
+4. Git commit hook pushes to server
+5. Website updates
+
+One command from edit to publish:
+
+```elisp
+(defun my-org-publish-on-save ()
+  (when (eq major-mode 'org-mode)
+    (org-publish-current-file)))
+
+(add-hook 'after-save-hook 'my-org-publish-on-save)
+```
+
+Every save publishes. Instant feedback.
+
+## Your Exercise
+
+1. Create a document with headings, lists, tables, and code blocks
+2. Export to HTML (`C-c C-e h o`)
+3. Export to PDF if you have LaTeX installed (`C-c C-e l p`)
+4. Export to Markdown (`C-c C-e m m`)
+5. Try exporting just a subtree
+6. Add export options (title, author, CSS)
+7. Experiment with `:exports` options in code blocks
+8. Set up a simple publishing project (even if just for local HTML)
+
+## The Philosophy of Export
+
+Plain text is the source of truth. Everything else is a view.
+
+Write in org—structured, powerful, future-proof. Export for specific audiences and contexts. HTML for web, PDF for print, Markdown for GitHub, ODT for corporate.
+
+Single source, infinite presentations.
+
+Other tools force you to choose: write for web or print? Org says "write once, choose later."
+
+## Next: Advanced Features and the Road Ahead
+
+You've learned the core: structure, tasks, time tracking, capture, code, export. Chapter 13 explores the advanced features that make Org-Mode inexhaustible: advanced agenda, custom workflows, encryption, integration, and the broader ecosystem. The journey continues.
