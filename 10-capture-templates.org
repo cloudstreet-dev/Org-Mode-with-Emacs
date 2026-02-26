@@ -1,116 +1,121 @@
-# Chapter 10: Capture Templates - Frictionless Note-Taking
+#+TITLE: Chapter 10: Capture Templates - Frictionless Note-Taking
+#+AUTHOR: The Org-Mode with Emacs Authors
+#+LANGUAGE: en
+#+OPTIONS: toc:t num:t ^:nil H:4 html-style:nil
+#+SETUPFILE: setup.org
+
 
 Brilliant ideas strike at inconvenient times. You're mid-conversation, mid-code, mid-commute. You need to capture the thought NOW—before it evaporates—without derailing your current focus.
 
 Enter Org-Mode's capture system: instant note-taking from anywhere, filed automatically to the right place, with zero friction.
 
-## The Basic Capture Workflow
+* The Basic Capture Workflow
 
 Bind a global capture key (add to your config):
 
-```elisp
+#+begin_src elisp
 (global-set-key (kbd "C-c c") 'org-capture)
-```
+#+end_src
 
 Now from anywhere in Emacs:
 
-1. `C-c c` - Opens capture menu
+1. =C-c c= - Opens capture menu
 2. Choose template (we'll define these)
 3. Type note
-4. `C-c C-c` - Save and return to what you were doing
+4. =C-c C-c= - Save and return to what you were doing
 
 The note files automatically to your inbox. You barely broke focus.
 
-## Your First Capture Template
+* Your First Capture Template
 
 Add to config:
 
-```elisp
+#+begin_src elisp
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/org/inbox.org" "Tasks")
          "* TODO %?\n  %i\n  %a")))
-```
+#+end_src
 
 Let's decode:
 
-- `"t"` - The key to trigger this template
-- `"TODO"` - Description shown in capture menu
-- `entry` - Create a new heading
-- `(file+headline "~/org/inbox.org" "Tasks")` - File location and heading
-- `"* TODO %?\n  %i\n  %a"` - The template text
+- ="t"= - The key to trigger this template
+- ="TODO"= - Description shown in capture menu
+- =entry= - Create a new heading
+- =(file+headline "~/org/inbox.org" "Tasks")= - File location and heading
+- ="* TODO %?\n  %i\n  %a"= - The template text
 
-The `%` symbols are placeholders:
+The =%= symbols are placeholders:
 
-- `%?` - Cursor position after template expands
-- `%i` - Initial region content (if you selected text before capturing)
-- `%a` - Link to where you were when you captured
+- =%?= - Cursor position after template expands
+- =%i= - Initial region content (if you selected text before capturing)
+- =%a= - Link to where you were when you captured
 
-Press `C-c c t`, type your task, press `C-c C-c`. Boom. Captured.
+Press =C-c c t=, type your task, press =C-c C-c=. Boom. Captured.
 
-## Template Placeholders: The Full Arsenal
+* Template Placeholders: The Full Arsenal
 
-### Position and Content
+** Position and Content
 
-- `%?` - Cursor position
-- `%i` - Initial content (selected region)
-- `%a` - Link to current location
-- `%A` - Like `%a`, but only if called from agenda
+- =%?= - Cursor position
+- =%i= - Initial content (selected region)
+- =%a= - Link to current location
+- =%A= - Like =%a=, but only if called from agenda
 
-### Timestamps
+** Timestamps
 
-- `%t` - Timestamp (date only)
-- `%T` - Timestamp (date and time)
-- `%u` - Inactive timestamp (date only)
-- `%U` - Inactive timestamp (date and time)
-- `%^t` - Prompt for date
-- `%^T` - Prompt for date and time
+- =%t= - Timestamp (date only)
+- =%T= - Timestamp (date and time)
+- =%u= - Inactive timestamp (date only)
+- =%U= - Inactive timestamp (date and time)
+- =%^t= - Prompt for date
+- =%^T= - Prompt for date and time
 
-### Context
+** Context
 
-- `%f` - Current file name
-- `%F` - Current file name (full path)
-- `%n` - Your user name
-- `%c` - Kill ring head (clipboard content)
-- `%x` - X clipboard content
+- =%f= - Current file name
+- =%F= - Current file name (full path)
+- =%n= - Your user name
+- =%c= - Kill ring head (clipboard content)
+- =%x= - X clipboard content
 
-### Prompts
+** Prompts
 
-- `%^{Prompt}` - Prompt for text
-- `%^{Prompt|default|choice1|choice2}` - Prompt with completion
-- `%^g` - Prompt for tags
-- `%^G` - Prompt for tags (with allowed tags completion)
+- =%^{Prompt}= - Prompt for text
+- =%^{Prompt|default|choice1|choice2}= - Prompt with completion
+- =%^g= - Prompt for tags
+- =%^G= - Prompt for tags (with allowed tags completion)
 
-### Special
+** Special
 
-- `%l` - Link to current location (like `%a` but no description)
-- `%(elisp expression)` - Evaluate elisp, insert result
+- =%l= - Link to current location (like =%a= but no description)
+- =%(elisp expression)= - Evaluate elisp, insert result
 
-## Practical Capture Templates
+* Practical Capture Templates
 
-### Quick Task
+** Quick Task
 
-```elisp
+#+begin_src elisp
 ("t" "Task" entry (file+headline "~/org/inbox.org" "Tasks")
  "* TODO %?\n  %U\n  %a")
-```
+#+end_src
 
 Creates:
-```org
+#+begin_src org
 * TODO Fix the bug I just noticed
   [2025-01-15 Wed 14:23]
   [[file:code.py::42][code.py:42]]
-```
+#+end_src
 
-### Meeting Notes
+** Meeting Notes
 
-```elisp
+#+begin_src elisp
 ("m" "Meeting" entry (file+datetree "~/org/meetings.org")
  "* %^{Meeting Title}\n  %U\n  Attendees: %^{Attendees}\n\n  %?")
-```
+#+end_src
 
 Prompts for title and attendees, files by date:
 
-```org
+#+begin_src org
 * 2025
 ** 2025-01 January
 *** 2025-01-15 Wednesday
@@ -119,169 +124,169 @@ Prompts for title and attendees, files by date:
      Attendees: Alice, Bob, Carol
 
      [Your notes here]
-```
+#+end_src
 
-### Journal Entry
+** Journal Entry
 
-```elisp
+#+begin_src elisp
 ("j" "Journal" entry (file+datetree "~/org/journal.org")
  "* %U\n  %?")
-```
+#+end_src
 
 Simple dated entry. Daily journaling made effortless.
 
-### Idea Capture
+** Idea Capture
 
-```elisp
+#+begin_src elisp
 ("i" "Idea" entry (file "~/org/ideas.org")
  "* %^{Idea Title}\n  %U\n  %?")
-```
+#+end_src
 
 Prompts for title, adds timestamp, positions cursor for details.
 
-### Link Repository
+** Link Repository
 
-```elisp
+#+begin_src elisp
 ("l" "Link" entry (file+headline "~/org/links.org" "Links")
  "* %a\n  %U\n  %?")
-```
+#+end_src
 
 Capturing a web article? Link auto-captured with timestamp and space for notes.
 
-### Code TODO
+** Code TODO
 
-```elisp
+#+begin_src elisp
 ("c" "Code TODO" entry (file+headline "~/org/code-todos.org" "Code Tasks")
  "* TODO %?\n  %a\n  %i")
-```
+#+end_src
 
 Browsing code, spot something that needs work? Capture it with link to exact location and selected code snippet.
 
-### Email Follow-up
+** Email Follow-up
 
-```elisp
+#+begin_src elisp
 ("e" "Email" entry (file+headline "~/org/inbox.org" "Emails")
  "* TODO Reply to %:from about %:subject\n  %a\n  %U")
-```
+#+end_src
 
-When using Emacs for email, `%:from` and `%:subject` pull email metadata. Instant email TODO with link back to message.
+When using Emacs for email, =%:from= and =%:subject= pull email metadata. Instant email TODO with link back to message.
 
-## Advanced Target Locations
+* Advanced Target Locations
 
-### File+Headline
+** File+Headline
 
-```elisp
+#+begin_src elisp
 (file+headline "~/org/projects.org" "Project Alpha")
-```
+#+end_src
 
 Captures under specific heading.
 
-### File+Olp (Outline Path)
+** File+Olp (Outline Path)
 
-```elisp
+#+begin_src elisp
 (file+olp "~/org/projects.org" "Work" "Project Alpha" "Tasks")
-```
+#+end_src
 
-Captures under `Work > Project Alpha > Tasks` hierarchy.
+Captures under =Work > Project Alpha > Tasks= hierarchy.
 
-### File+Datetree
+** File+Datetree
 
-```elisp
+#+begin_src elisp
 (file+datetree "~/org/journal.org")
-```
+#+end_src
 
 Files by date hierarchy (year > month > day).
 
-### File+Function
+** File+Function
 
-```elisp
+#+begin_src elisp
 (file+function "~/org/inbox.org" my-custom-function)
-```
+#+end_src
 
 Custom function determines location. Ultimate flexibility.
 
-### Clock
+** Clock
 
-```elisp
+#+begin_src elisp
 (clock)
-```
+#+end_src
 
 Captures under currently clocked task. Perfect for adding notes while working.
 
-### Current File
+** Current File
 
-```elisp
+#+begin_src elisp
 (file+headline buffer-file-name "Notes")
-```
+#+end_src
 
 Captures in current file. Useful for project-specific captures.
 
-## Template Types
+* Template Types
 
-### Entry (Heading)
+** Entry (Heading)
 
-```elisp
+#+begin_src elisp
 entry (file "~/org/inbox.org")
 "* TODO %?"
-```
+#+end_src
 
 Creates a new heading.
 
-### Item (List Item)
+** Item (List Item)
 
-```elisp
+#+begin_src elisp
 item (file+headline "~/org/shopping.org" "Groceries")
 "- %?"
-```
+#+end_src
 
 Creates a list item:
-```org
+#+begin_src org
 * Groceries
   - Milk
   - Eggs
   - [Your new item]
-```
+#+end_src
 
-### Checkitem (Checkbox)
+** Checkitem (Checkbox)
 
-```elisp
+#+begin_src elisp
 checkitem (file+headline "~/org/packing.org" "Packing List")
 "- [ ] %?"
-```
+#+end_src
 
 Creates checkbox item.
 
-### Table-line
+** Table-line
 
-```elisp
+#+begin_src elisp
 table-line (file+headline "~/org/habits.org" "Exercise Log")
 "| %U | %^{Exercise} | %^{Duration} |"
-```
+#+end_src
 
 Adds row to table:
 
-```org
+#+begin_src org
 * Exercise Log
   | Date              | Exercise | Duration |
   |-------------------+----------+----------|
   | [2025-01-15 Wed]  | Running  | 30 min   |
   | [Your new entry]  |          |          |
-```
+#+end_src
 
-### Plain Text
+** Plain Text
 
-```elisp
+#+begin_src elisp
 plain (file+headline "~/org/notes.org" "Quick Notes")
 "%?"
-```
+#+end_src
 
 Inserts plain text (no heading, no list marker).
 
-## Template Options
+* Template Options
 
 Customize template behavior:
 
-```elisp
+#+begin_src elisp
 ("t" "Task" entry (file+headline "~/org/inbox.org" "Tasks")
  "* TODO %?\n  %U"
  :empty-lines 1        ; Add blank line after entry
@@ -292,15 +297,15 @@ Customize template behavior:
  :kill-buffer t        ; Kill capture buffer when done
  :prepend t            ; Insert at beginning of target
  :unnarrowed t)        ; Show full file, not just target
-```
+#+end_src
 
 Mix and match options for each template.
 
-## Multi-Template Menus
+* Multi-Template Menus
 
 Group related templates:
 
-```elisp
+#+begin_src elisp
 (setq org-capture-templates
       '(("w" "Work")
         ("wt" "Work Task" entry (file+headline "~/org/work.org" "Tasks")
@@ -313,15 +318,15 @@ Group related templates:
          "* TODO %?")
         ("pj" "Journal" entry (file+datetree "~/org/journal.org")
          "* %U\n  %?")))
-```
+#+end_src
 
-`C-c c w` shows work options, `C-c c p` shows personal options.
+=C-c c w= shows work options, =C-c c p= shows personal options.
 
-## Context-Aware Capture
+* Context-Aware Capture
 
 Use elisp to make templates context-aware:
 
-```elisp
+#+begin_src elisp
 ("t" "Task" entry
  (file+headline
   (lambda () (if (string-match "work" (or (buffer-file-name) ""))
@@ -329,103 +334,103 @@ Use elisp to make templates context-aware:
                "~/org/personal.org"))
   "Tasks")
  "* TODO %?")
-```
+#+end_src
 
 Capturing from work files? Goes to work.org. From personal files? Goes to personal.org.
 
-## Capture Hooks
+* Capture Hooks
 
 Run code before/after capture:
 
-```elisp
+#+begin_src elisp
 (add-hook 'org-capture-before-finalize-hook
           (lambda ()
             (save-excursion
               (org-back-to-heading)
               (org-set-tags ":captured:"))))
-```
+#+end_src
 
 Auto-tag all captured items.
 
 Or:
 
-```elisp
+#+begin_src elisp
 (add-hook 'org-capture-after-finalize-hook
           (lambda ()
             (shell-command "notify-send 'Org Capture' 'Item captured!'")))
-```
+#+end_src
 
 Desktop notification on capture.
 
-## Aborting Captures
+* Aborting Captures
 
 Started capture but changed your mind?
 
-- `C-c C-k` - Kill capture (nothing saved)
-- `C-c C-w` - Refile instead (save but different location)
+- =C-c C-k= - Kill capture (nothing saved)
+- =C-c C-w= - Refile instead (save but different location)
 
-## Capture from Outside Emacs
+* Capture from Outside Emacs
 
 Want to capture from your browser, terminal, or anywhere?
 
-Install `org-protocol` and set up browser bookmarklet:
+Install =org-protocol= and set up browser bookmarklet:
 
-```javascript
+#+begin_src javascript
 javascript:location.href='org-protocol://capture?template=l&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)
-```
+#+end_src
 
 Click bookmarklet → Emacs pops up → capture template → back to browser. Web to Org in seconds.
 
-Or use `emacsclient`:
+Or use =emacsclient=:
 
-```bash
+#+begin_src bash
 #!/bin/bash
 emacsclient -n "org-protocol://capture?template=t&body=$1"
-```
+#+end_src
 
 Terminal to Org.
 
-## Practical Capture Systems
+* Practical Capture Systems
 
-### The GTD Inbox
+** The GTD Inbox
 
-```elisp
+#+begin_src elisp
 (setq org-capture-templates
       '(("i" "Inbox" entry (file "~/org/inbox.org")
          "* %?\n  %U")))
-```
+#+end_src
 
 Everything goes to inbox. Process later. Never lose a thought.
 
-### The Cornell Note-taking System
+** The Cornell Note-taking System
 
-```elisp
+#+begin_src elisp
 ("n" "Note" entry (file+datetree "~/org/notes.org")
  "* %^{Topic}\n  %U\n\n** Cues\n   %?\n\n** Notes\n\n** Summary\n")
-```
+#+end_src
 
 Structured note template.
 
-### The Zettelkasten
+** The Zettelkasten
 
-```elisp
+#+begin_src elisp
 ("z" "Zettel" entry (file "~/org/zettelkasten.org")
  "* %^{Title}\n  :PROPERTIES:\n  :ID: %(org-id-uuid)\n  :END:\n  %U\n\n  %?")
-```
+#+end_src
 
 Each note gets unique ID for linking.
 
-## Your Exercise
+* Your Exercise
 
 1. Set up basic capture templates (task, note, journal at minimum)
-2. Bind `C-c c` globally to `org-capture`
+2. Bind =C-c c= globally to =org-capture=
 3. Practice capturing from different contexts (agenda, code files, etc.)
-4. Create at least one template with prompts (`%^{...}`)
+4. Create at least one template with prompts (=%^{...}=)
 5. Set up a datetree-based template
 6. Try capturing with selected text (region)
-7. Experiment with different template options (`:clock-in`, `:empty-lines`, etc.)
+7. Experiment with different template options (=:clock-in=, =:empty-lines=, etc.)
 
-## The Philosophy of Capture
+* The Philosophy of Capture
 
 The best capture system is invisible. You have a thought, press two keys, type briefly, done. Back to work. No context switches, no app switching, no "where should this go?"
 
@@ -433,6 +438,6 @@ Org-Mode's capture templates remove friction from note-taking. Every thought can
 
 The question isn't "should I capture this?" It's "why wouldn't I?"
 
-## Next: Code Blocks and Literate Programming
+* Next: Code Blocks and Literate Programming
 
 You've organized notes, tracked time, captured thoughts. Now let's add executable code to your documents. Yes, your plain text notes can run programs. Welcome to literate programming with Org-Mode.

@@ -1,101 +1,106 @@
-# Chapter 5: Links and Images - Connecting Your Knowledge
+#+TITLE: Chapter 5: Links and Images - Connecting Your Knowledge
+#+AUTHOR: The Org-Mode with Emacs Authors
+#+LANGUAGE: en
+#+OPTIONS: toc:t num:t ^:nil H:4 html-style:nil
+#+SETUPFILE: setup.org
+
 
 Your notes don't exist in isolation. They reference other notes, websites, files, emails, and that brilliant idea you had three months ago. Org-Mode's linking system transforms isolated documents into an interconnected knowledge graph.
 
 And yes, you can even embed images. In a text editor. Let that sink in.
 
-## The Basic Link Syntax
+* The Basic Link Syntax
 
 Links in Org-Mode look like this:
 
-```org
+#+begin_src org
 [[link-target][description]]
-```
+#+end_src
 
 Or without a description:
 
-```org
+#+begin_src org
 [[link-target]]
-```
+#+end_src
 
 The target can be almost anything: URLs, files, headings, custom IDs, emails, code references, or even custom link types you define yourself.
 
-## Web Links
+* Web Links
 
 The simplest case:
 
-```org
+#+begin_src org
 [[https://orgmode.org][Org-Mode Official Site]]
-```
+#+end_src
 
 Displays as a clickable link: "Org-Mode Official Site"
 
 Without a description:
-```org
+#+begin_src org
 [[https://orgmode.org]]
-```
+#+end_src
 
 Displays the URL itself.
 
-Press `C-c C-o` (Control-c Control-o) on a link to open it. Web links open in your browser. That's it.
+Press =C-c C-o= (Control-c Control-o) on a link to open it. Web links open in your browser. That's it.
 
-### Angle Bracket Links
+** Angle Bracket Links
 
 For quick URL insertion without formatting:
 
-```org
+#+begin_src org
 <https://example.com>
-```
+#+end_src
 
 Automatically becomes a clickable link. Useful for quick notes where you don't need descriptive text.
 
-## File Links
+* File Links
 
 Link to other files:
 
-```org
+#+begin_src org
 [[file:~/org/projects.org][My Projects]]
 [[file:./meeting-notes.org][Today's Meeting]]
 [[file:/path/to/document.pdf]]
-```
+#+end_src
 
-Relative paths work. Absolute paths work. `~/` expansion works. Press `C-c C-o` on a file link and Org opens it—in Emacs for text files, external programs for PDFs, images, etc.
+Relative paths work. Absolute paths work. =~/= expansion works. Press =C-c C-o= on a file link and Org opens it—in Emacs for text files, external programs for PDFs, images, etc.
 
-### Linking to Specific Locations in Files
+** Linking to Specific Locations in Files
 
 Here's where it gets powerful:
 
-```org
+#+begin_src org
 [[file:projects.org::*Project Alpha][Project Alpha Details]]
-```
+#+end_src
 
-The `::*Project Alpha` part jumps directly to the heading named "Project Alpha" in that file.
+The =::*Project Alpha= part jumps directly to the heading named "Project Alpha" in that file.
 
 Other location specifiers:
-```org
+#+begin_src org
 [[file:code.py::42][Line 42 of code.py]]
 [[file:document.org::#custom-id][Heading with custom ID]]
 [[file:notes.org::/regex search/][Search results]]
-```
+#+end_src
 
-### Linking to Headings in the Current File
+** Linking to Headings in the Current File
 
-```org
+#+begin_src org
 * Project Ideas
 ** TODO Implement feature X
    See the [[*Research Notes][research section]] for background.
 
 * Research Notes
   Background information here...
-```
+#+end_src
 
-The `*` prefix links to a heading by name in the current file. Click it, jump instantly. This is how you build internal document structure.
+The =*= prefix links to a heading by name in the current file. Click it, jump instantly. This is how you build internal document structure.
 
-### Using Custom IDs
+** Using Custom IDs
 
 For stable links that survive heading renames:
 
-```org
+#+begin_src org
 * Important Section
   :PROPERTIES:
   :CUSTOM_ID: important-section
@@ -105,40 +110,40 @@ For stable links that survive heading renames:
 
 * Other Section
   For details, see [[#important-section][the important section]].
-```
+#+end_src
 
 Rename "Important Section" to anything—the link still works because it targets the custom ID, not the heading text.
 
-## ID Links: The Professional Approach
+* ID Links: The Professional Approach
 
 For serious knowledge management, use IDs:
 
-```org
+#+begin_src org
 * Meeting Notes
   :PROPERTIES:
   :ID: 8A7F6B2C-3D4E-5F6A-9B8C-1D2E3F4A5B6C
   :END:
-```
+#+end_src
 
-Generate an ID with `M-x org-id-get-create`. Then link to it:
+Generate an ID with =M-x org-id-get-create=. Then link to it:
 
-```org
+#+begin_src org
 [[id:8A7F6B2C-3D4E-5F6A-9B8C-1D2E3F4A5B6C][Meeting Notes]]
-```
+#+end_src
 
 IDs are globally unique. Move the heading to another file? The link follows. Rename the heading? Link still works. This is how you build a personal knowledge base that survives reorganization.
 
 Enable ID tracking in your config:
 
-```elisp
+#+begin_src elisp
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
-```
+#+end_src
 
-## Creating Links Easily
+* Creating Links Easily
 
-Don't memorize syntax. Use `C-c C-l`:
+Don't memorize syntax. Use =C-c C-l=:
 
-1. Press `C-c C-l`
+1. Press =C-c C-l=
 2. Start typing a link type (file, http, id, etc.)
 3. Use completion to select
 4. Enter the target
@@ -146,126 +151,126 @@ Don't memorize syntax. Use `C-c C-l`:
 
 Org writes the link for you.
 
-### Storing and Inserting Links
+** Storing and Inserting Links
 
 Even better workflow:
 
 1. Navigate to the target (a heading, file, URL in your browser)
-2. Press `C-c l` - Org stores the link
+2. Press =C-c l= - Org stores the link
 3. Go to where you want the link
-4. Press `C-c C-l` - Org offers the stored link
+4. Press =C-c C-l= - Org offers the stored link
 5. Add a description if desired
 
 Store multiple links, then insert them wherever needed. It's like a clipboard for references.
 
-## Link Abbreviations
+* Link Abbreviations
 
 Tired of typing long URLs? Define abbreviations:
 
-```elisp
+#+begin_src elisp
 (setq org-link-abbrev-alist
       '(("wiki" . "https://en.wikipedia.org/wiki/")
         ("rfc"  . "https://www.rfc-editor.org/rfc/rfc%s.txt")
         ("gh"   . "https://github.com/%s")))
-```
+#+end_src
 
 Then use:
-```org
+#+begin_src org
 [[wiki:Org-mode][Org-Mode Wikipedia]]
 [[rfc:2616][HTTP/1.1 Specification]]
 [[gh:org-mode/org-mode][Org-Mode GitHub]]
-```
+#+end_src
 
 Much cleaner.
 
-## Images: Yes, Really
+* Images: Yes, Really
 
 Org-Mode can display images inline:
 
-```org
+#+begin_src org
 [[file:~/Pictures/diagram.png]]
-```
+#+end_src
 
 With a description:
-```org
+#+begin_src org
 [[file:./screenshot.png][Project Screenshot]]
-```
+#+end_src
 
 To actually see images in your Emacs buffer:
-- `C-c C-x C-v` - Toggle inline images
+- =C-c C-x C-v= - Toggle inline images
 
 Suddenly your text editor shows images. Welcome to the future of 1990s technology.
 
-### Image Attributes
+** Image Attributes
 
 Control image display:
 
-```org
+#+begin_src org
 #+ATTR_HTML: :width 300px
 #+ATTR_LATEX: :width 0.5\textwidth
 [[file:diagram.png]]
-```
+#+end_src
 
 Different attributes for different export formats. The image adapts.
 
-### Image Links
+** Image Links
 
 Make an image clickable:
 
-```org
+#+begin_src org
 [[https://example.com][file:thumbnail.png]]
-```
+#+end_src
 
 The image becomes a link. Click it, go to the URL.
 
-## Email Links
+* Email Links
 
 If you use Emacs for email (with mu4e, notmuch, or similar):
 
-```org
+#+begin_src org
 [[mailto:alice@example.com][Email Alice]]
-```
+#+end_src
 
 Or link to specific emails (with appropriate email client):
-```org
+#+begin_src org
 [[mu4e:msgid:abc123@example.com][Project Discussion Thread]]
-```
+#+end_src
 
 Your email archive becomes part of your knowledge base.
 
-## Shell and Elisp Links
+* Shell and Elisp Links
 
 Execute commands:
 
-```org
+#+begin_src org
 [[shell:ls -la ~][List home directory]]
 [[elisp:(message "Hello from Org-Mode")][Run elisp code]]
-```
+#+end_src
 
-`C-c C-o` on these runs the command. Use with caution—shell links can do anything your user account can do.
+=C-c C-o= on these runs the command. Use with caution—shell links can do anything your user account can do.
 
 Practical use:
-```org
+#+begin_src org
 [[elisp:(org-agenda nil "a")][Open Agenda]]
 [[shell:open ~/Documents][Open Documents Folder]]
-```
+#+end_src
 
-## Search Links
+* Search Links
 
 Link to search results:
 
-```org
+#+begin_src org
 [[grep:TODO][Find all TODOs]]
 [[occur:IMPORTANT][Find IMPORTANT in buffer]]
-```
+#+end_src
 
 Not standard, but you can define custom link types that perform searches.
 
-## Custom Link Types
+* Custom Link Types
 
 Define your own link types:
 
-```elisp
+#+begin_src elisp
 (org-link-set-parameters "jira"
                          :follow (lambda (path)
                                    (browse-url
@@ -273,47 +278,47 @@ Define your own link types:
                          :export (lambda (path desc backend)
                                    (format "<a href='https://jira.mycompany.com/browse/%s'>%s</a>"
                                            path desc)))
-```
+#+end_src
 
 Now use:
-```org
+#+begin_src org
 [[jira:PROJ-1234][Bug Report]]
-```
+#+end_src
 
 Links become infinitely extensible. Point them at internal databases, APIs, custom tools—whatever you need.
 
-## Footnote Links
+* Footnote Links
 
 Remember footnotes from Chapter 3? They're really just links:
 
-```org
+#+begin_src org
 The Org manual[fn:1] contains everything, though it's dense[fn::inline footnote here].
 
 * Footnotes
 [fn:1] Available at https://orgmode.org/manual/
-```
+#+end_src
 
-`C-c C-c` on the footnote reference jumps to the definition. Press again to return.
+=C-c C-c= on the footnote reference jumps to the definition. Press again to return.
 
-## Link Appearance
+* Link Appearance
 
 By default, links show their description text. To see the underlying link:
 
-- `C-c C-x C-v` - Toggle link display (show raw links vs. descriptions)
+- =C-c C-x C-v= - Toggle link display (show raw links vs. descriptions)
 
 Useful when editing or debugging links.
 
-## Broken Link Detection
+* Broken Link Detection
 
 Check for broken links:
 
-```elisp
+#+begin_src elisp
 M-x org-lint
-```
+#+end_src
 
 Reports problems in your document, including broken links, malformed structures, etc.
 
-## Links and Export
+* Links and Export
 
 When you export to HTML, LaTeX, or other formats (Chapter 12), links convert appropriately:
 
@@ -324,11 +329,11 @@ When you export to HTML, LaTeX, or other formats (Chapter 12), links convert app
 
 One source, many outputs, links preserved.
 
-## Building a Personal Wiki
+* Building a Personal Wiki
 
 With file links, custom IDs, and inline images, you can build a personal wiki:
 
-```
+#+begin_example
 ~/wiki/
   ├── index.org          # Main entry point
   ├── projects.org       # Project documentation
@@ -336,10 +341,10 @@ With file links, custom IDs, and inline images, you can build a personal wiki:
   ├── people.org         # People and contacts
   └── images/
       └── diagrams/
-```
+#+end_example
 
-In `index.org`:
-```org
+In =index.org=:
+#+begin_src org
 * My Wiki
 
 Welcome to my personal knowledge base.
@@ -352,24 +357,24 @@ Welcome to my personal knowledge base.
 ** Recent Additions
 - [[file:projects.org::*Project Alpha][Project Alpha launched]]
 - [[file:notes.org::#idea-123][New product idea]]
-```
+#+end_src
 
 Cross-reference freely. The links maintain structure even as content grows.
 
-## Backlinks: The Missing Piece
+* Backlinks: The Missing Piece
 
 Standard Org-Mode doesn't track backlinks (what links TO this heading), but extensions exist:
 
-- `org-roam` - Full Roam Research-style backlinks and knowledge graph
-- `org-brain` - Concept mapping with bidirectional links
+- =org-roam= - Full Roam Research-style backlinks and knowledge graph
+- =org-brain= - Concept mapping with bidirectional links
 
 If you're building a serious knowledge base, explore these packages. They supercharge Org-Mode's linking.
 
-## Practical Patterns
+* Practical Patterns
 
-### Project Documentation
+** Project Documentation
 
-```org
+#+begin_src org
 * Project: New Website
   :PROPERTIES:
   :ID: project-website-2025
@@ -380,11 +385,11 @@ If you're building a serious knowledge base, explore these packages. They superc
 - [[https://github.com/myorg/website][GitHub Repository]]
 - [[file:designs/mockup.png][Design Mockup]]
 - [[id:meeting-2025-01-15][Kickoff Meeting Notes]]
-```
+#+end_src
 
-### Research Notes
+** Research Notes
 
-```org
+#+begin_src org
 * Paper: "Effective Note-Taking"
   :PROPERTIES:
   :ID: paper-effective-notes
@@ -402,31 +407,31 @@ Key findings discussed in [[#my-analysis][my analysis]].
    :END:
 
 The authors claim...
-```
+#+end_src
 
-### Tutorial/Documentation
+** Tutorial/Documentation
 
-```org
+#+begin_src org
 * Setup Instructions
 
 1. Download the [[file:installer.dmg][installer]]
 2. Follow the [[file:setup-guide.org::*Installation][installation guide]]
 3. Configure using [[file:config-example.txt][this example config]]
 4. See [[file:screenshots/dashboard.png][expected result]]
-```
+#+end_src
 
-## Your Exercise
+* Your Exercise
 
 1. Create at least three org files
 2. Add links between them (heading links, file links, custom IDs)
 3. Add some web links to external resources
 4. Include at least one image and enable inline display
-5. Practice `C-c C-o` to follow links and `C-c C-l` to create them
-6. Store links with `C-c l` and insert them elsewhere
+5. Practice =C-c C-o= to follow links and =C-c C-l= to create them
+6. Store links with =C-c l= and insert them elsewhere
 
 Build a small interconnected set of documents. Feel the knowledge web forming.
 
-## The Philosophy of Linking
+* The Philosophy of Linking
 
 Links transform documents into networks. A single isolated note has limited value. That same note, connected to related ideas, becomes part of a larger understanding.
 
@@ -434,6 +439,6 @@ Org-Mode makes linking frictionless enough to actually do it. Most systems make 
 
 Link liberally. Your future self will thank you.
 
-## Next: TODO Items and Workflow
+* Next: TODO Items and Workflow
 
 You've built document structure, created tables, and connected ideas. Now let's turn Org-Mode into a task management powerhouse. TODO items await.

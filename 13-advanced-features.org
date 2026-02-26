@@ -1,44 +1,49 @@
-# Chapter 13: Advanced Features and the Org Ecosystem
+#+TITLE: Chapter 13: Advanced Features and the Org Ecosystem
+#+AUTHOR: The Org-Mode with Emacs Authors
+#+LANGUAGE: en
+#+OPTIONS: toc:t num:t ^:nil H:4 html-style:nil
+#+SETUPFILE: setup.org
+
 
 You've learned the essentials. You could stop here and have a productive Org-Mode workflow. But Org-Mode goes deeper. Much deeper.
 
 This chapter explores the advanced features and extensions that make Org-Mode practically inexhaustible.
 
-## Advanced Agenda Features
+* Advanced Agenda Features
 
-### Stuck Projects
+** Stuck Projects
 
 Identify projects without next actions:
 
-```elisp
+#+begin_src elisp
 (setq org-stuck-projects
       '("+PROJECT/-DONE" ("TODO" "NEXT") nil ""))
-```
+#+end_src
 
-`C-c a #` - Show stuck projects
+=C-c a #= - Show stuck projects
 
-Projects are headings tagged `PROJECT` without any TODO/NEXT items. These need attention—no next action defined.
+Projects are headings tagged =PROJECT= without any TODO/NEXT items. These need attention—no next action defined.
 
-### Custom Agenda Commands: Advanced
+** Custom Agenda Commands: Advanced
 
 Block agendas with search:
 
-```elisp
+#+begin_src elisp
 (setq org-agenda-custom-commands
       '(("w" "Work Dashboard"
          ((agenda "" ((org-agenda-span 1)))
           (tags-todo "+work+PRIORITY=\"A\"")
           (tags-todo "+work-PRIORITY=\"A\"")
           (tags "+work+SCHEDULED>=\"<today>\"")))))
-```
+#+end_src
 
 Combine agenda views, searches, filters—build mission control dashboards.
 
-### Agenda Skip Functions
+** Agenda Skip Functions
 
 Programmatically exclude items:
 
-```elisp
+#+begin_src elisp
 (defun my-skip-unless-high-priority ()
   (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
     (if (not (string= (org-get-priority (current-buffer)) "A"))
@@ -49,115 +54,115 @@ Programmatically exclude items:
       '(("h" "High Priority"
          tags-todo "work"
          ((org-agenda-skip-function 'my-skip-unless-high-priority)))))
-```
+#+end_src
 
 Ultimate filtering control.
 
-### Calendar Integration
+** Calendar Integration
 
 Sync with external calendars:
 
-```elisp
+#+begin_src elisp
 (setq org-agenda-include-diary t)
-```
+#+end_src
 
 Org agenda shows diary entries (birthdays, holidays, appointments).
 
-## Encryption with org-crypt
+* Encryption with org-crypt
 
 Encrypt sensitive headings:
 
-```elisp
+#+begin_src elisp
 (require 'org-crypt)
 (org-crypt-use-before-save-magic)
 (setq org-tags-exclude-from-inheritance '("crypt"))
 (setq org-crypt-key "your-gpg-key-id")
-```
+#+end_src
 
-Tag heading with `:crypt:`:
+Tag heading with =:crypt:=:
 
-```org
+#+begin_src org
 * Passwords                                      :crypt:
   MyBank: password123
   Email: supersecret456
-```
+#+end_src
 
 Save file → heading encrypts automatically:
 
-```org
+#+begin_src org
 * Passwords                                      :crypt:
 -----BEGIN PGP MESSAGE-----
 [encrypted content]
 -----END PGP MESSAGE-----
-```
+#+end_src
 
 Open file → Org decrypts on demand. Plain text security.
 
-## Attachments
+* Attachments
 
 Attach files to headings:
 
-`C-c C-a a` - Attach file
+=C-c C-a a= - Attach file
 
 Org creates directory structure:
 
-```
+#+begin_example
 ~/org/data/
   └── ab/
       └── 123abc-def4-5678-90ab-cdef12345678/
           ├── document.pdf
           └── image.png
-```
+#+end_example
 
 Unique ID per heading. Files travel with your org files.
 
-`C-c C-a o` - Open attachment
-`C-c C-a f` - Browse attachment directory
+=C-c C-a o= - Open attachment
+=C-c C-a f= - Browse attachment directory
 
 Reference attachments in exports. Everything in one ecosystem.
 
-## Advanced Properties and Column View
+* Advanced Properties and Column View
 
-### Formulas in Column View
+** Formulas in Column View
 
 Remember column view? Add calculations:
 
-```org
+#+begin_src org
 #+COLUMNS: %25ITEM %ESTIMATE{+} %ACTUAL{+} %REMAINING
-```
+#+end_src
 
-The `{+}` sums values. Parent headings show totals.
+The ={+}= sums values. Parent headings show totals.
 
-### Dynamic Blocks from Properties
+** Dynamic Blocks from Properties
 
 Create reports:
 
-```org
+#+begin_src org
 #+BEGIN: columnview :hlines 1 :id local :format "%ITEM %EFFORT{+} %CLOCKSUM{+}"
 #+END:
-```
+#+end_src
 
 Generates effort vs. actual time reports. Track estimation accuracy.
 
-## Org-Babel: Advanced Techniques
+* Org-Babel: Advanced Techniques
 
-### Remote Code Execution
+** Remote Code Execution
 
 Execute code on remote machines:
 
-```org
+#+begin_src org
 #+BEGIN_SRC shell :dir /ssh:user@remote:/path/to/dir
 ls -la
 #+END_SRC
-```
+#+end_src
 
 Tramp integration. Document remote operations.
 
-### Data Pipeline
+** Data Pipeline
 
 Chain multiple languages:
 
-```org
+#+begin_src org
 #+BEGIN_SRC shell :results output
 curl -s https://api.example.com/data.json
 #+END_SRC
@@ -171,13 +176,13 @@ return [[item['name'], item['value']] for item in parsed['items']]
 #+BEGIN_SRC R :var dataset=previous-block
 plot(dataset)
 #+END_SRC
-```
+#+end_src
 
 Fetch with shell → Parse with Python → Visualize with R. All in one document.
 
-### Unit Tests in Documentation
+** Unit Tests in Documentation
 
-```org
+#+begin_src org
 * Function: calculate_tax
 
 #+NAME: tax-function
@@ -194,15 +199,15 @@ assert calculate_tax(0) == 0
 assert calculate_tax(50) == 10
 print("All tests passed!")
 #+END_SRC
-```
+#+end_src
 
 Tests live with documentation. Update function → re-run tests.
 
-## Org-Roam: Zettelkasten for Org
+* Org-Roam: Zettelkasten for Org
 
-For serious knowledge management, add `org-roam`:
+For serious knowledge management, add =org-roam=:
 
-```elisp
+#+begin_src elisp
 (use-package org-roam
   :custom
   (org-roam-directory "~/org-roam/")
@@ -211,7 +216,7 @@ For serious knowledge management, add `org-roam`:
          ("C-c n i" . org-roam-node-insert))
   :config
   (org-roam-db-autosync-mode))
-```
+#+end_src
 
 Features:
 - Bidirectional links (see what links to current note)
@@ -221,23 +226,23 @@ Features:
 
 Roam transforms org files into a personal Wikipedia.
 
-## Org-Agenda + Email Integration
+* Org-Agenda + Email Integration
 
-With `mu4e` or `notmuch` email:
+With =mu4e= or =notmuch= email:
 
-```elisp
+#+begin_src elisp
 (setq org-capture-templates
       '(("e" "Email TODO" entry (file "~/org/inbox.org")
          "* TODO Reply to %:from about %:subject\n  %a\n  %i")))
-```
+#+end_src
 
 Reading email, press capture key → creates TODO with link back to email. Never lose track of email actions.
 
-## Habit Tracking: Advanced
+* Habit Tracking: Advanced
 
 Track multiple habits with different intervals:
 
-```org
+#+begin_src org
 * TODO Exercise                                  :health:
   SCHEDULED: <2025-01-15 Wed .+1d>
   :PROPERTIES:
@@ -256,33 +261,33 @@ Track multiple habits with different intervals:
   :STYLE: habit
   :LAST_REPEAT: [2025-01-14 Tue 18:30]
   :END:
-```
+#+end_src
 
 Agenda shows consistency graphs for each. Visual accountability.
 
-## Mobile Org
+* Mobile Org
 
 Access org files on mobile:
 
-**Options:**
-- **Beorg** (iOS) - Native org-mode app
-- **Orgzly** (Android) - Full-featured org client
-- **Dropbox/Syncthing** - Sync files, edit in plain text apps
+*Options:*
+- *Beorg* (iOS) - Native org-mode app
+- *Orgzly* (Android) - Full-featured org client
+- *Dropbox/Syncthing* - Sync files, edit in plain text apps
 
 Some sync via Dropbox/Git, others via MobileOrg protocol.
 
 Capture on phone → appears in Emacs. Seamless mobile integration.
 
-## Version Control Integration
+* Version Control Integration
 
 Org files are plain text. Use git:
 
-```bash
+#+begin_src bash
 cd ~/org
 git init
 git add .
 git commit -m "Initial commit"
-```
+#+end_src
 
 Now:
 - Track changes
@@ -292,25 +297,25 @@ Now:
 
 Org + Git = distributed, versioned knowledge base.
 
-## Archiving Strategies
+* Archiving Strategies
 
 Advanced archiving:
 
-```elisp
+#+begin_src elisp
 (setq org-archive-location "archive/%s_archive::")
-```
+#+end_src
 
-Creates `archive/` directory with per-file archives.
+Creates =archive/= directory with per-file archives.
 
 Or archive to date trees:
 
-```elisp
+#+begin_src elisp
 (setq org-archive-location "~/org/archive.org::datetree/")
-```
+#+end_src
 
 All archived items in one file, organized by date.
 
-## Org-Protocol: Browser Integration
+* Org-Protocol: Browser Integration
 
 Capture from browser:
 
@@ -322,72 +327,72 @@ Instant web-to-org pipeline.
 
 Example bookmarklet:
 
-```javascript
+#+begin_src javascript
 javascript:location.href='org-protocol://capture?template=w&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(window.getSelection())
-```
+#+end_src
 
 Read article → click → captured with link and selected text.
 
-## Custom Link Types: Real Examples
+* Custom Link Types: Real Examples
 
-**Jira integration:**
+*Jira integration:*
 
-```elisp
+#+begin_src elisp
 (org-link-set-parameters "jira"
   :follow (lambda (issue)
             (browse-url (concat "https://jira.mycompany.com/browse/" issue))))
-```
+#+end_src
 
-Use: `[[jira:PROJ-123][Bug fix]]`
+Use: =[[jira:PROJ-123][Bug fix]]=
 
-**Local file with line number:**
+*Local file with line number:*
 
-```elisp
+#+begin_src elisp
 (org-link-set-parameters "line"
   :follow (lambda (path)
             (let ((parts (split-string path ":")))
               (find-file (car parts))
               (goto-line (string-to-number (cadr parts))))))
-```
+#+end_src
 
-Use: `[[line:/path/to/file.py:42][Implementation]]`
+Use: =[[line:/path/to/file.py:42][Implementation]]=
 
-**Shell command links:**
+*Shell command links:*
 
-```elisp
+#+begin_src elisp
 (org-link-set-parameters "cmd"
   :follow (lambda (command)
             (async-shell-command command)))
-```
+#+end_src
 
-Use: `[[cmd:docker ps][Check containers]]`
+Use: =[[cmd:docker ps][Check containers]]=
 
 Infinitely extensible.
 
-## Effort and Clocksum Reporting
+* Effort and Clocksum Reporting
 
 Generate effort reports:
 
-```org
+#+begin_src org
 #+BEGIN: columnview :hlines 2 :id local :format "%50ITEM(Task) %10EFFORT(Estimated){:} %10CLOCKSUM(Actual){:}"
 #+END:
-```
+#+end_src
 
 Compare estimated vs. actual across projects. Improve estimates over time.
 
-## Org-Edna: Task Dependencies
+* Org-Edna: Task Dependencies
 
 Complex task dependencies:
 
-```elisp
+#+begin_src elisp
 (use-package org-edna
   :config
   (org-edna-mode))
-```
+#+end_src
 
 Define:
 
-```org
+#+begin_src org
 * TODO Task A
   :PROPERTIES:
   :TRIGGER: Task B TODO
@@ -397,95 +402,95 @@ Define:
   :PROPERTIES:
   :BLOCKER: Task A
   :END:
-```
+#+end_src
 
 Complete Task A → Task B auto-changes to TODO. Task B can't complete until Task A done.
 
 Advanced workflows in plain text.
 
-## Presentations with Org-Tree-Slide
+* Presentations with Org-Tree-Slide
 
 Present directly from org:
 
-```elisp
+#+begin_src elisp
 (use-package org-tree-slide)
-```
+#+end_src
 
-`M-x org-tree-slide-mode`
+=M-x org-tree-slide-mode=
 
 Each top-level heading becomes a slide. Navigate with arrow keys. Simple presentations without leaving Emacs.
 
-## Org-Drill: Spaced Repetition
+* Org-Drill: Spaced Repetition
 
 Flashcards in org:
 
-```org
+#+begin_src org
 * Question                                       :drill:
   What is the capital of France?
 
 ** Answer
    Paris
-```
+#+end_src
 
-`M-x org-drill` - Start drill session
+=M-x org-drill= - Start drill session
 
 Spaced repetition learning from plain text.
 
-## Custom TODO State Triggers
+* Custom TODO State Triggers
 
 Auto-actions on state changes:
 
-```elisp
+#+begin_src elisp
 (setq org-todo-state-tags-triggers
       '(("CANCELLED" ("CANCELLED" . t))
         ("WAITING" ("WAITING" . t))
         (done ("WAITING"))
         ("TODO" ("WAITING") ("CANCELLED"))
         ("DONE" ("WAITING") ("CANCELLED"))))
-```
+#+end_src
 
 Change to WAITING → auto-adds :WAITING: tag. Change to DONE → removes :WAITING:.
 
-## Bibliography Management
+* Bibliography Management
 
-With `org-ref`:
+With =org-ref=:
 
-```elisp
+#+begin_src elisp
 (use-package org-ref)
-```
+#+end_src
 
 Cite papers:
 
-```org
+#+begin_src org
 * Introduction
   Recent studies show cite:knuth1984literate that literate programming...
 
 * Bibliography
   bibliography:~/papers/references.bib
-```
+#+end_src
 
 Export to LaTeX → citations formatted properly.
 
-## The Org Ecosystem: Notable Packages
+* The Org Ecosystem: Notable Packages
 
-- **org-roam** - Zettelkasten knowledge base
-- **org-super-agenda** - Enhanced agenda grouping
-- **org-brain** - Concept mapping
-- **org-noter** - Annotate PDFs within org
-- **org-transclusion** - Embed content from other files
-- **org-download** - Drag-and-drop images
-- **org-pomodoro** - Pomodoro timer with org integration
-- **org-journal** - Journaling system
-- **org-chef** - Recipe manager
-- **org-timeline** - Visual timeline of tasks
+- *org-roam* - Zettelkasten knowledge base
+- *org-super-agenda* - Enhanced agenda grouping
+- *org-brain* - Concept mapping
+- *org-noter* - Annotate PDFs within org
+- *org-transclusion* - Embed content from other files
+- *org-download* - Drag-and-drop images
+- *org-pomodoro* - Pomodoro timer with org integration
+- *org-journal* - Journaling system
+- *org-chef* - Recipe manager
+- *org-timeline* - Visual timeline of tasks
 
 The ecosystem is vast.
 
-## Configuration: Going Further
+* Configuration: Going Further
 
 A mature config might include:
 
-```elisp
+#+begin_src elisp
 ;; Custom agenda views for different contexts
 ;; Project-specific capture templates
 ;; Custom link types for your tools
@@ -494,11 +499,11 @@ A mature config might include:
 ;; Integration with email, calendar, chat
 ;; Automated archiving and cleanup
 ;; Custom functions for your workflow
-```
+#+end_src
 
 Org-Mode grows with you. Start simple, add complexity as needed.
 
-## The Org Manual
+* The Org Manual
 
 We've covered a lot. The official manual covers more:
 
@@ -510,22 +515,22 @@ We've covered a lot. The official manual covers more:
 - Complex property searches
 - And hundreds of configuration options
 
-Access in Emacs: `C-h i m org`
+Access in Emacs: =C-h i m org=
 
 Or online: https://orgmode.org/manual/
 
-## When Org-Mode Isn't the Answer
+* When Org-Mode Isn't the Answer
 
 Org-Mode is powerful but not universal:
 
-**Not ideal for:**
+*Not ideal for:*
 - Real-time collaboration (conflicts in plain text)
 - Heavy multimedia (images, video editing)
 - WYSIWYG requirements
 - Non-technical team members
 - Mobile-first workflows
 
-**Excels at:**
+*Excels at:*
 - Personal knowledge management
 - Technical writing
 - Project planning
@@ -535,7 +540,7 @@ Org-Mode is powerful but not universal:
 
 Use the right tool for the job.
 
-## Your Journey Continues
+* Your Journey Continues
 
 You've learned:
 - Document structure
@@ -556,7 +561,7 @@ But Org-Mode is infinite. People use it for:
 - Running D&D campaigns
 - And everything in between
 
-## Final Exercise
+* Final Exercise
 
 Build your system:
 
@@ -571,7 +576,7 @@ Build your system:
 
 Start small. Add features as you need them. Your Org-Mode system should grow organically.
 
-## The Philosophy: Embrace the Journey
+* The Philosophy: Embrace the Journey
 
 Org-Mode has a learning curve. That's not a bug—it's a feature. Tools that do everything for everyone do nothing particularly well.
 
@@ -579,7 +584,7 @@ Org-Mode provides primitives. You compose them. The result is a system that matc
 
 There's always more to learn. That's exciting, not overwhelming. Each new feature is a tool you can choose to adopt or ignore.
 
-## Parting Thoughts
+* Parting Thoughts
 
 You started this book as an Org-Mode beginner. You've learned the syntax, the workflows, the power. But the real learning happens in practice.
 
@@ -595,31 +600,31 @@ Now close this book. Open Emacs. Create an org file.
 
 Your journey begins.
 
----
+-----
 
-## Appendix: Quick Reference
+* Appendix: Quick Reference
 
-**Essential Keybindings:**
+*Essential Keybindings:*
 
-- `TAB` - Fold/unfold heading
-- `S-TAB` - Fold/unfold all
-- `M-RET` - New heading/item
-- `M-left/right` - Promote/demote
-- `M-up/down` - Move heading
-- `C-c C-t` - Cycle TODO state
-- `C-c C-s` - Schedule
-- `C-c C-d` - Deadline
-- `C-c C-c` - Context-aware command
-- `C-c C-e` - Export dispatcher
-- `C-c a` - Agenda dispatcher
-- `C-c c` - Capture (if configured)
-- `C-c C-x C-i` - Clock in
-- `C-c C-x C-o` - Clock out
-- `C-c C-l` - Insert link
-- `C-c C-o` - Open link
-- `C-c '` - Edit code block
+- =TAB= - Fold/unfold heading
+- =S-TAB= - Fold/unfold all
+- =M-RET= - New heading/item
+- =M-left/right= - Promote/demote
+- =M-up/down= - Move heading
+- =C-c C-t= - Cycle TODO state
+- =C-c C-s= - Schedule
+- =C-c C-d= - Deadline
+- =C-c C-c= - Context-aware command
+- =C-c C-e= - Export dispatcher
+- =C-c a= - Agenda dispatcher
+- =C-c c= - Capture (if configured)
+- =C-c C-x C-i= - Clock in
+- =C-c C-x C-o= - Clock out
+- =C-c C-l= - Insert link
+- =C-c C-o= - Open link
+- =C-c '= - Edit code block
 
-**Resources:**
+*Resources:*
 
 - Official Manual: https://orgmode.org/manual/
 - Org-Mode Website: https://orgmode.org
@@ -627,4 +632,4 @@ Your journey begins.
 - Mailing List: emacs-orgmode@gnu.org
 - Worg: Community-driven wiki at https://orgmode.org/worg/
 
-**The End... and the Beginning**
+*The End... and the Beginning*

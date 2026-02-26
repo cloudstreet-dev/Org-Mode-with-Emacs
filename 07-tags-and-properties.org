@@ -1,74 +1,79 @@
-# Chapter 7: Tags and Properties - The Metadata Layer
+#+TITLE: Chapter 7: Tags and Properties - The Metadata Layer
+#+AUTHOR: The Org-Mode with Emacs Authors
+#+LANGUAGE: en
+#+OPTIONS: toc:t num:t ^:nil H:4 html-style:nil
+#+SETUPFILE: setup.org
+
 
 You've organized your tasks. Now let's make them searchable, filterable, and queryable. Tags and properties are Org-Mode's metadata system—the layer that transforms static lists into a dynamic, searchable knowledge base.
 
-## Tags: Categorization with Colons
+* Tags: Categorization with Colons
 
 Tags attach labels to headings:
 
-```org
+#+begin_src org
 * TODO Fix authentication bug                    :urgent:bug:security:
 * Meeting notes from client call                 :meeting:client:acme:
 * Ideas for next sprint                          :planning:ideas:
 * DONE Implement user dashboard                  :feature:frontend:done:
-```
+#+end_src
 
-Tags appear at the end of the heading line, wrapped in colons. One tag looks like `:tag:`, multiple tags like `:tag1:tag2:tag3:`.
+Tags appear at the end of the heading line, wrapped in colons. One tag looks like =:tag:=, multiple tags like =:tag1:tag2:tag3:=.
 
-### Adding Tags
+** Adding Tags
 
-Don't type them manually. Press `C-c C-c` on a heading:
+Don't type them manually. Press =C-c C-c= on a heading:
 
-1. Org prompts: `Tags:`
+1. Org prompts: =Tags:=
 2. Type tag names (with completion if configured)
 3. Press Enter
 
-Or use `C-c C-q` for the same effect (mnemonic: "q" for taQ).
+Or use =C-c C-q= for the same effect (mnemonic: "q" for taQ).
 
-Tags are case-sensitive. `:Work:` and `:work:` are different. Choose a convention and stick with it (lowercase recommended).
+Tags are case-sensitive. =:Work:= and =:work:= are different. Choose a convention and stick with it (lowercase recommended).
 
-### Tag Inheritance
+** Tag Inheritance
 
 By default, tags inherit. A child heading has all its parent's tags:
 
-```org
+#+begin_src org
 * Project Alpha                                  :work:client_a:
 ** TODO Design phase                             :design:
 ** TODO Development phase                        :development:
-```
+#+end_src
 
-"Design phase" effectively has tags `:work:client_a:design:`. "Development phase" has `:work:client_a:development:`. You don't repeat common tags—inheritance handles it.
+"Design phase" effectively has tags =:work:client_a:design:=. "Development phase" has =:work:client_a:development:=. You don't repeat common tags—inheritance handles it.
 
 Disable inheritance if needed:
 
-```elisp
+#+begin_src elisp
 (setq org-use-tag-inheritance nil)
-```
+#+end_src
 
 Or disable for specific tags:
 
-```elisp
+#+begin_src elisp
 (setq org-tags-exclude-from-inheritance '("project" "personal"))
-```
+#+end_src
 
-### Predefined Tags
+** Predefined Tags
 
 Typing tags gets tedious. Predefine common ones:
 
-```elisp
+#+begin_src elisp
 (setq org-tag-alist '(("work" . ?w)
                       ("personal" . ?p)
                       ("urgent" . ?u)
                       ("email" . ?e)
                       ("phone" . ?h)
                       ("meeting" . ?m)))
-```
+#+end_src
 
-Now when you press `C-c C-c` to add tags, Org shows a selection interface. Press `w` for "work", `u` for "urgent", etc. Much faster than typing.
+Now when you press =C-c C-c= to add tags, Org shows a selection interface. Press =w= for "work", =u= for "urgent", etc. Much faster than typing.
 
 Group related tags:
 
-```elisp
+#+begin_src elisp
 (setq org-tag-alist '((:startgroup . nil)
                       ("@office" . ?o)
                       ("@home" . ?h)
@@ -79,61 +84,61 @@ Group related tags:
                       ("urgent" . ?u)
                       ("someday" . ?s)
                       (:endgroup . nil)))
-```
+#+end_src
 
-Groups are mutually exclusive. Adding `@office` removes `@home` and `@errands`. Perfect for context tags (GTD-style).
+Groups are mutually exclusive. Adding =@office= removes =@home= and =@errands=. Perfect for context tags (GTD-style).
 
-### Per-File Tags
+** Per-File Tags
 
 Set tags available in specific files:
 
-```org
+#+begin_src org
 #+TAGS: work(w) personal(p) urgent(u)
 #+TAGS: { @office(o) @home(h) @errands(e) }
-```
+#+end_src
 
-The `{}` creates a mutually exclusive group (same as `:startgroup:` in elisp).
+The ={}= creates a mutually exclusive group (same as =:startgroup:= in elisp).
 
-### File-Level Tags
+** File-Level Tags
 
 Apply tags to the entire file:
 
-```org
+#+begin_src org
 #+FILETAGS: :project_alpha:confidential:
-```
+#+end_src
 
 Every heading in the file inherits these tags. Useful for project-specific files.
 
-## Searching by Tags
+* Searching by Tags
 
 The power of tags emerges when searching.
 
-### Tag Sparse Trees
+** Tag Sparse Trees
 
-`C-c / m` - Show headings matching tag query
+=C-c / m= - Show headings matching tag query
 
 Examples:
-- `work` - All headings tagged "work"
-- `work+urgent` - Both "work" AND "urgent"
-- `work|personal` - Either "work" OR "personal"
-- `work-boss` - Tagged "work" but NOT "boss"
-- `work+urgent-meeting` - Work AND urgent, but NOT meeting
+- =work= - All headings tagged "work"
+- =work+urgent= - Both "work" AND "urgent"
+- =work|personal= - Either "work" OR "personal"
+- =work-boss= - Tagged "work" but NOT "boss"
+- =work+urgent-meeting= - Work AND urgent, but NOT meeting
 
 The document folds to show only matches. Combined with tag inheritance, this is phenomenally powerful.
 
-### Tag Agenda Searches
+** Tag Agenda Searches
 
 From the agenda (covered in Chapter 8):
 
-`C-c a m` - Match tags across all agenda files
+=C-c a m= - Match tags across all agenda files
 
 Your entire Org system becomes searchable by arbitrary tag combinations.
 
-## Properties: Structured Metadata
+* Properties: Structured Metadata
 
 Tags are simple labels. Properties are key-value pairs for structured data:
 
-```org
+#+begin_src org
 * TODO Implement new feature
   :PROPERTIES:
   :EFFORT: 4:00
@@ -143,33 +148,33 @@ Tags are simple labels. Properties are key-value pairs for structured data:
   :ASSIGNED: Alice
   :DUE_DATE: <2025-01-31 Wed>
   :END:
-```
+#+end_src
 
-Properties live in a `:PROPERTIES:` drawer. Each property is a key-value pair.
+Properties live in a =:PROPERTIES:= drawer. Each property is a key-value pair.
 
-### Adding Properties
+** Adding Properties
 
-`C-c C-x p` - Set a property
+=C-c C-x p= - Set a property
 
 Org prompts for property name, then value. The property drawer auto-creates if needed.
 
-### Special Properties
+** Special Properties
 
 Some properties have special meaning:
 
-- `EFFORT` - Time estimate (used in agenda views)
-- `CATEGORY` - Category for agenda display
-- `ORDERED` - If t, children must be completed in order
-- `CUSTOM_ID` - For stable linking (Chapter 5)
-- `ID` - Unique identifier
+- =EFFORT= - Time estimate (used in agenda views)
+- =CATEGORY= - Category for agenda display
+- =ORDERED= - If t, children must be completed in order
+- =CUSTOM_ID= - For stable linking (Chapter 5)
+- =ID= - Unique identifier
 
 Others are custom metadata you define.
 
-### Property Inheritance
+** Property Inheritance
 
 Like tags, properties can inherit:
 
-```org
+#+begin_src org
 * Project: Website Redesign
   :PROPERTIES:
   :CLIENT: ACME Corp
@@ -178,86 +183,86 @@ Like tags, properties can inherit:
 
 ** TODO Design mockups
 ** TODO Implement frontend
-```
+#+end_src
 
-If `CLIENT` is set to inherit, all subtasks automatically have `CLIENT: ACME Corp`.
+If =CLIENT= is set to inherit, all subtasks automatically have =CLIENT: ACME Corp=.
 
 Configure inheritance:
 
-```elisp
+#+begin_src elisp
 (setq org-use-property-inheritance '("CLIENT" "PROJECT_CODE"))
-```
+#+end_src
 
 Or inherit all properties (be careful—this can slow down large files):
 
-```elisp
+#+begin_src elisp
 (setq org-use-property-inheritance t)
-```
+#+end_src
 
-### Allowed Property Values
+** Allowed Property Values
 
 Constrain property values for consistency:
 
-```org
+#+begin_src org
 #+PROPERTY: ASSIGNED_ALL Alice Bob Carol Dave
 #+PROPERTY: STATUS_ALL Open In-Progress Blocked Completed
 #+PROPERTY: PRIORITY_ALL Low Medium High Critical
-```
+#+end_src
 
 Now when setting these properties, Org offers completion from the allowed values. No typos, no inconsistent data.
 
 In elisp:
 
-```elisp
+#+begin_src elisp
 (setq org-global-properties
       '(("ASSIGNED_ALL" . "Alice Bob Carol Dave")
         ("STATUS_ALL" . "Open In-Progress Blocked Completed")))
-```
+#+end_src
 
-### Column View: Spreadsheet of Properties
+** Column View: Spreadsheet of Properties
 
 View properties as a table:
 
-`C-c C-x C-c` - Enable column view
+=C-c C-x C-c= - Enable column view
 
 Org displays headings with their properties in columns:
 
-```
+#+begin_example
 ITEM              | ASSIGNED | EFFORT | STATUS
 ---------------------------------------------------
 Implement feature | Alice    | 4:00   | In-Progress
 Write tests       | Bob      | 2:00   | Open
 Deploy            | Carol    | 1:00   | Blocked
-```
+#+end_example
 
-Edit properties directly in the column view. Press `q` to exit.
+Edit properties directly in the column view. Press =q= to exit.
 
 Define which columns to show:
 
-```org
+#+begin_src org
 #+COLUMNS: %25ITEM %ASSIGNED %EFFORT %STATUS
-```
+#+end_src
 
 Or globally:
 
-```elisp
+#+begin_src elisp
 (setq org-columns-default-format "%25ITEM %TODO %3PRIORITY %TAGS %EFFORT")
-```
+#+end_src
 
 Column view transforms Org files into databases with editable spreadsheet views.
 
-### Dynamic Blocks: Property Tables
+** Dynamic Blocks: Property Tables
 
 Create property summaries:
 
-```org
+#+begin_src org
 #+BEGIN: columnview :hlines 1 :id local
 #+END:
-```
+#+end_src
 
-Place cursor on `#+BEGIN:` line and press `C-c C-c`. Org generates a table from properties:
+Place cursor on =#+BEGIN:= line and press =C-c C-c=. Org generates a table from properties:
 
-```org
+#+begin_src org
 #+BEGIN: columnview :hlines 1 :id local
 | ITEM              | ASSIGNED | EFFORT | STATUS      |
 |-------------------+----------+--------+-------------|
@@ -265,9 +270,9 @@ Place cursor on `#+BEGIN:` line and press `C-c C-c`. Org generates a table from 
 | Write tests       | Bob      | 2:00   | Open        |
 | Deploy            | Carol    | 1:00   | Blocked     |
 #+END:
-```
+#+end_src
 
-Update properties and regenerate with `C-c C-c`. The table auto-updates.
+Update properties and regenerate with =C-c C-c=. The table auto-updates.
 
 Generate reports this way:
 - Task assignment by person
@@ -276,49 +281,49 @@ Generate reports this way:
 
 Plain text becoming a database before your eyes.
 
-## Property Searches
+* Property Searches
 
 Search by property values:
 
-`C-c / p` - Property sparse tree
+=C-c / p= - Property sparse tree
 
 Enter property name and value. Org shows matching headings.
 
-### Advanced Property Searches
+** Advanced Property Searches
 
-Tag/property search syntax (`C-c / m` or `C-c a m`):
+Tag/property search syntax (=C-c / m= or =C-c a m=):
 
-```
+#+begin_example
 +work-boss+CLIENT="ACME Corp"+EFFORT>2:00
-```
+#+end_example
 
 Translation: Tagged "work", not "boss", CLIENT property equals "ACME Corp", and EFFORT greater than 2 hours.
 
 Operators:
-- `=` - Equals
-- `<>` - Not equal
-- `<` - Less than
-- `>` - Greater than
-- `<=` - Less than or equal
-- `>=` - Greater than or equal
+- === - Equals
+- =<>= - Not equal
+- =<= - Less than
+- =>= - Greater than
+- =<== - Less than or equal
+- =>== - Greater than or equal
 
-For numbers, times, and dates. For strings, use `=`.
+For numbers, times, and dates. For strings, use ===.
 
 Regular expressions:
 
-```
+#+begin_example
 CLIENT={acme|widgets}
-```
+#+end_example
 
 Matches CLIENT containing "acme" or "widgets".
 
 This is query language built into plain text.
 
-## Combining Tags and Properties
+* Combining Tags and Properties
 
 Tags for broad categories, properties for specific metadata:
 
-```org
+#+begin_src org
 * TODO Implement payment processing              :feature:backend:urgent:
   SCHEDULED: <2025-01-20 Mon>
   :PROPERTIES:
@@ -328,7 +333,7 @@ Tags for broad categories, properties for specific metadata:
   :COMPLEXITY: High
   :SECURITY_REVIEW: Required
   :END:
-```
+#+end_src
 
 Now you can query:
 - "All backend features" (tag search)
@@ -337,11 +342,11 @@ Now you can query:
 
 The metadata layer makes everything discoverable.
 
-## Practical Tag Systems
+* Practical Tag Systems
 
-### GTD-Style Contexts
+** GTD-Style Contexts
 
-```elisp
+#+begin_src elisp
 (setq org-tag-alist '((:startgroup)
                       ("@office" . ?o)
                       ("@home" . ?h)
@@ -352,13 +357,13 @@ The metadata layer makes everything discoverable.
 
                       ("work" . ?w)
                       ("personal" . ?r)))
-```
+#+end_src
 
 Tag tasks by where they can be done. Filter your task list by current context.
 
-### Project-Based
+** Project-Based
 
-```org
+#+begin_src org
 #+FILETAGS: :project_alpha:
 #+PROPERTY: CLIENT ACME Corp
 #+PROPERTY: PROJECT_CODE ALPHA-2025
@@ -368,24 +373,24 @@ Tag tasks by where they can be done. Filter your task list by current context.
    :PROPERTIES:
    :PHASE: Planning
    :END:
-```
+#+end_src
 
 All tasks inherit project context.
 
-### Energy Levels
+** Energy Levels
 
-```elisp
+#+begin_src elisp
 (setq org-tag-alist '((:startgroup)
                       ("@high_energy" . ?h)
                       ("@low_energy" . ?l)
                       (:endgroup)))
-```
+#+end_src
 
 Tag tasks by required energy. When you're tired, filter for low-energy tasks.
 
-### Work Breakdown Structure
+** Work Breakdown Structure
 
-```org
+#+begin_src org
 * Project: Website Redesign
   :PROPERTIES:
   :PROJECT_ID: WEB-2025-01
@@ -406,45 +411,45 @@ Tag tasks by required energy. When you're tired, filter for low-energy tasks.
    :PROPERTIES:
    :BUDGET_ALLOCATED: 25000
    :END:
-```
+#+end_src
 
 Track budgets, phases, and allocation through properties. Report with column view.
 
-## Property Clocking Summaries
+* Property Clocking Summaries
 
 Combined with time tracking (Chapter 9), properties enable powerful reports:
 
-```org
+#+begin_src org
 #+BEGIN: clocktable :scope file :maxlevel 2 :properties ("CLIENT" "PROJECT")
 #+END:
-```
+#+end_src
 
 Generate time reports grouped by client or project. Send invoices from plain text files. It's absurd and brilliant.
 
-## Bulk Property Operations
+* Bulk Property Operations
 
 Need to tag 20 items at once?
 
 1. In agenda view (Chapter 8), mark multiple items
-2. `B` for bulk action
-3. `s` to add tags or properties
+2. =B= for bulk action
+3. =s= to add tags or properties
 4. Enter tags/properties
 5. All marked items update
 
 Metadata at scale.
 
-## Your Exercise
+* Your Exercise
 
 1. Create a file with at least 10 tasks
 2. Define a set of common tags (work, personal, contexts, etc.)
 3. Tag all your tasks appropriately
 4. Add properties to at least 5 tasks (effort, assignment, client, etc.)
-5. Practice tag searches with `C-c / m` (try AND, OR, NOT combinations)
-6. Try property searches with `C-c / p`
+5. Practice tag searches with =C-c / m= (try AND, OR, NOT combinations)
+6. Try property searches with =C-c / p=
 7. Enable column view and edit properties in the spreadsheet interface
 8. Create a dynamic property table with columnview
 
-## The Philosophy of Metadata
+* The Philosophy of Metadata
 
 Good metadata is the difference between a pile of notes and a knowledge system. Tags and properties transform your Org files from documents into databases—queryable, filterable, reportable.
 
@@ -452,6 +457,6 @@ The discipline is adding metadata consistently. The reward is finding exactly wh
 
 Start simple. Add a few tags. As your system grows, add more structure. The beauty of plain text: you can always add metadata retroactively.
 
-## Next: Agenda Views
+* Next: Agenda Views
 
 You've got TODOs, tags, properties, and timestamps. Now let's pull it all together. The Agenda is where Org-Mode's true power manifests—a dynamic, customizable view of your entire task universe. Prepare to achieve inbox zero (well, maybe).

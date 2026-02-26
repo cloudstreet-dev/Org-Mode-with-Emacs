@@ -1,87 +1,92 @@
-# Chapter 4: Tables - Spreadsheets in Plain Text
+#+TITLE: Chapter 4: Tables - Spreadsheets in Plain Text
+#+AUTHOR: The Org-Mode with Emacs Authors
+#+LANGUAGE: en
+#+OPTIONS: toc:t num:t ^:nil H:4 html-style:nil
+#+SETUPFILE: setup.org
+
 
 When people first see Org-Mode tables, they often think "oh, nice, ASCII tables." Then they discover the tables can do formulas, automatic calculations, and act like mini-spreadsheets. Then they realize it's all plain text that will parse perfectly a decade from now. Then they start giggling uncontrollably.
 
 Welcome to Org-Mode tables.
 
-## Creating a Basic Table
+* Creating a Basic Table
 
 Start typing a table with pipes (|):
 
-```org
+#+begin_src org
 | Name    | Age | City      |
 | Alice   | 28  | Portland  |
 | Bob     | 35  | Seattle   |
 | Carol   | 42  | Vancouver |
-```
+#+end_src
 
 But here's the magic: you don't have to format it manually. Type this:
 
-```
+#+begin_example
 | Name | Age | City
-```
+#+end_example
 
 Press TAB, and Org-Mode completes the row:
 
-```
+#+begin_example
 | Name | Age | City |
 |------+-----+------|
-```
+#+end_example
 
 Keep pressing TAB to move through cells. When you're in the last cell, TAB creates a new row. Type your content and watch Org-Mode auto-format everything, keeping columns aligned perfectly.
 
-### The Essential Table Commands
+** The Essential Table Commands
 
-- `TAB` - Move to next cell (auto-creates new rows)
-- `S-TAB` - Move to previous cell
-- `RET` - Move to next row (creates new row if needed)
-- `M-left/right` - Move column left/right
-- `M-up/down` - Move row up/down
-- `M-S-left/right` - Delete/insert column
-- `M-S-up/down` - Delete/insert row
-- `C-c |` - Convert region to table (or create table from scratch)
+- =TAB= - Move to next cell (auto-creates new rows)
+- =S-TAB= - Move to previous cell
+- =RET= - Move to next row (creates new row if needed)
+- =M-left/right= - Move column left/right
+- =M-up/down= - Move row up/down
+- =M-S-left/right= - Delete/insert column
+- =M-S-up/down= - Delete/insert row
+- =C-c |= - Convert region to table (or create table from scratch)
 
-Try it now. Create a table, add some data, rearrange columns with `M-left`, insert a row with `M-S-down`. Feel the structure bend to your will.
+Try it now. Create a table, add some data, rearrange columns with =M-left=, insert a row with =M-S-down=. Feel the structure bend to your will.
 
-## Table Formatting is Automatic
+* Table Formatting is Automatic
 
 Type messily:
 
-```
+#+begin_example
 |Name|Age|City
 |Alice|28|Portland
-```
+#+end_example
 
 Press TAB anywhere in this mess, and Org-Mode formats it:
 
-```
+#+begin_example
 | Name  | Age | City     |
 |-------+-----+----------|
 | Alice |  28 | Portland |
-```
+#+end_example
 
 Never manually align columns again. Org-Mode handles spacing, creates separators, and maintains readability. Add more data, delete columns, change content—it stays formatted.
 
 This is computational assistance that feels like magic.
 
-## Table Separators
+* Table Separators
 
-The horizontal separator line (`|---+---|`) can be created with `C-c -` on any row. It's useful for visual grouping:
+The horizontal separator line (=|---+---|=) can be created with =C-c -= on any row. It's useful for visual grouping:
 
-```org
+#+begin_src org
 | Product  | Q1    | Q2    | Q3    | Q4    |
 |----------+-------+-------+-------+-------|
 | Widget A | 1,200 | 1,450 | 1,380 | 1,620 |
 | Widget B | 850   | 920   | 1,100 | 1,250 |
 |----------+-------+-------+-------+-------|
 | Total    | 2,050 | 2,370 | 2,480 | 2,870 |
-```
+#+end_src
 
-## Formulas: The Spreadsheet Awakens
+* Formulas: The Spreadsheet Awakens
 
 Here's where it gets wild. Org tables can contain formulas:
 
-```org
+#+begin_src org
 | Item          | Quantity | Price | Total |
 |---------------+----------+-------+-------|
 | Coffee        |        3 |  4.50 | 13.50 |
@@ -90,57 +95,57 @@ Here's where it gets wild. Org tables can contain formulas:
 |---------------+----------+-------+-------|
 | Total         |          |       | 26.00 |
 #+TBLFM: $4=$2*$3::@6$4=vsum(@2..@4)
-```
+#+end_src
 
 Let's decode that formula line:
 
-- `#+TBLFM:` - This is a table formula
-- `$4=$2*$3` - Column 4 equals column 2 times column 3
-- `::` - Separator for multiple formulas
-- `@6$4=vsum(@2..@4)` - Row 6, column 4 equals the sum of rows 2-4
+- =#+TBLFM:= - This is a table formula
+- =$4=$2*$3= - Column 4 equals column 2 times column 3
+- =::= - Separator for multiple formulas
+- =@6$4=vsum(@2..@4)= - Row 6, column 4 equals the sum of rows 2-4
 
-Press `C-c C-c` on the `#+TBLFM:` line to recalculate. Change a quantity or price, recalculate, and watch totals update.
+Press =C-c C-c= on the =#+TBLFM:= line to recalculate. Change a quantity or price, recalculate, and watch totals update.
 
-### Formula Syntax Essentials
+** Formula Syntax Essentials
 
-**Column references:**
-- `$1` - First column
-- `$2` - Second column
-- `$>` - Last column
-- `$<<` - Second column (first after row headers)
+*Column references:*
+- =$1= - First column
+- =$2= - Second column
+- =$>= - Last column
+- =$<<= - Second column (first after row headers)
 
-**Row references:**
-- `@1` - First row
-- `@2` - Second row
-- `@>` - Last row
-- `@<` - First data row (after headers)
+*Row references:*
+- =@1= - First row
+- =@2= - Second row
+- =@>= - Last row
+- =@<= - First data row (after headers)
 
-**Ranges:**
-- `@2..@5` - Rows 2 through 5
-- `$2..$4` - Columns 2 through 4
-- `@2$1..@5$3` - Rectangle from row 2, col 1 to row 5, col 3
+*Ranges:*
+- =@2..@5= - Rows 2 through 5
+- =$2..$4= - Columns 2 through 4
+- =@2$1..@5$3= - Rectangle from row 2, col 1 to row 5, col 3
 
-**Common functions:**
-- `vsum(range)` - Sum values
-- `vmean(range)` - Average
-- `vmax(range)` - Maximum
-- `vmin(range)` - Minimum
-- `vcount(range)` - Count non-empty cells
+*Common functions:*
+- =vsum(range)= - Sum values
+- =vmean(range)= - Average
+- =vmax(range)= - Maximum
+- =vmin(range)= - Minimum
+- =vcount(range)= - Count non-empty cells
 
-### Creating Formulas Interactively
+** Creating Formulas Interactively
 
 Don't want to write formula syntax manually?
 
 1. Position cursor in target cell
-2. `C-c =` (for column formula) or `C-u C-c =` (for cell-specific formula)
+2. =C-c == (for column formula) or =C-u C-c == (for cell-specific formula)
 3. Reference cells by moving to them with arrow keys
 4. Press RET when done
 
 Org-Mode writes the formula for you.
 
-### A Practical Example: Time Tracking
+** A Practical Example: Time Tracking
 
-```org
+#+begin_src org
 | Task           | Hours | Rate | Cost   |
 |----------------+-------+------+--------|
 | Development    |  12.5 |  150 | 1875.0 |
@@ -151,7 +156,7 @@ Org-Mode writes the formula for you.
 | Total          |  25.0 |      | 3475.0 |
 | Average Rate   |       |  137 |        |
 #+TBLFM: $4=$2*$3::@6$2=vsum(@2..@5)::@6$4=vsum(@2..@5)::@7$3=@6$4/@6$2;%.0f
-```
+#+end_src
 
 This table calculates:
 - Cost per task (hours × rate)
@@ -159,77 +164,77 @@ This table calculates:
 - Total cost
 - Average rate (with integer formatting)
 
-Update any number, press `C-c C-c` on the formula line, and everything recalculates.
+Update any number, press =C-c C-c= on the formula line, and everything recalculates.
 
-## Field Formulas vs. Column Formulas
+* Field Formulas vs. Column Formulas
 
-**Column formulas** apply to entire columns:
-```
+*Column formulas* apply to entire columns:
+#+begin_example
 #+TBLFM: $4=$2*$3
-```
+#+end_example
 
-**Cell-specific formulas** apply to individual cells:
-```
+*Cell-specific formulas* apply to individual cells:
+#+begin_example
 #+TBLFM: @6$4=vsum(@2..@5)
-```
+#+end_example
 
 You can mix both. Org-Mode applies them in order.
 
-## Relative vs. Absolute References
+* Relative vs. Absolute References
 
 Like Excel:
-- `@2$3` - Relative (changes when copied)
-- `@2$3` - Can be made absolute with `$` but Org uses different notation:
-- `@2$3` stays relative by default
-- Use `@#` for current row, `$#` for current column in formulas
+- =@2$3= - Relative (changes when copied)
+- =@2$3= - Can be made absolute with =$= but Org uses different notation:
+- =@2$3= stays relative by default
+- Use =@#= for current row, =$#= for current column in formulas
 
 For most use cases, relative references are what you want.
 
-## Advanced: Using Calc and Elisp
+* Advanced: Using Calc and Elisp
 
 Org-Mode formulas can use:
 
-**Calc (Emacs calculator):**
-```
+*Calc (Emacs calculator):*
+#+begin_example
 #+TBLFM: $4=$2*$3;%.2f
-```
-The `;%.2f` formats to 2 decimal places.
+#+end_example
+The =;%.2f= formats to 2 decimal places.
 
-**Emacs Lisp:**
-```
+*Emacs Lisp:*
+#+begin_example
 #+TBLFM: $4='(* $2 $3);N
-```
-The single quote starts an elisp expression. `;N` treats empty cells as 0.
+#+end_example
+The single quote starts an elisp expression. =;N= treats empty cells as 0.
 
-**External programs:**
-```
+*External programs:*
+#+begin_example
 #+TBLFM: $4='(my-custom-function $2 $3)
-```
+#+end_example
 
 If you can code it in elisp, you can use it in a table formula. The possibilities expand infinitely.
 
-## Debugging Formulas
+* Debugging Formulas
 
 Formulas not working?
 
-- `C-c {` - Toggle formula debugger
-- `C-c }` - Toggle column/row number display (shows coordinates)
-- `C-c '` - Edit formulas in dedicated buffer
+- =C-c {= - Toggle formula debugger
+- =C-c }= - Toggle column/row number display (shows coordinates)
+- =C-c '= - Edit formulas in dedicated buffer
 
 The debugger shows step-by-step evaluation. The coordinate display helps write correct references.
 
-## Spreadsheet Features: Comparison
+* Spreadsheet Features: Comparison
 
 Can Org tables replace Excel/Google Sheets?
 
-**What Org tables do well:**
+*What Org tables do well:*
 - Basic calculations
 - Data that needs to stay plain text
 - Quick calculations in documents
 - Version control friendly formats
 - Infinite longevity (it's text)
 
-**What spreadsheets do better:**
+*What spreadsheets do better:*
 - Complex financial modeling
 - Charts and graphs (though Org can generate these via code blocks)
 - Cell formatting and colors
@@ -238,30 +243,30 @@ Can Org tables replace Excel/Google Sheets?
 
 Think of Org tables as "spreadsheets for text people." They're phenomenally useful but know their limits.
 
-## Importing and Exporting
+* Importing and Exporting
 
-### CSV to Org Table
+** CSV to Org Table
 
 In Emacs, open a CSV file and:
-```
+#+begin_example
 M-x org-table-create-or-convert-from-region
-```
+#+end_example
 
 Instant table.
 
-### Org Table to CSV
+** Org Table to CSV
 
-```elisp
+#+begin_src elisp
 (org-table-export "output.csv" "orgtbl-to-csv")
-```
+#+end_src
 
-Or use `C-c C-e` (export) and choose appropriate format.
+Or use =C-c C-e= (export) and choose appropriate format.
 
-### Radio Tables
+** Radio Tables
 
 You can embed Org tables in comments of other file types and have them auto-convert:
 
-```javascript
+#+begin_src javascript
 /* BEGIN RECEIVE ORGTBL my_table */
 /* END RECEIVE ORGTBL my_table */
 
@@ -271,15 +276,15 @@ You can embed Org tables in comments of other file types and have them auto-conv
 | Foo  | 42    |
 | Bar  | 23    |
    END ORGTBL my_table */
-```
+#+end_src
 
 When the Org table updates, the output auto-updates. Useful for maintaining tables in code documentation.
 
-## Table Plotting
+* Table Plotting
 
 Here's a teaser (we'll cover this more in the code blocks chapter):
 
-```org
+#+begin_src org
 #+PLOT: title:"Sales Data" ind:1 deps:(2 3) type:2d with:linespoints
 | Month | Product A | Product B |
 |-------+-----------+-----------|
@@ -288,15 +293,15 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 | Mar   |       128 |      115  |
 | Apr   |       145 |      122  |
 #+TBLFM: ...
-```
+#+end_src
 
-`C-c C-c` on the `#+PLOT:` line generates a graph. Plain text tables creating visualizations. Beautiful.
+=C-c C-c= on the =#+PLOT:= line generates a graph. Plain text tables creating visualizations. Beautiful.
 
-## Practical Examples
+* Practical Examples
 
-### Project Time Budget
+** Project Time Budget
 
-```org
+#+begin_src org
 | Phase          | Budgeted | Actual | Remaining |
 |----------------+----------+--------+-----------|
 | Planning       |       20 |     18 |         2 |
@@ -306,11 +311,11 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |----------------+----------+--------+-----------|
 | Total          |      145 |     71 |        74 |
 #+TBLFM: $4=$2-$3::@6$2=vsum(@2..@5)::@6$3=vsum(@2..@5)::@6$4=vsum(@2..@5)
-```
+#+end_src
 
-### Grade Calculator
+** Grade Calculator
 
-```org
+#+begin_src org
 | Assignment | Weight | Score | Weighted |
 |------------+--------+-------+----------|
 | Homework   |    20% |    85 |     17.0 |
@@ -320,11 +325,11 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |------------+--------+-------+----------|
 | Final      |   100% |       |     85.4 |
 #+TBLFM: $4=$2*$3/100::@6$4=vsum(@2..@5)
-```
+#+end_src
 
-### Simple Budget
+** Simple Budget
 
-```org
+#+begin_src org
 | Category      | Budgeted | Spent  | Balance |
 |---------------+----------+--------+---------|
 | Rent          |     1500 |   1500 |       0 |
@@ -335,9 +340,9 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |---------------+----------+--------+---------|
 | Total         |     3100 |   3007 |      93 |
 #+TBLFM: $4=$2-$3::@7$2..@7$4=vsum(@2..@6)
-```
+#+end_src
 
-## Your Exercise
+* Your Exercise
 
 Create at least three tables:
 
@@ -351,12 +356,12 @@ Experiment with:
 - Different formula functions (sum, mean, max, min)
 - The formula debugger
 
-## The Philosophy of Plain-Text Tables
+* The Philosophy of Plain-Text Tables
 
-Here's what makes Org tables special: they're human-readable without computation. Open a `.org` file in any editor, and the tables make sense. Run them through grep, diff, or any text tool—they work perfectly.
+Here's what makes Org tables special: they're human-readable without computation. Open a =.org= file in any editor, and the tables make sense. Run them through grep, diff, or any text tool—they work perfectly.
 
 Compare this to binary spreadsheet formats or databases. Org tables sacrifice some power for universal accessibility. For many use cases, that's the right trade-off.
 
-## Next: Links and Images
+* Next: Links and Images
 
 You've mastered structure and tables. Next, we'll connect your knowledge with links—both to other documents and to the wider world—and bring visual elements into your plain-text realm. The web of your knowledge awaits.

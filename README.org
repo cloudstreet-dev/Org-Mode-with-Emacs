@@ -1,0 +1,38 @@
+#+TITLE: Org-Mode with Emacs
+#+OPTIONS: toc:nil num:nil
+
+/A comprehensive guide to mastering Org-Mode for personal knowledge management, task organization, and literate programming./
+
+** Read the Book
+
+The rendered book is served via GitHub Pages:
+[[https://cloudstreet-dev.github.io/Org-Mode-with-Emacs/][→ Read online]]
+
+** Chapters
+
+1. [[file:01-introduction.org][Introduction]]
+2. [[file:02-getting-started.org][Getting Started]]
+3. [[file:03-document-structure.org][Document Structure]]
+4. [[file:04-tables.org][Tables]]
+5. [[file:05-links-and-images.org][Links and Images]]
+6. [[file:06-todo-items.org][TODO Items and Workflow]]
+7. [[file:07-tags-and-properties.org][Tags and Properties]]
+8. [[file:08-agenda-views.org][Agenda Views]]
+9. [[file:09-clocking-time-tracking.org][Clocking and Time Tracking]]
+10. [[file:10-capture-templates.org][Capture Templates]]
+11. [[file:11-code-blocks-literate-programming.org][Code Blocks and Literate Programming]]
+12. [[file:12-export-publishing.org][Export and Publishing]]
+13. [[file:13-advanced-features.org][Advanced Features]]
+
+** Building Locally
+
+Requires Emacs with Org-Mode (included in Emacs 22.1+):
+
+#+begin_src bash
+emacs --batch -l publish.el --funcall org-publish-all
+# Output goes to ./public/
+#+end_src
+
+** License
+
+[[file:LICENSE][CC0 1.0 Universal]] — Public domain dedication.
