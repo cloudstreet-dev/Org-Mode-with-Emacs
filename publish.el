@@ -19,7 +19,9 @@
       org-export-with-sub-superscripts nil
       ;; Never evaluate code blocks during export — this is a book,
       ;; not a notebook. Blocks are displayed verbatim.
-      org-export-use-babel nil)
+      org-export-use-babel nil
+      ;; Convert file:chapter.org links → chapter.html in HTML export
+      org-html-link-org-files-as-html t)
 
 ;; Use htmlize for syntax highlighting when available
 (when (require 'htmlize nil t)

@@ -28,43 +28,43 @@ This book takes you from complete beginner to confident Org-Mode user, covering:
 
 * Table of Contents
 
-** [[01-introduction.org][Chapter 1: Introduction]]
+** [[file:01-introduction.org][Chapter 1: Introduction]]
 Welcome to the Org-Mode rabbit hole. Learn what Org-Mode is, why plain text matters, and what makes this system different from every productivity app you've tried.
 
-** [[02-getting-started.org][Chapter 2: Getting Started]]
+** [[file:02-getting-started.org][Chapter 2: Getting Started]]
 Install Emacs, create your first org file, and learn the five essential keybindings that will transform how you work with documents.
 
-** [[03-document-structure.org][Chapter 3: Document Structure]]
+** [[file:03-document-structure.org][Chapter 3: Document Structure]]
 Master the art of the outline. Learn headings, lists, formatting, blocks, drawers, and the structural editing commands that make reorganization effortless.
 
-** [[04-tables.org][Chapter 4: Tables]]
+** [[file:04-tables.org][Chapter 4: Tables]]
 Discover spreadsheets in plain text. Create tables with automatic formatting, write formulas, perform calculations, and generate reports—all without leaving your text file.
 
-** [[05-links-and-images.org][Chapter 5: Links and Images]]
+** [[file:05-links-and-images.org][Chapter 5: Links and Images]]
 Connect your knowledge. Link to files, headings, URLs, emails, and custom destinations. Build an interconnected knowledge graph in plain text.
 
-** [[06-todo-items.org][Chapter 6: TODO Items and Workflow]]
+** [[file:06-todo-items.org][Chapter 6: TODO Items and Workflow]]
 Transform headings into actionable tasks. Learn custom TODO states, priorities, scheduling, deadlines, repeating tasks, and effort estimation.
 
-** [[07-tags-and-properties.org][Chapter 7: Tags and Properties]]
+** [[file:07-tags-and-properties.org][Chapter 7: Tags and Properties]]
 Add the metadata layer. Tag and categorize your tasks, attach structured properties, and make everything searchable and filterable.
 
-** [[08-agenda-views.org][Chapter 8: Agenda Views]]
+** [[file:08-agenda-views.org][Chapter 8: Agenda Views]]
 Build mission control for your life. Aggregate tasks across files, create custom views, filter dynamically, and act on items without leaving the agenda.
 
-** [[09-clocking-time-tracking.org][Chapter 9: Clocking and Time Tracking]]
+** [[file:09-clocking-time-tracking.org][Chapter 9: Clocking and Time Tracking]]
 Track where your time actually goes. Clock in and out of tasks, generate reports, compare estimates to actuals, and turn time logs into invoices.
 
-** [[10-capture-templates.org][Chapter 10: Capture Templates]]
+** [[file:10-capture-templates.org][Chapter 10: Capture Templates]]
 Implement frictionless note-taking. Create templates for common patterns, capture from anywhere, and ensure no thought is ever lost.
 
-** [[11-code-blocks-literate-programming.org][Chapter 11: Code Blocks and Literate Programming]]
+** [[file:11-code-blocks-literate-programming.org][Chapter 11: Code Blocks and Literate Programming]]
 Make your documents executable. Run code in dozens of languages, pass data between blocks, generate graphics, and practice true literate programming.
 
-** [[12-export-publishing.org][Chapter 12: Export and Publishing]]
+** [[file:12-export-publishing.org][Chapter 12: Export and Publishing]]
 Share your work with the world. Export to HTML, PDF, Markdown, ODT, and more. Publish websites from org files. One source, infinite presentations.
 
-** [[13-advanced-features.org][Chapter 13: Advanced Features]]
+** [[file:13-advanced-features.org][Chapter 13: Advanced Features]]
 Explore the depths. Learn advanced agenda techniques, encryption, attachments, the Org ecosystem, integrations, and the features that make Org-Mode inexhaustible.
 
 * Who This Book Is For
@@ -146,7 +146,7 @@ Your first week will feel awkward. Your first month will feel productive. Your f
 
 Ready?
 
-Start with [[01-introduction.org][Chapter 1: Introduction]].
+Start with [[file:01-introduction.org][Chapter 1: Introduction]].
 
 -----
 
