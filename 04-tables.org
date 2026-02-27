@@ -13,12 +13,12 @@ Welcome to Org-Mode tables.
 
 Start typing a table with pipes (|):
 
-#+begin_src org
+#+begin_example
 | Name    | Age | City      |
 | Alice   | 28  | Portland  |
 | Bob     | 35  | Seattle   |
 | Carol   | 42  | Vancouver |
-#+end_src
+#+end_example
 
 But here's the magic: you don't have to format it manually. Type this:
 
@@ -73,20 +73,20 @@ This is computational assistance that feels like magic.
 
 The horizontal separator line (=|---+---|=) can be created with =C-c -= on any row. It's useful for visual grouping:
 
-#+begin_src org
+#+begin_example
 | Product  | Q1    | Q2    | Q3    | Q4    |
 |----------+-------+-------+-------+-------|
 | Widget A | 1,200 | 1,450 | 1,380 | 1,620 |
 | Widget B | 850   | 920   | 1,100 | 1,250 |
 |----------+-------+-------+-------+-------|
 | Total    | 2,050 | 2,370 | 2,480 | 2,870 |
-#+end_src
+#+end_example
 
 * Formulas: The Spreadsheet Awakens
 
 Here's where it gets wild. Org tables can contain formulas:
 
-#+begin_src org
+#+begin_example
 | Item          | Quantity | Price | Total |
 |---------------+----------+-------+-------|
 | Coffee        |        3 |  4.50 | 13.50 |
@@ -95,7 +95,7 @@ Here's where it gets wild. Org tables can contain formulas:
 |---------------+----------+-------+-------|
 | Total         |          |       | 26.00 |
 #+TBLFM: $4=$2*$3::@6$4=vsum(@2..@4)
-#+end_src
+#+end_example
 
 Let's decode that formula line:
 
@@ -145,7 +145,7 @@ Org-Mode writes the formula for you.
 
 ** A Practical Example: Time Tracking
 
-#+begin_src org
+#+begin_example
 | Task           | Hours | Rate | Cost   |
 |----------------+-------+------+--------|
 | Development    |  12.5 |  150 | 1875.0 |
@@ -156,7 +156,7 @@ Org-Mode writes the formula for you.
 | Total          |  25.0 |      | 3475.0 |
 | Average Rate   |       |  137 |        |
 #+TBLFM: $4=$2*$3::@6$2=vsum(@2..@5)::@6$4=vsum(@2..@5)::@7$3=@6$4/@6$2;%.0f
-#+end_src
+#+end_example
 
 This table calculates:
 - Cost per task (hours × rate)
@@ -284,7 +284,7 @@ When the Org table updates, the output auto-updates. Useful for maintaining tabl
 
 Here's a teaser (we'll cover this more in the code blocks chapter):
 
-#+begin_src org
+#+begin_example
 #+PLOT: title:"Sales Data" ind:1 deps:(2 3) type:2d with:linespoints
 | Month | Product A | Product B |
 |-------+-----------+-----------|
@@ -293,7 +293,7 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 | Mar   |       128 |      115  |
 | Apr   |       145 |      122  |
 #+TBLFM: ...
-#+end_src
+#+end_example
 
 =C-c C-c= on the =#+PLOT:= line generates a graph. Plain text tables creating visualizations. Beautiful.
 
@@ -301,7 +301,7 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 
 ** Project Time Budget
 
-#+begin_src org
+#+begin_example
 | Phase          | Budgeted | Actual | Remaining |
 |----------------+----------+--------+-----------|
 | Planning       |       20 |     18 |         2 |
@@ -311,11 +311,11 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |----------------+----------+--------+-----------|
 | Total          |      145 |     71 |        74 |
 #+TBLFM: $4=$2-$3::@6$2=vsum(@2..@5)::@6$3=vsum(@2..@5)::@6$4=vsum(@2..@5)
-#+end_src
+#+end_example
 
 ** Grade Calculator
 
-#+begin_src org
+#+begin_example
 | Assignment | Weight | Score | Weighted |
 |------------+--------+-------+----------|
 | Homework   |    20% |    85 |     17.0 |
@@ -325,11 +325,11 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |------------+--------+-------+----------|
 | Final      |   100% |       |     85.4 |
 #+TBLFM: $4=$2*$3/100::@6$4=vsum(@2..@5)
-#+end_src
+#+end_example
 
 ** Simple Budget
 
-#+begin_src org
+#+begin_example
 | Category      | Budgeted | Spent  | Balance |
 |---------------+----------+--------+---------|
 | Rent          |     1500 |   1500 |       0 |
@@ -340,7 +340,7 @@ Here's a teaser (we'll cover this more in the code blocks chapter):
 |---------------+----------+--------+---------|
 | Total         |     3100 |   3007 |      93 |
 #+TBLFM: $4=$2-$3::@7$2..@7$4=vsum(@2..@6)
-#+end_src
+#+end_example
 
 * Your Exercise
 

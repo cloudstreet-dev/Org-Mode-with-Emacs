@@ -13,19 +13,19 @@ Welcome to literate programming: where code and documentation are one.
 
 We've seen this syntax:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python
 def hello():
     print("Hello from Org-Mode!")
-#+END_SRC
+#+end_example
 #+end_src
 
 But here's the magic. Put cursor in the block and press =C-c C-c=:
 
-#+begin_src org
+#+begin_example
 #+RESULTS:
 : Hello from Org-Mode!
-#+end_src
+#+end_example
 
 The code executed. The output appeared. In your plain text document.
 
@@ -91,22 +91,22 @@ This is how you write real code in org documents without losing coding convenien
 
 Control execution with header arguments:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :results output :exports both
 print("Line 1")
 print("Line 2")
 print("Line 3")
-#+END_SRC
+#+end_example
 #+end_src
 
 Execute with =C-c C-c=:
 
-#+begin_src org
+#+begin_example
 #+RESULTS:
 : Line 1
 : Line 2
 : Line 3
-#+end_src
+#+end_example
 
 ** Essential Header Arguments
 
@@ -139,10 +139,10 @@ More headers coming...
 
 Without sessions, each block runs in isolation:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python
 x = 42
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python
 print(x)  # Error: x not defined
@@ -151,10 +151,10 @@ print(x)  # Error: x not defined
 
 With sessions, state persists:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :session
 x = 42
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python :session
 print(x)  # Works! Outputs: 42
@@ -165,10 +165,10 @@ Same Python interpreter, same namespace. Variables, functions, imports—all per
 
 Multiple named sessions:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :session project-a
 x = 1
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python :session project-b
 x = 2
@@ -181,10 +181,10 @@ Separate environments, same document.
 
 ** Variables from Values
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :var name="Alice" age=30
 print(f"{name} is {age} years old")
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 : Alice is 30 years old
@@ -192,7 +192,7 @@ print(f"{name} is {age} years old")
 
 ** Variables from Tables
 
-#+begin_src org
+#+begin_example
 #+NAME: sales-data
 | Product | Q1 | Q2 | Q3 | Q4 |
 |---------+----+----+----+----|
@@ -203,7 +203,7 @@ print(f"{name} is {age} years old")
 import pandas as pd
 df = pd.DataFrame(data[1:], columns=data[0])
 print(df.sum(numeric_only=True))
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 : Q1    30
@@ -216,11 +216,11 @@ Table becomes 2D list. Process with any language.
 
 ** Variables from Block Output
 
-#+begin_src org
+#+begin_example
 #+NAME: generate-data
 #+BEGIN_SRC python
 return [1, 2, 3, 4, 5]
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python :var numbers=generate-data
 print(sum(numbers))
@@ -236,7 +236,7 @@ Chain blocks together. One block's output feeds another's input.
 
 Code can generate tables:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :results value table
 return [
     ['Name', 'Age', 'City'],
@@ -244,7 +244,7 @@ return [
     ['Bob', 35, 'Seattle'],
     ['Carol', 42, 'Vancouver']
 ]
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 | Name  | Age | City      |
@@ -260,7 +260,7 @@ Generate org tables from code. Add formulas. Instant data reports.
 
 Generate graphs:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :results file
 import matplotlib.pyplot as plt
 import numpy as np
@@ -272,7 +272,7 @@ plt.plot(x, y)
 plt.title('Sine Wave')
 plt.savefig('sine.png')
 return 'sine.png'
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 [[file:sine.png]]
@@ -282,10 +282,10 @@ The plot appears in your document. Update code, re-execute, plot updates.
 
 With R:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC R :results graphics file :file plot.png
 plot(cars)
-#+END_SRC
+#+end_example
 #+end_src
 
 With gnuplot, ditaa, graphviz—dozens of options.
@@ -294,7 +294,7 @@ With gnuplot, ditaa, graphviz—dozens of options.
 
 Donald Knuth's original idea: write programs as explanations, with code woven throughout.
 
-#+begin_src org
+#+begin_example
 * Calculate Fibonacci Numbers
 
 The Fibonacci sequence starts with 0 and 1. Each subsequent number is the
@@ -309,7 +309,7 @@ def fib_recursive(n):
     if n <= 1:
         return n
     return fib_recursive(n-1) + fib_recursive(n-2)
-#+END_SRC
+#+end_example
 
 This is elegant but slow due to repeated calculations. Let's test it:
 
@@ -359,7 +359,7 @@ Code, explanation, tests, benchmarks—all in one document. Export to PDF for sh
 
 Write code in org, export to source files:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :tangle fib.py
 def fibonacci(n):
     """Calculate nth Fibonacci number"""
@@ -372,18 +372,18 @@ def fibonacci(n):
 
 if __name__ == "__main__":
     print([fibonacci(i) for i in range(10)])
-#+END_SRC
+#+end_example
 #+end_src
 
 Run =M-x org-babel-tangle= or =C-c C-v t=. Org extracts code to =fib.py=.
 
 Multiple blocks can contribute to one file:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :tangle program.py
 import sys
 
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python :tangle program.py
 def main():
@@ -403,12 +403,12 @@ Tangle creates =program.py= with all blocks combined in order.
 
 Reference other blocks by name:
 
-#+begin_src org
+#+begin_example
 #+NAME: imports
 #+BEGIN_SRC python :tangle no
 import sys
 import os
-#+END_SRC
+#+end_example
 
 #+NAME: functions
 #+BEGIN_SRC python :tangle no
@@ -435,9 +435,9 @@ if __name__ == "__main__":
 
 Execute code inline with results in text:
 
-#+begin_src org
+#+begin_example
 The sum of 2 + 2 is src_python[:exports results]{return 2+2} {{{results(=4=)}}}.
-#+end_src
+#+end_example
 
 Exports as: "The sum of 2 + 2 is 4."
 
@@ -447,10 +447,10 @@ Live calculations in prose.
 
 Query databases directly:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC sqlite :db mydatabase.db
 SELECT name, age FROM users WHERE age > 25;
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 | name  | age |
@@ -464,20 +464,20 @@ Results as org tables. Add formulas, analyze data.
 
 With PostgreSQL:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC sql :engine postgresql :database mydb :user myuser
 SELECT * FROM orders WHERE status = 'pending';
-#+END_SRC
+#+end_example
 #+end_src
 
 Your documentation queries production databases. Be careful, but powerful.
 
 * Shell Scripts
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC shell
 ls -la ~/org | head -10
-#+END_SRC
+#+end_example
 
 #+RESULTS:
 : total 128
@@ -492,59 +492,59 @@ Document system administration with executable examples.
 * Advanced Header Arguments
 
 *:dir* - Working directory:
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC shell :dir ~/projects/myapp
 ls
-#+END_SRC
+#+end_example
 #+end_src
 
 *:file* - Output file:
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC dot :file diagram.png
 digraph { A -> B; B -> C; }
-#+END_SRC
+#+end_example
 #+end_src
 
 *:cache* - Cache results:
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :cache yes
 # Expensive computation
 import time
 time.sleep(5)
 return "Done"
-#+END_SRC
+#+end_example
 #+end_src
 
 Re-run only if code changes.
 
 *:cmdline* - Command-line arguments:
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC shell :cmdline -n 5
 head
-#+END_SRC
+#+end_example
 #+end_src
 
 *:stdin* - Provide input:
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :stdin example-data
 import sys
 print(sys.stdin.read().upper())
-#+END_SRC
+#+end_example
 #+end_src
 
 * Document-Wide Defaults
 
 Set defaults for entire file:
 
-#+begin_src org
+#+begin_example
 #+PROPERTY: header-args :session mysession :results output
-#+end_src
+#+end_example
 
 All blocks in file use these settings unless overridden.
 
 Per-subtree:
 
-#+begin_src org
+#+begin_example
 * Python Examples
   :PROPERTIES:
   :header-args:python: :session py :results output
@@ -553,7 +553,7 @@ Per-subtree:
 ** Example 1
 #+BEGIN_SRC python
 print("Uses :session py :results output")
-#+END_SRC
+#+end_example
 #+end_src
 
 * Reproducible Research

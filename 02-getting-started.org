@@ -65,7 +65,7 @@ Let's create your first =.org= file. In Emacs:
 
 Congratulations! You're now in Org-Mode. Let's type something:
 
-#+begin_src org
+#+begin_example
 * Welcome to Org-Mode
 
 This is a top-level heading. The asterisk at the start makes it special.
@@ -91,7 +91,7 @@ thoughts, notes—whatever you need.
 
 Org files are organized as an outline. This structure is the foundation of
 everything else.
-#+end_src
+#+end_example
 
 Type this into your file (or something like it—creativity encouraged).
 
@@ -171,7 +171,7 @@ Don't panic if elisp is unfamiliar. You're not expected to become an Emacs Lisp 
 
 An Org file is fundamentally an outline with superpowers:
 
-#+begin_src org
+#+begin_example
 * Level 1
 ** Level 2
 *** Level 3
@@ -179,7 +179,7 @@ An Org file is fundamentally an outline with superpowers:
 
 Back to level 1
 ** Another Level 2
-#+end_src
+#+end_example
 
 That's it. That's the core structure. Everything else in Org-Mode—todos, timestamps, tags, properties, tables, code blocks—gets added to this outline foundation.
 

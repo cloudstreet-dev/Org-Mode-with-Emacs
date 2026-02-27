@@ -81,20 +81,20 @@ Encrypt sensitive headings:
 
 Tag heading with =:crypt:=:
 
-#+begin_src org
+#+begin_example
 * Passwords                                      :crypt:
   MyBank: password123
   Email: supersecret456
-#+end_src
+#+end_example
 
 Save file → heading encrypts automatically:
 
-#+begin_src org
+#+begin_example
 * Passwords                                      :crypt:
 -----BEGIN PGP MESSAGE-----
 [encrypted content]
 -----END PGP MESSAGE-----
-#+end_src
+#+end_example
 
 Open file → Org decrypts on demand. Plain text security.
 
@@ -127,9 +127,9 @@ Reference attachments in exports. Everything in one ecosystem.
 
 Remember column view? Add calculations:
 
-#+begin_src org
+#+begin_example
 #+COLUMNS: %25ITEM %ESTIMATE{+} %ACTUAL{+} %REMAINING
-#+end_src
+#+end_example
 
 The ={+}= sums values. Parent headings show totals.
 
@@ -137,10 +137,10 @@ The ={+}= sums values. Parent headings show totals.
 
 Create reports:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: columnview :hlines 1 :id local :format "%ITEM %EFFORT{+} %CLOCKSUM{+}"
 #+END:
-#+end_src
+#+end_example
 
 Generates effort vs. actual time reports. Track estimation accuracy.
 
@@ -150,10 +150,10 @@ Generates effort vs. actual time reports. Track estimation accuracy.
 
 Execute code on remote machines:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC shell :dir /ssh:user@remote:/path/to/dir
 ls -la
-#+END_SRC
+#+end_example
 #+end_src
 
 Tramp integration. Document remote operations.
@@ -162,10 +162,10 @@ Tramp integration. Document remote operations.
 
 Chain multiple languages:
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC shell :results output
 curl -s https://api.example.com/data.json
-#+END_SRC
+#+end_example
 
 #+BEGIN_SRC python :var data=previous-block
 import json
@@ -182,14 +182,14 @@ Fetch with shell → Parse with Python → Visualize with R. All in one document
 
 ** Unit Tests in Documentation
 
-#+begin_src org
+#+begin_example
 * Function: calculate_tax
 
 #+NAME: tax-function
 #+BEGIN_SRC python
 def calculate_tax(income, rate=0.2):
     return income * rate
-#+END_SRC
+#+end_example
 
 * Tests
 
@@ -242,7 +242,7 @@ Reading email, press capture key → creates TODO with link back to email. Never
 
 Track multiple habits with different intervals:
 
-#+begin_src org
+#+begin_example
 * TODO Exercise                                  :health:
   SCHEDULED: <2025-01-15 Wed .+1d>
   :PROPERTIES:
@@ -261,7 +261,7 @@ Track multiple habits with different intervals:
   :STYLE: habit
   :LAST_REPEAT: [2025-01-14 Tue 18:30]
   :END:
-#+end_src
+#+end_example
 
 Agenda shows consistency graphs for each. Visual accountability.
 
@@ -373,10 +373,10 @@ Infinitely extensible.
 
 Generate effort reports:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: columnview :hlines 2 :id local :format "%50ITEM(Task) %10EFFORT(Estimated){:} %10CLOCKSUM(Actual){:}"
 #+END:
-#+end_src
+#+end_example
 
 Compare estimated vs. actual across projects. Improve estimates over time.
 
@@ -392,7 +392,7 @@ Complex task dependencies:
 
 Define:
 
-#+begin_src org
+#+begin_example
 * TODO Task A
   :PROPERTIES:
   :TRIGGER: Task B TODO
@@ -402,7 +402,7 @@ Define:
   :PROPERTIES:
   :BLOCKER: Task A
   :END:
-#+end_src
+#+end_example
 
 Complete Task A → Task B auto-changes to TODO. Task B can't complete until Task A done.
 
@@ -424,13 +424,13 @@ Each top-level heading becomes a slide. Navigate with arrow keys. Simple present
 
 Flashcards in org:
 
-#+begin_src org
+#+begin_example
 * Question                                       :drill:
   What is the capital of France?
 
 ** Answer
    Paris
-#+end_src
+#+end_example
 
 =M-x org-drill= - Start drill session
 
@@ -461,13 +461,13 @@ With =org-ref=:
 
 Cite papers:
 
-#+begin_src org
+#+begin_example
 * Introduction
   Recent studies show cite:knuth1984literate that literate programming...
 
 * Bibliography
   bibliography:~/papers/references.bib
-#+end_src
+#+end_example
 
 Export to LaTeX → citations formatted properly.
 

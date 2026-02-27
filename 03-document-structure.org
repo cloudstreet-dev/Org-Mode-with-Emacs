@@ -11,11 +11,11 @@ You've mastered the basics: headings, folding, moving things around. Now let's e
 
 We've established that asterisks create headings:
 
-#+begin_src org
+#+begin_example
 * One asterisk = Level 1
 ** Two asterisks = Level 2
 *** Three asterisks = Level 3
-#+end_src
+#+end_example
 
 But headings in Org-Mode are more than visual organization—they're structural containers with their own properties, metadata, and behaviors.
 
@@ -23,7 +23,7 @@ But headings in Org-Mode are more than visual organization—they're structural 
 
 A complete heading can include several components:
 
-#+begin_src org
+#+begin_example
 * TODO Write documentation :work:urgent:
   SCHEDULED: <2025-01-15 Wed>
   :PROPERTIES:
@@ -32,7 +32,7 @@ A complete heading can include several components:
 
   This is the heading body. Everything until the next heading belongs to
   this section.
-#+end_src
+#+end_example
 
 Let's break this down:
 - =*= - The level indicator
@@ -49,14 +49,14 @@ Each component is optional. A heading can be just =* Simple= or a metadata-rich 
 
 Org-Mode supports rich text formatting using simple markup:
 
-#+begin_src org
+#+begin_example
 *bold text*
 /italic text/
 _underlined text_
 =verbatim text= (displayed in monospace)
 ~code~ (also monospace)
 +strikethrough text+
-#+end_src
+#+end_example
 
 When Org-Mode displays these, they render beautifully, but open the file in any text editor and it's still human-readable. This is the plain-text philosophy in action.
 
@@ -64,9 +64,9 @@ When Org-Mode displays these, they render beautifully, but open the file in any 
 
 Need to write an actual asterisk without creating a heading? Precede it with a comma or use a zero-width space:
 
-#+begin_src org
+#+begin_example
 ,* This is not a heading
-#+end_src
+#+end_example
 
 * Lists: Bullets, Numbers, and Checkboxes
 
@@ -74,7 +74,7 @@ Org-Mode has sophisticated list support. Simple to start, powerful when you need
 
 ** Unordered Lists
 
-#+begin_src org
+#+begin_example
 * Shopping List
   - Milk
   - Eggs
@@ -83,13 +83,13 @@ Org-Mode has sophisticated list support. Simple to start, powerful when you need
   - Coffee
     - Dark roast
   - Bread
-#+end_src
+#+end_example
 
 Start a line with =-=, =+=, or =*= (if not at the start of the line) to create a list item. Press =M-RET= on a list item to create another at the same level.
 
 ** Ordered Lists
 
-#+begin_src org
+#+begin_example
 * Recipe Steps
   1. Preheat oven to 350°F
   2. Mix dry ingredients
@@ -98,19 +98,19 @@ Start a line with =-=, =+=, or =*= (if not at the start of the line) to create a
      3. Baking powder
   3. Add wet ingredients
   4. Bake for 25 minutes
-#+end_src
+#+end_example
 
 Org-Mode automatically renumbers lists when you add or remove items. Move an item with =M-up/down= and the numbers update automatically. It's the little things.
 
 ** Description Lists
 
-#+begin_src org
+#+begin_example
 * Git Commands
   - git add :: Stage changes for commit
   - git commit :: Save staged changes to history
   - git push :: Send commits to remote repository
   - git pull :: Fetch and merge remote changes
-#+end_src
+#+end_example
 
 The =::= separator creates description lists—perfect for glossaries, definitions, or any term/description pairs.
 
@@ -118,7 +118,7 @@ The =::= separator creates description lists—perfect for glossaries, definitio
 
 Here's where lists get seriously useful:
 
-#+begin_src org
+#+begin_example
 * Project Tasks
   - [ ] Design mockups
   - [ ] Get client approval
@@ -129,26 +129,26 @@ Here's where lists get seriously useful:
     - [ ] Dashboard
     - [ ] Reports
   - [ ] Deploy to staging
-#+end_src
+#+end_example
 
 =[ ]= creates an unchecked box, =[X]= is checked. Press =C-c C-c= (Control-c twice) on a checkbox to toggle it.
 
 The magic: parent items show completion statistics:
 
-#+begin_src org
+#+begin_example
 * Project Tasks [1/5]
   - [ ] Task 1
   - [X] Task 2
   - [ ] Task 3
   - [ ] Task 4
   - [ ] Task 5
-#+end_src
+#+end_example
 
 Or as a percentage:
 
-#+begin_src org
+#+begin_example
 * Project Tasks [20%]
-#+end_src
+#+end_example
 
 Add =[/]= or =[%]= after the heading text, and Org-Mode calculates it automatically when you toggle child checkboxes. This is phenomenal for tracking progress in nested task lists.
 
@@ -182,7 +182,7 @@ Narrowing is underrated. Working on one section of a large document? Narrow to i
 
 Drawers are collapsible sections for metadata that you don't need to see all the time:
 
-#+begin_src org
+#+begin_example
 * Project Meeting Notes
   :PROPERTIES:
   :MEETING_DATE: 2025-01-15
@@ -195,19 +195,19 @@ Drawers are collapsible sections for metadata that you don't need to see all the
   :END:
 
   The actual meeting notes go here.
-#+end_src
+#+end_example
 
 The =:PROPERTIES:= drawer stores key-value pairs. The =:LOGBOOK:= drawer (auto-created) stores notes and state changes. Press TAB on a drawer to collapse/expand it.
 
 You can create custom drawers too:
 
-#+begin_src org
+#+begin_example
 * Project
   :RESOURCES:
   - https://docs.example.com
   - https://github.com/example/repo
   :END:
-#+end_src
+#+end_example
 
 * Blocks: Special Sections
 
@@ -215,42 +215,42 @@ Blocks are regions with special formatting or behavior:
 
 ** Quote Blocks
 
-#+begin_src org
+#+begin_example
 #+BEGIN_QUOTE
 The best way to predict the future is to invent it.
 — Alan Kay
 #+END_QUOTE
-#+end_src
+#+end_example
 
 ** Example Blocks
 
-#+begin_src org
+#+begin_example
 #+BEGIN_EXAMPLE
 This text is displayed in monospace
 and preserves    spacing     exactly.
 #+END_EXAMPLE
-#+end_src
+#+end_example
 
 ** Source Code Blocks
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python
 def fibonacci(n):
     if n <= 1:
         return n
     return fibonacci(n-1) + fibonacci(n-2)
-#+END_SRC
+#+end_example
 #+end_src
 
 We'll dive deep into code blocks in Chapter 11 (spoiler: they're executable).
 
 ** Center Blocks
 
-#+begin_src org
+#+begin_example
 #+BEGIN_CENTER
 This text will be centered when exported.
 #+END_CENTER
-#+end_src
+#+end_example
 
 Press =C-c '= (Control-c single-quote) inside a code block to edit it in a dedicated buffer with full syntax highlighting and language-specific features. Edit, then =C-c '= again to return. It's magical.
 
@@ -258,7 +258,7 @@ Press =C-c '= (Control-c single-quote) inside a code block to edit it in a dedic
 
 Sometimes you need notes that don't export:
 
-#+begin_src org
+#+begin_example
 # This is a comment line (won't export)
 
 * A Regular Heading
@@ -272,21 +272,21 @@ Great for draft notes or internal documentation.
 #+END_COMMENT
 
 This also exports.
-#+end_src
+#+end_example
 
 You can also comment entire subtrees:
 
-#+begin_src org
+#+begin_example
 * COMMENT This heading won't export
   Neither will anything inside it.
   Great for drafts or deprecated sections.
-#+end_src
+#+end_example
 
 * Footnotes: Academic Precision
 
 Org-Mode has first-class footnote support:
 
-#+begin_src org
+#+begin_example
 The Org-Mode manual[fn:1] is comprehensive but dense. Some prefer community
 guides[fn:2] for learning.
 
@@ -295,13 +295,13 @@ guides[fn:2] for learning.
 [fn:1] https://orgmode.org/manual/
 
 [fn:2] Various blogs and tutorials exist, though quality varies.
-#+end_src
+#+end_example
 
 Or use inline footnotes:
 
-#+begin_src org
+#+begin_example
 Org-Mode was created in 2003[fn::Though it built on earlier work in Outline mode].
-#+end_src
+#+end_example
 
 Press =C-c C-c= on a footnote reference to jump to its definition. Press it again to jump back. Org-Mode handles numbering automatically.
 
@@ -309,7 +309,7 @@ Press =C-c C-c= on a footnote reference to jump to its definition. Press it agai
 
 Sometimes you need a visual separator:
 
-#+begin_src org
+#+begin_example
 * Section One
 
 Content here.
@@ -319,7 +319,7 @@ Content here.
 * Section Two
 
 More content.
-#+end_src
+#+end_example
 
 Five or more dashes on a line creates a horizontal rule.
 
@@ -327,14 +327,14 @@ Five or more dashes on a line creates a horizontal rule.
 
 Documents grow. Eventually you'll want to move completed or outdated items without deleting them:
 
-#+begin_src org
+#+begin_example
 * Active Projects
 ** TODO Current work
 ** DONE Old project
    :PROPERTIES:
    :ARCHIVE: this/file/name.org::* Archived Projects
    :END:
-#+end_src
+#+end_example
 
 =C-c C-x C-a= archives the current subtree, moving it to your archive file (or archive location) while preserving its structure and metadata.
 

@@ -317,11 +317,11 @@ Never miss a deadline again.
 
 Both show in agenda, but differently:
 
-#+begin_src org
+#+begin_example
 * TODO Write report
   SCHEDULED: <2025-01-15 Wed>
   DEADLINE: <2025-01-20 Mon>
-#+end_src
+#+end_example
 
 In agenda:
 - Jan 15: "Scheduled: TODO Write report"
@@ -341,13 +341,13 @@ Control this with:
 
 Org-Mode has built-in habit tracking:
 
-#+begin_src org
+#+begin_example
 * TODO Exercise
   SCHEDULED: <2025-01-15 Wed .+1d>
   :PROPERTIES:
   :STYLE: habit
   :END:
-#+end_src
+#+end_example
 
 The =.+1d= makes it repeat daily from completion date. The =STYLE: habit= property makes Org track it as a habit.
 

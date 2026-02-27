@@ -13,15 +13,15 @@ And yes, you can even embed images. In a text editor. Let that sink in.
 
 Links in Org-Mode look like this:
 
-#+begin_src org
+#+begin_example
 [[link-target][description]]
-#+end_src
+#+end_example
 
 Or without a description:
 
-#+begin_src org
+#+begin_example
 [[link-target]]
-#+end_src
+#+end_example
 
 The target can be almost anything: URLs, files, headings, custom IDs, emails, code references, or even custom link types you define yourself.
 
@@ -29,16 +29,16 @@ The target can be almost anything: URLs, files, headings, custom IDs, emails, co
 
 The simplest case:
 
-#+begin_src org
+#+begin_example
 [[https://orgmode.org][Org-Mode Official Site]]
-#+end_src
+#+end_example
 
 Displays as a clickable link: "Org-Mode Official Site"
 
 Without a description:
-#+begin_src org
+#+begin_example
 [[https://orgmode.org]]
-#+end_src
+#+end_example
 
 Displays the URL itself.
 
@@ -48,9 +48,9 @@ Press =C-c C-o= (Control-c Control-o) on a link to open it. Web links open in yo
 
 For quick URL insertion without formatting:
 
-#+begin_src org
+#+begin_example
 <https://example.com>
-#+end_src
+#+end_example
 
 Automatically becomes a clickable link. Useful for quick notes where you don't need descriptive text.
 
@@ -58,11 +58,11 @@ Automatically becomes a clickable link. Useful for quick notes where you don't n
 
 Link to other files:
 
-#+begin_src org
+#+begin_example
 [[file:~/org/projects.org][My Projects]]
 [[file:./meeting-notes.org][Today's Meeting]]
 [[file:/path/to/document.pdf]]
-#+end_src
+#+end_example
 
 Relative paths work. Absolute paths work. =~/= expansion works. Press =C-c C-o= on a file link and Org opens it—in Emacs for text files, external programs for PDFs, images, etc.
 
@@ -70,29 +70,29 @@ Relative paths work. Absolute paths work. =~/= expansion works. Press =C-c C-o= 
 
 Here's where it gets powerful:
 
-#+begin_src org
+#+begin_example
 [[file:projects.org::*Project Alpha][Project Alpha Details]]
-#+end_src
+#+end_example
 
 The =::*Project Alpha= part jumps directly to the heading named "Project Alpha" in that file.
 
 Other location specifiers:
-#+begin_src org
+#+begin_example
 [[file:code.py::42][Line 42 of code.py]]
 [[file:document.org::#custom-id][Heading with custom ID]]
 [[file:notes.org::/regex search/][Search results]]
-#+end_src
+#+end_example
 
 ** Linking to Headings in the Current File
 
-#+begin_src org
+#+begin_example
 * Project Ideas
 ** TODO Implement feature X
    See the [[*Research Notes][research section]] for background.
 
 * Research Notes
   Background information here...
-#+end_src
+#+end_example
 
 The =*= prefix links to a heading by name in the current file. Click it, jump instantly. This is how you build internal document structure.
 
@@ -100,7 +100,7 @@ The =*= prefix links to a heading by name in the current file. Click it, jump in
 
 For stable links that survive heading renames:
 
-#+begin_src org
+#+begin_example
 * Important Section
   :PROPERTIES:
   :CUSTOM_ID: important-section
@@ -110,7 +110,7 @@ For stable links that survive heading renames:
 
 * Other Section
   For details, see [[#important-section][the important section]].
-#+end_src
+#+end_example
 
 Rename "Important Section" to anything—the link still works because it targets the custom ID, not the heading text.
 
@@ -118,18 +118,18 @@ Rename "Important Section" to anything—the link still works because it targets
 
 For serious knowledge management, use IDs:
 
-#+begin_src org
+#+begin_example
 * Meeting Notes
   :PROPERTIES:
   :ID: 8A7F6B2C-3D4E-5F6A-9B8C-1D2E3F4A5B6C
   :END:
-#+end_src
+#+end_example
 
 Generate an ID with =M-x org-id-get-create=. Then link to it:
 
-#+begin_src org
+#+begin_example
 [[id:8A7F6B2C-3D4E-5F6A-9B8C-1D2E3F4A5B6C][Meeting Notes]]
-#+end_src
+#+end_example
 
 IDs are globally unique. Move the heading to another file? The link follows. Rename the heading? Link still works. This is how you build a personal knowledge base that survives reorganization.
 
@@ -175,11 +175,11 @@ Tired of typing long URLs? Define abbreviations:
 #+end_src
 
 Then use:
-#+begin_src org
+#+begin_example
 [[wiki:Org-mode][Org-Mode Wikipedia]]
 [[rfc:2616][HTTP/1.1 Specification]]
 [[gh:org-mode/org-mode][Org-Mode GitHub]]
-#+end_src
+#+end_example
 
 Much cleaner.
 
@@ -187,14 +187,14 @@ Much cleaner.
 
 Org-Mode can display images inline:
 
-#+begin_src org
+#+begin_example
 [[file:~/Pictures/diagram.png]]
-#+end_src
+#+end_example
 
 With a description:
-#+begin_src org
+#+begin_example
 [[file:./screenshot.png][Project Screenshot]]
-#+end_src
+#+end_example
 
 To actually see images in your Emacs buffer:
 - =C-c C-x C-v= - Toggle inline images
@@ -205,11 +205,11 @@ Suddenly your text editor shows images. Welcome to the future of 1990s technolog
 
 Control image display:
 
-#+begin_src org
+#+begin_example
 #+ATTR_HTML: :width 300px
 #+ATTR_LATEX: :width 0.5\textwidth
 [[file:diagram.png]]
-#+end_src
+#+end_example
 
 Different attributes for different export formats. The image adapts.
 
@@ -217,9 +217,9 @@ Different attributes for different export formats. The image adapts.
 
 Make an image clickable:
 
-#+begin_src org
+#+begin_example
 [[https://example.com][file:thumbnail.png]]
-#+end_src
+#+end_example
 
 The image becomes a link. Click it, go to the URL.
 
@@ -227,14 +227,14 @@ The image becomes a link. Click it, go to the URL.
 
 If you use Emacs for email (with mu4e, notmuch, or similar):
 
-#+begin_src org
+#+begin_example
 [[mailto:alice@example.com][Email Alice]]
-#+end_src
+#+end_example
 
 Or link to specific emails (with appropriate email client):
-#+begin_src org
+#+begin_example
 [[mu4e:msgid:abc123@example.com][Project Discussion Thread]]
-#+end_src
+#+end_example
 
 Your email archive becomes part of your knowledge base.
 
@@ -242,27 +242,27 @@ Your email archive becomes part of your knowledge base.
 
 Execute commands:
 
-#+begin_src org
+#+begin_example
 [[shell:ls -la ~][List home directory]]
 [[elisp:(message "Hello from Org-Mode")][Run elisp code]]
-#+end_src
+#+end_example
 
 =C-c C-o= on these runs the command. Use with caution—shell links can do anything your user account can do.
 
 Practical use:
-#+begin_src org
+#+begin_example
 [[elisp:(org-agenda nil "a")][Open Agenda]]
 [[shell:open ~/Documents][Open Documents Folder]]
-#+end_src
+#+end_example
 
 * Search Links
 
 Link to search results:
 
-#+begin_src org
+#+begin_example
 [[grep:TODO][Find all TODOs]]
 [[occur:IMPORTANT][Find IMPORTANT in buffer]]
-#+end_src
+#+end_example
 
 Not standard, but you can define custom link types that perform searches.
 
@@ -281,9 +281,9 @@ Define your own link types:
 #+end_src
 
 Now use:
-#+begin_src org
+#+begin_example
 [[jira:PROJ-1234][Bug Report]]
-#+end_src
+#+end_example
 
 Links become infinitely extensible. Point them at internal databases, APIs, custom tools—whatever you need.
 
@@ -291,12 +291,12 @@ Links become infinitely extensible. Point them at internal databases, APIs, cust
 
 Remember footnotes from Chapter 3? They're really just links:
 
-#+begin_src org
+#+begin_example
 The Org manual[fn:1] contains everything, though it's dense[fn::inline footnote here].
 
 * Footnotes
 [fn:1] Available at https://orgmode.org/manual/
-#+end_src
+#+end_example
 
 =C-c C-c= on the footnote reference jumps to the definition. Press again to return.
 
@@ -344,7 +344,7 @@ With file links, custom IDs, and inline images, you can build a personal wiki:
 #+end_example
 
 In =index.org=:
-#+begin_src org
+#+begin_example
 * My Wiki
 
 Welcome to my personal knowledge base.
@@ -357,7 +357,7 @@ Welcome to my personal knowledge base.
 ** Recent Additions
 - [[file:projects.org::*Project Alpha][Project Alpha launched]]
 - [[file:notes.org::#idea-123][New product idea]]
-#+end_src
+#+end_example
 
 Cross-reference freely. The links maintain structure even as content grows.
 
@@ -374,7 +374,7 @@ If you're building a serious knowledge base, explore these packages. They superc
 
 ** Project Documentation
 
-#+begin_src org
+#+begin_example
 * Project: New Website
   :PROPERTIES:
   :ID: project-website-2025
@@ -385,11 +385,11 @@ If you're building a serious knowledge base, explore these packages. They superc
 - [[https://github.com/myorg/website][GitHub Repository]]
 - [[file:designs/mockup.png][Design Mockup]]
 - [[id:meeting-2025-01-15][Kickoff Meeting Notes]]
-#+end_src
+#+end_example
 
 ** Research Notes
 
-#+begin_src org
+#+begin_example
 * Paper: "Effective Note-Taking"
   :PROPERTIES:
   :ID: paper-effective-notes
@@ -407,18 +407,18 @@ Key findings discussed in [[#my-analysis][my analysis]].
    :END:
 
 The authors claim...
-#+end_src
+#+end_example
 
 ** Tutorial/Documentation
 
-#+begin_src org
+#+begin_example
 * Setup Instructions
 
 1. Download the [[file:installer.dmg][installer]]
 2. Follow the [[file:setup-guide.org::*Installation][installation guide]]
 3. Configure using [[file:config-example.txt][this example config]]
 4. See [[file:screenshots/dashboard.png][expected result]]
-#+end_src
+#+end_example
 
 * Your Exercise
 

@@ -11,12 +11,12 @@ You've organized your tasks. Now let's make them searchable, filterable, and que
 
 Tags attach labels to headings:
 
-#+begin_src org
+#+begin_example
 * TODO Fix authentication bug                    :urgent:bug:security:
 * Meeting notes from client call                 :meeting:client:acme:
 * Ideas for next sprint                          :planning:ideas:
 * DONE Implement user dashboard                  :feature:frontend:done:
-#+end_src
+#+end_example
 
 Tags appear at the end of the heading line, wrapped in colons. One tag looks like =:tag:=, multiple tags like =:tag1:tag2:tag3:=.
 
@@ -36,11 +36,11 @@ Tags are case-sensitive. =:Work:= and =:work:= are different. Choose a conventio
 
 By default, tags inherit. A child heading has all its parent's tags:
 
-#+begin_src org
+#+begin_example
 * Project Alpha                                  :work:client_a:
 ** TODO Design phase                             :design:
 ** TODO Development phase                        :development:
-#+end_src
+#+end_example
 
 "Design phase" effectively has tags =:work:client_a:design:=. "Development phase" has =:work:client_a:development:=. You don't repeat common tags—inheritance handles it.
 
@@ -92,10 +92,10 @@ Groups are mutually exclusive. Adding =@office= removes =@home= and =@errands=. 
 
 Set tags available in specific files:
 
-#+begin_src org
+#+begin_example
 #+TAGS: work(w) personal(p) urgent(u)
 #+TAGS: { @office(o) @home(h) @errands(e) }
-#+end_src
+#+end_example
 
 The ={}= creates a mutually exclusive group (same as =:startgroup:= in elisp).
 
@@ -103,9 +103,9 @@ The ={}= creates a mutually exclusive group (same as =:startgroup:= in elisp).
 
 Apply tags to the entire file:
 
-#+begin_src org
+#+begin_example
 #+FILETAGS: :project_alpha:confidential:
-#+end_src
+#+end_example
 
 Every heading in the file inherits these tags. Useful for project-specific files.
 
@@ -138,7 +138,7 @@ Your entire Org system becomes searchable by arbitrary tag combinations.
 
 Tags are simple labels. Properties are key-value pairs for structured data:
 
-#+begin_src org
+#+begin_example
 * TODO Implement new feature
   :PROPERTIES:
   :EFFORT: 4:00
@@ -148,7 +148,7 @@ Tags are simple labels. Properties are key-value pairs for structured data:
   :ASSIGNED: Alice
   :DUE_DATE: <2025-01-31 Wed>
   :END:
-#+end_src
+#+end_example
 
 Properties live in a =:PROPERTIES:= drawer. Each property is a key-value pair.
 
@@ -174,7 +174,7 @@ Others are custom metadata you define.
 
 Like tags, properties can inherit:
 
-#+begin_src org
+#+begin_example
 * Project: Website Redesign
   :PROPERTIES:
   :CLIENT: ACME Corp
@@ -183,7 +183,7 @@ Like tags, properties can inherit:
 
 ** TODO Design mockups
 ** TODO Implement frontend
-#+end_src
+#+end_example
 
 If =CLIENT= is set to inherit, all subtasks automatically have =CLIENT: ACME Corp=.
 
@@ -203,11 +203,11 @@ Or inherit all properties (be careful—this can slow down large files):
 
 Constrain property values for consistency:
 
-#+begin_src org
+#+begin_example
 #+PROPERTY: ASSIGNED_ALL Alice Bob Carol Dave
 #+PROPERTY: STATUS_ALL Open In-Progress Blocked Completed
 #+PROPERTY: PRIORITY_ALL Low Medium High Critical
-#+end_src
+#+end_example
 
 Now when setting these properties, Org offers completion from the allowed values. No typos, no inconsistent data.
 
@@ -239,9 +239,9 @@ Edit properties directly in the column view. Press =q= to exit.
 
 Define which columns to show:
 
-#+begin_src org
+#+begin_example
 #+COLUMNS: %25ITEM %ASSIGNED %EFFORT %STATUS
-#+end_src
+#+end_example
 
 Or globally:
 
@@ -255,14 +255,14 @@ Column view transforms Org files into databases with editable spreadsheet views.
 
 Create property summaries:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: columnview :hlines 1 :id local
 #+END:
-#+end_src
+#+end_example
 
 Place cursor on =#+BEGIN:= line and press =C-c C-c=. Org generates a table from properties:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: columnview :hlines 1 :id local
 | ITEM              | ASSIGNED | EFFORT | STATUS      |
 |-------------------+----------+--------+-------------|
@@ -270,7 +270,7 @@ Place cursor on =#+BEGIN:= line and press =C-c C-c=. Org generates a table from 
 | Write tests       | Bob      | 2:00   | Open        |
 | Deploy            | Carol    | 1:00   | Blocked     |
 #+END:
-#+end_src
+#+end_example
 
 Update properties and regenerate with =C-c C-c=. The table auto-updates.
 
@@ -323,7 +323,7 @@ This is query language built into plain text.
 
 Tags for broad categories, properties for specific metadata:
 
-#+begin_src org
+#+begin_example
 * TODO Implement payment processing              :feature:backend:urgent:
   SCHEDULED: <2025-01-20 Mon>
   :PROPERTIES:
@@ -333,7 +333,7 @@ Tags for broad categories, properties for specific metadata:
   :COMPLEXITY: High
   :SECURITY_REVIEW: Required
   :END:
-#+end_src
+#+end_example
 
 Now you can query:
 - "All backend features" (tag search)
@@ -363,7 +363,7 @@ Tag tasks by where they can be done. Filter your task list by current context.
 
 ** Project-Based
 
-#+begin_src org
+#+begin_example
 #+FILETAGS: :project_alpha:
 #+PROPERTY: CLIENT ACME Corp
 #+PROPERTY: PROJECT_CODE ALPHA-2025
@@ -373,7 +373,7 @@ Tag tasks by where they can be done. Filter your task list by current context.
    :PROPERTIES:
    :PHASE: Planning
    :END:
-#+end_src
+#+end_example
 
 All tasks inherit project context.
 
@@ -390,7 +390,7 @@ Tag tasks by required energy. When you're tired, filter for low-energy tasks.
 
 ** Work Breakdown Structure
 
-#+begin_src org
+#+begin_example
 * Project: Website Redesign
   :PROPERTIES:
   :PROJECT_ID: WEB-2025-01
@@ -411,7 +411,7 @@ Tag tasks by required energy. When you're tired, filter for low-energy tasks.
    :PROPERTIES:
    :BUDGET_ALLOCATED: 25000
    :END:
-#+end_src
+#+end_example
 
 Track budgets, phases, and allocation through properties. Report with column view.
 
@@ -419,10 +419,10 @@ Track budgets, phases, and allocation through properties. Report with column vie
 
 Combined with time tracking (Chapter 9), properties enable powerful reports:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope file :maxlevel 2 :properties ("CLIENT" "PROJECT")
 #+END:
-#+end_src
+#+end_example
 
 Generate time reports grouped by client or project. Send invoices from plain text files. It's absurd and brilliant.
 

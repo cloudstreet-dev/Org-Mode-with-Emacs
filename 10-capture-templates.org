@@ -100,11 +100,11 @@ Press =C-c c t=, type your task, press =C-c C-c=. Boom. Captured.
 #+end_src
 
 Creates:
-#+begin_src org
+#+begin_example
 * TODO Fix the bug I just noticed
   [2025-01-15 Wed 14:23]
   [[file:code.py::42][code.py:42]]
-#+end_src
+#+end_example
 
 ** Meeting Notes
 
@@ -115,7 +115,7 @@ Creates:
 
 Prompts for title and attendees, files by date:
 
-#+begin_src org
+#+begin_example
 * 2025
 ** 2025-01 January
 *** 2025-01-15 Wednesday
@@ -124,7 +124,7 @@ Prompts for title and attendees, files by date:
      Attendees: Alice, Bob, Carol
 
      [Your notes here]
-#+end_src
+#+end_example
 
 ** Journal Entry
 
@@ -240,12 +240,12 @@ item (file+headline "~/org/shopping.org" "Groceries")
 #+end_src
 
 Creates a list item:
-#+begin_src org
+#+begin_example
 * Groceries
   - Milk
   - Eggs
   - [Your new item]
-#+end_src
+#+end_example
 
 ** Checkitem (Checkbox)
 
@@ -265,13 +265,13 @@ table-line (file+headline "~/org/habits.org" "Exercise Log")
 
 Adds row to table:
 
-#+begin_src org
+#+begin_example
 * Exercise Log
   | Date              | Exercise | Duration |
   |-------------------+----------+----------|
   | [2025-01-15 Wed]  | Running  | 30 min   |
   | [Your new entry]  |          |          |
-#+end_src
+#+end_example
 
 ** Plain Text
 

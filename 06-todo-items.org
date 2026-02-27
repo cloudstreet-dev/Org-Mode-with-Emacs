@@ -11,11 +11,11 @@ Here's where Org-Mode transforms from "nice note-taking tool" to "life managemen
 
 Add =TODO= before any heading text:
 
-#+begin_src org
+#+begin_example
 * TODO Write chapter on TODO items
 * TODO Buy groceries
 * TODO Achieve inbox zero (optimistic)
-#+end_src
+#+end_example
 
 That's it. The heading is now a task.
 
@@ -43,13 +43,13 @@ Binary TODO/DONE is limiting. Real workflows have intermediate states. Configure
 
 The =|= separates "not done" from "done" states. Now your workflow becomes:
 
-#+begin_src org
+#+begin_example
 * TODO Write draft
 * IN-PROGRESS Review code
 * WAITING Approval from client
 * DONE Deploy to production
 * CANCELLED Deprecated feature
-#+end_src
+#+end_example
 
 =C-c C-t= cycles through all states. The letter in parentheses (like =(t)=) is a quick-access key: =C-c C-t t= jumps directly to TODO.
 
@@ -68,10 +68,10 @@ Choose workflow per heading with =C-c C-t= then selecting the sequence.
 
 Or set workflow per-file:
 
-#+begin_src org
+#+begin_example
 #+TODO: TODO IN-PROGRESS WAITING | DONE CANCELLED
 #+TODO: DRAFT REVIEW | PUBLISHED
-#+end_src
+#+end_example
 
 ** Visual Distinction
 
@@ -92,13 +92,13 @@ Now your tasks are color-coded. At a glance, see what's urgent, in progress, or 
 
 Remember checkboxes from Chapter 3?
 
-#+begin_src org
+#+begin_example
 * TODO Plan birthday party
   - [ ] Book venue
   - [ ] Send invitations
   - [ ] Order cake
   - [ ] Buy decorations
-#+end_src
+#+end_example
 
 *When to use checkboxes:*
 - Sub-tasks that aren't important enough for individual TODO items
@@ -116,12 +116,12 @@ Checkboxes are lightweight. TODO items are full-featured. Choose appropriately.
 
 Not all TODOs are equal. Add priorities:
 
-#+begin_src org
+#+begin_example
 * TODO [#A] Critical bug in production
 * TODO [#B] Update documentation
 * TODO [#C] Refactor old code
 * TODO Regular task (no priority)
-#+end_src
+#+end_example
 
 Set priority with =C-c ,= (Control-c comma):
 - Type =a= for priority A (highest)
@@ -141,10 +141,10 @@ Want to know when something changed state? Add this to your config:
 
 Now when you mark something DONE:
 
-#+begin_src org
+#+begin_example
 * DONE Write documentation
   CLOSED: [2025-01-15 Wed 14:32]
-#+end_src
+#+end_example
 
 For more detail:
 
@@ -154,12 +154,12 @@ For more detail:
 
 You'll get:
 
-#+begin_src org
+#+begin_example
 * DONE Fix authentication bug
   CLOSED: [2025-01-15 Wed 14:32]
   - Note taken on [2025-01-15 Wed 14:32] \\
     Fixed by updating token validation logic
-#+end_src
+#+end_example
 
 Track your progress. Future you will wonder "when did I complete this?" Now you'll know.
 
@@ -182,7 +182,7 @@ Per-keyword logging:
 
 Now your tasks track their entire lifecycle:
 
-#+begin_src org
+#+begin_example
 * DONE Implement feature
   CLOSED: [2025-01-15 Wed 16:45]
   :LOGBOOK:
@@ -190,7 +190,7 @@ Now your tasks track their entire lifecycle:
   - State "IN-PROGRESS" from "TODO"       [2025-01-14 Tue 09:15]
   - State "TODO"       from ""            [2025-01-13 Mon 11:20]
   :END:
-#+end_src
+#+end_example
 
 This is project management gold.
 
@@ -198,13 +198,13 @@ This is project management gold.
 
 Tasks need timeframes:
 
-#+begin_src org
+#+begin_example
 * TODO Submit quarterly report
   DEADLINE: <2025-01-31 Wed>
 
 * TODO Weekly team meeting
   SCHEDULED: <2025-01-16 Thu 10:00>
-#+end_src
+#+end_example
 
 Add deadlines with =C-c C-d=, schedules with =C-c C-s=. Both pop up a calendar interface.
 
@@ -214,11 +214,11 @@ Add deadlines with =C-c C-d=, schedules with =C-c C-s=. Both pop up a calendar i
 
 ** The Difference Matters
 
-#+begin_src org
+#+begin_example
 * TODO Prepare presentation
   SCHEDULED: <2025-01-10 Wed>
   DEADLINE: <2025-01-15 Mon>
-#+end_src
+#+end_example
 
 Translation: "I plan to start working on this Wednesday, but it must be done by Monday."
 
@@ -228,7 +228,7 @@ In your agenda, this appears on the 10th (to remind you to start) and gets incre
 
 Some tasks recur:
 
-#+begin_src org
+#+begin_example
 * TODO Weekly review
   SCHEDULED: <2025-01-15 Wed +1w>
 
@@ -237,7 +237,7 @@ Some tasks recur:
 
 * TODO Water plants
   SCHEDULED: <2025-01-15 Wed .+3d>
-#+end_src
+#+end_example
 
 Repeating intervals:
 - =+1w= - Every week (if you mark it done late, next date calculates from original date)
@@ -250,12 +250,12 @@ Mark a repeating task DONE, and Org automatically creates the next instance. You
 
 How long will a task take?
 
-#+begin_src org
+#+begin_example
 * TODO Write documentation
   :PROPERTIES:
   :EFFORT: 2:30
   :END:
-#+end_src
+#+end_example
 
 That's 2 hours, 30 minutes. Use =C-c C-x e= to set effort.
 
@@ -274,7 +274,7 @@ Why track effort? Because agenda views can show your task load, help plan your d
 
 Some tasks can't start until others finish:
 
-#+begin_src org
+#+begin_example
 * TODO Write code
   :PROPERTIES:
   :ID: task-write-code
@@ -284,7 +284,7 @@ Some tasks can't start until others finish:
   :PROPERTIES:
   :DEPENDS: task-write-code
   :END:
-#+end_src
+#+end_example
 
 Enable blocking:
 
@@ -306,14 +306,14 @@ Project management in plain text.
 
 Tasks can contain subtasks:
 
-#+begin_src org
+#+begin_example
 * TODO Launch product [0/3]
 ** TODO Design phase [0/2]
 *** TODO Create mockups
 *** TODO User testing
 ** TODO Development phase
 ** TODO Marketing phase
-#+end_src
+#+end_example
 
 The =[0/3]= shows completion statistics (auto-calculated from child TODOs).
 
@@ -327,14 +327,14 @@ Without this, statistics include all descendants (TODOs at any depth).
 
 Mark subtasks done, and the parent updates automatically:
 
-#+begin_src org
+#+begin_example
 * TODO Launch product [1/3]
 ** DONE Design phase [2/2]
 *** DONE Create mockups
 *** DONE User testing
 ** TODO Development phase
 ** TODO Marketing phase
-#+end_src
+#+end_example
 
 Visual progress tracking without manual updates.
 
@@ -342,7 +342,7 @@ Visual progress tracking without manual updates.
 
 Massive tasks paralyze. Break them down:
 
-#+begin_src org
+#+begin_example
 * TODO Write book
 ** TODO Outline chapters
 ** TODO Write chapter 1
@@ -351,7 +351,7 @@ Massive tasks paralyze. Break them down:
 ...
 ** TODO Edit complete manuscript
 ** TODO Find publisher
-#+end_src
+#+end_example
 
 Each subtask is manageable. The parent shows overall progress. Suddenly the impossible becomes achievable.
 
@@ -380,7 +380,7 @@ Refiling keeps your system organized without manual cut-paste operations.
 
 Properties can inherit from parent headings:
 
-#+begin_src org
+#+begin_example
 * Project: New Website
   :PROPERTIES:
   :CATEGORY: website
@@ -390,7 +390,7 @@ Properties can inherit from parent headings:
 ** TODO Design homepage
 ** TODO Implement backend
 ** TODO Deploy
-#+end_src
+#+end_example
 
 All subtasks inherit =CATEGORY= and =CLIENT= properties (if inheritance is enabled for those properties). Configure which properties inherit:
 
@@ -404,9 +404,9 @@ Define once, use everywhere.
 
 Finished tasks clutter your files. Archive them:
 
-#+begin_src org
+#+begin_example
 * DONE Old project
-#+end_src
+#+end_example
 
 Press =C-c C-x C-a= to archive. The task moves to an archive file (default: =filename_archive.org=), leaving your main file clean.
 
@@ -420,12 +420,12 @@ The =%s= expands to the source filename. Your archive maintains context.
 
 For one-off archive locations:
 
-#+begin_src org
+#+begin_example
 * DONE Special project
   :PROPERTIES:
   :ARCHIVE: archive.org::* Special Projects
   :END:
-#+end_src
+#+end_example
 
 Archiving isn't deletion—it's organized storage of historical data.
 

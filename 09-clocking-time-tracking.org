@@ -18,12 +18,12 @@ Position cursor on a heading and:
 
 Org adds a CLOCK entry:
 
-#+begin_src org
+#+begin_example
 * TODO Write documentation
   :LOGBOOK:
   CLOCK: [2025-01-15 Wed 09:15]--[2025-01-15 Wed 11:30] =>  2:15
   :END:
-#+end_src
+#+end_example
 
 That's it. You just tracked 2 hours and 15 minutes on "Write documentation."
 
@@ -65,14 +65,14 @@ Type the number to clock into that task instantly. No navigating—instant time 
 
 Generate time reports:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope file :maxlevel 2 :block thisweek
 #+END:
-#+end_src
+#+end_example
 
 Put cursor on =#+BEGIN:= line, press =C-c C-c=:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope file :maxlevel 2 :block thisweek
 | Headline               |   Time |      |
 |------------------------+--------+------|
@@ -82,7 +82,7 @@ Put cursor on =#+BEGIN:= line, press =C-c C-c=:
 | Code reviews           |   2:30 |      |
 | Meetings               |   1:45 |      |
 #+END:
-#+end_src
+#+end_example
 
 Boom. Time report. Update anytime with =C-c C-c=.
 
@@ -115,24 +115,24 @@ Boom. Time report. Update anytime with =C-c C-c=.
 
 *Weekly time report:*
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope agenda :maxlevel 3 :block thisweek :link t
 #+END:
-#+end_src
+#+end_example
 
 *Monthly client billing:*
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope agenda :maxlevel 2 :block thismonth :tags "+CLIENT=\"ACME\"" :formula %
 #+END:
-#+end_src
+#+end_example
 
 *Daily summary:*
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope file :maxlevel 2 :block today
 #+END:
-#+end_src
+#+end_example
 
 Update any table with =C-c C-c=. Your time logs become invoices, reports, analytics.
 
@@ -140,7 +140,7 @@ Update any table with =C-c C-c=. Your time logs become invoices, reports, analyt
 
 Remember effort estimates from Chapter 6?
 
-#+begin_src org
+#+begin_example
 * TODO Implement feature
   :PROPERTIES:
   :EFFORT: 4:00
@@ -149,7 +149,7 @@ Remember effort estimates from Chapter 6?
   CLOCK: [2025-01-15 Wed 09:00]--[2025-01-15 Wed 13:30] =>  4:30
   CLOCK: [2025-01-14 Tue 14:00]--[2025-01-14 Tue 16:00] =>  2:00
   :END:
-#+end_src
+#+end_example
 
 Estimated: 4 hours. Actual: 6.5 hours. Oops.
 
@@ -234,13 +234,13 @@ Constant, gentle reminder of what you're supposed to be doing.
 
 By default, clock entries go in =:LOGBOOK:= drawer:
 
-#+begin_src org
+#+begin_example
 * TODO Task
   :LOGBOOK:
   CLOCK: [2025-01-15 Wed 09:00]--[2025-01-15 Wed 10:30] =>  1:30
   CLOCK: [2025-01-14 Tue 14:00]--[2025-01-14 Tue 15:00] =>  1:00
   :END:
-#+end_src
+#+end_example
 
 Configure drawer name:
 
@@ -255,7 +255,7 @@ Keeps your headings clean. Press TAB on drawer to collapse.
 
 Want more than basic clock tables? Combine with properties:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope agenda :maxlevel 2 :block thismonth :properties ("CLIENT" "PROJECT")
 | Headline      | Time  | CLIENT      | PROJECT          |
 |---------------+-------+-------------+------------------|
@@ -263,7 +263,7 @@ Want more than basic clock tables? Combine with properties:
 | Bug fixes     |  4:15 | TechStart   | Mobile App       |
 | Meetings      |  3:00 | Internal    | N/A              |
 #+END:
-#+end_src
+#+end_example
 
 Group time by client, project, or any custom property. Invoice generation in plain text.
 
@@ -284,16 +284,16 @@ A productive workflow:
 1. =C-c C-x C-o= - Clock out
 2. Generate daily report:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope agenda :block today :maxlevel 3
 #+END:
-#+end_src
+#+end_example
 
 *Weekly review:*
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope agenda :block thisweek :maxlevel 2
 #+END:
-#+end_src
+#+end_example
 
 See where your week went. Adjust next week accordingly.
 
@@ -319,12 +319,12 @@ Mark task DONE or CANCELLED → automatic clock out.
 
 Warn when exceeding time budgets:
 
-#+begin_src org
+#+begin_example
 * TODO Project work
   :PROPERTIES:
   :EFFORT: 8:00
   :END:
-#+end_src
+#+end_example
 
 After clocking 8+ hours, Org can warn you (with appropriate configuration) that you've exceeded estimate.
 
@@ -386,7 +386,7 @@ Import into spreadsheets, billing systems, whatever you need.
 
 Professional time tracking setup:
 
-#+begin_src org
+#+begin_example
 * Client: ACME Corp
   :PROPERTIES:
   :CLIENT: ACME Corp
@@ -402,11 +402,11 @@ Professional time tracking setup:
    :LOGBOOK:
    CLOCK: [2025-01-15 Wed 14:00]--[2025-01-15 Wed 16:30] =>  2:30
    :END:
-#+end_src
+#+end_example
 
 Generate invoice:
 
-#+begin_src org
+#+begin_example
 #+BEGIN: clocktable :scope tree :maxlevel 3 :block thismonth :formula %
 | Headline                | Time  |    % |
 |-------------------------+-------+------|
@@ -415,11 +415,11 @@ Generate invoice:
 | Feature implementation  |  4:00 | 61.5 |
 | Bug fixes               |  2:30 | 38.5 |
 #+TBLFM: ...
-#+end_src
+#+end_example
 
 Add cost column with table formulas (Chapter 4):
 
-#+begin_src org
+#+begin_example
 | Headline                | Time  | Rate | Cost    |
 |-------------------------+-------+------+---------|
 | Feature implementation  |  4:00 |  150 |  600.00 |
@@ -427,7 +427,7 @@ Add cost column with table formulas (Chapter 4):
 |-------------------------+-------+------+---------|
 | Total                   |  6:30 |      |  975.00 |
 #+TBLFM: ...
-#+end_src
+#+end_example
 
 Plain text time tracking → billable invoices.
 

@@ -49,14 +49,14 @@ The result? Professional web pages from plain text.
 
 Control export with options at file start:
 
-#+begin_src org
+#+begin_example
 #+TITLE: My Document
 #+AUTHOR: Your Name
 #+EMAIL: you@example.com
 #+DATE: 2025-01-15
 #+OPTIONS: toc:2 num:t ^:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
-#+end_src
+#+end_example
 
 *Common OPTIONS:*
 - =toc:2= - Table of contents, 2 levels deep
@@ -71,10 +71,10 @@ Control export with options at file start:
 
 Make it beautiful:
 
-#+begin_src org
+#+begin_example
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="my-style.css" />
 #+HTML_HEAD: <style>body { font-family: sans-serif; max-width: 800px; margin: auto; }</style>
-#+end_src
+#+end_example
 
 Or use export templates (more later).
 
@@ -99,12 +99,12 @@ Requires LaTeX installed (TeXLive, MiKTeX, MacTeX).
 
 ** LaTeX Configuration
 
-#+begin_src org
+#+begin_example
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [12pt,a4paper]
 #+LATEX_HEADER: \usepackage{geometry}
 #+LATEX_HEADER: \geometry{margin=1in}
-#+end_src
+#+end_example
 
 Control document class, packages, formatting.
 
@@ -125,9 +125,9 @@ Define document types:
 
 Then in org file:
 
-#+begin_src org
+#+begin_example
 #+LATEX_CLASS: myarticle
-#+end_src
+#+end_example
 
 Custom layouts for reports, papers, books.
 
@@ -135,7 +135,7 @@ Custom layouts for reports, papers, books.
 
 Academic presentations:
 
-#+begin_src org
+#+begin_example
 #+LATEX_CLASS: beamer
 #+BEAMER_THEME: Madrid
 
@@ -145,7 +145,7 @@ Academic presentations:
    - Point two
 ** Slide Two
    More content
-#+end_src
+#+end_example
 
 Export to PDF: instant presentation slides.
 
@@ -182,9 +182,9 @@ Opens in LibreOffice, Word, Google Docs. For corporate environments stuck on pro
 
 Custom styles:
 
-#+begin_src org
+#+begin_example
 #+ODT_STYLES_FILE: "my-styles.odt"
-#+end_src
+#+end_example
 
 * Publishing Systems
 
@@ -261,7 +261,7 @@ Only that section exports.
 
 ** Export Settings per Heading
 
-#+begin_src org
+#+begin_example
 * Document for Client
   :PROPERTIES:
   :EXPORT_TITLE: Project Proposal
@@ -272,7 +272,7 @@ Only that section exports.
 ** Background
 ** Approach
 ** Budget
-#+end_src
+#+end_example
 
 Export this subtree → generates =proposal.pdf= with custom title and no table of contents.
 
@@ -280,7 +280,7 @@ Export this subtree → generates =proposal.pdf= with custom title and no table 
 
 Exclude sections:
 
-#+begin_src org
+#+begin_example
 #+EXCLUDE_TAGS: noexport draft
 
 * Published Section
@@ -291,19 +291,19 @@ Exclude sections:
 
 * Internal Notes                                 :noexport:
   Neither does this.
-#+end_src
+#+end_example
 
 Perfect for maintaining internal notes alongside published content.
 
 ** Include/Exclude by Heading
 
-#+begin_src org
+#+begin_example
 * Introduction
 * Methods
 * Results
 * COMMENT Internal Analysis
   This won't export (COMMENT keyword)
-#+end_src
+#+end_example
 
 * Export Filters and Hooks
 
@@ -326,10 +326,10 @@ Transform exported content programmatically.
 
 Remember =:exports= from Chapter 11?
 
-#+begin_src org
+#+begin_example
 #+BEGIN_SRC python :exports both
 print("Hello!")
-#+END_SRC
+#+end_example
 #+end_src
 
 - =:exports code= - Show only code in export
@@ -343,18 +343,18 @@ Control what readers see.
 
 Create reusable export configurations:
 
-#+begin_src org
+#+begin_example
 #+SETUPFILE: ~/.emacs.d/org-templates/article.setup
-#+end_src
+#+end_example
 
 In =article.setup=:
 
-#+begin_src org
+#+begin_example
 #+OPTIONS: toc:2 num:t
 #+LATEX_CLASS: article
 #+LATEX_HEADER: \usepackage{my-packages}
 #+HTML_HEAD: <link rel="stylesheet" href="style.css" />
-#+end_src
+#+end_example
 
 Consistent formatting across documents.
 
@@ -362,7 +362,7 @@ Consistent formatting across documents.
 
 Write once, export many:
 
-#+begin_src org
+#+begin_example
 #+TITLE: My Document
 
 * Introduction
@@ -370,7 +370,7 @@ Write once, export many:
 
 * Details
   More content.
-#+end_src
+#+end_example
 
 Export as:
 - HTML for web
