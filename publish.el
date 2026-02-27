@@ -21,7 +21,9 @@
       ;; not a notebook. Blocks are displayed verbatim.
       org-export-use-babel nil
       ;; Convert file:chapter.org links → chapter.html in HTML export
-      org-html-link-org-files-as-html t)
+      org-html-link-org-files-as-html t
+      ;; Don't try to maintain a global ID database in CI
+      org-id-track-globally nil)
 
 ;; Use htmlize for syntax highlighting when available
 (when (require 'htmlize nil t)

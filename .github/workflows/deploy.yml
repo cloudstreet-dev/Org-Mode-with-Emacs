@@ -31,7 +31,7 @@ jobs:
 
       - name: Build HTML book
         run: |
-          mkdir -p public
+          mkdir -p public ~/.emacs.d
           emacs --batch -l publish.el --funcall org-publish-all
 
       - name: Setup GitHub Pages
