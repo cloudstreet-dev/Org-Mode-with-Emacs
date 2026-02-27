@@ -21,7 +21,10 @@
       ;; not a notebook. Blocks are displayed verbatim.
       org-export-use-babel nil
       ;; Convert file:chapter.org links → chapter.html in HTML export
-      org-html-link-org-files-as-html t)
+      org-html-link-org-files-as-html t
+      ;; Example links in the text (e.g. [[*Project Alpha]]) won't
+      ;; resolve — skip them rather than crashing.
+      org-export-with-broken-links t)
 
 ;; Use htmlize for syntax highlighting when available
 (when (require 'htmlize nil t)
