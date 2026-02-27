@@ -16,7 +16,10 @@
       org-html-validation-link nil
       org-html-use-infojs nil
       org-export-with-smart-quotes t
-      org-export-with-sub-superscripts nil)
+      org-export-with-sub-superscripts nil
+      ;; Never evaluate code blocks during export — this is a book,
+      ;; not a notebook. Blocks are displayed verbatim.
+      org-export-use-babel nil)
 
 ;; Use htmlize for syntax highlighting when available
 (when (require 'htmlize nil t)
