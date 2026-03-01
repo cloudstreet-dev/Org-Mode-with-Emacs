@@ -18,7 +18,6 @@ We've seen this syntax:
 def hello():
     print("Hello from Org-Mode!")
 #+end_example
-#+end_src
 
 But here's the magic. Put cursor in the block and press =C-c C-c=:
 
@@ -97,7 +96,6 @@ print("Line 1")
 print("Line 2")
 print("Line 3")
 #+end_example
-#+end_src
 
 Execute with =C-c C-c=:
 
@@ -147,7 +145,6 @@ x = 42
 #+BEGIN_SRC python
 print(x)  # Error: x not defined
 #+END_SRC
-#+end_src
 
 With sessions, state persists:
 
@@ -159,7 +156,6 @@ x = 42
 #+BEGIN_SRC python :session
 print(x)  # Works! Outputs: 42
 #+END_SRC
-#+end_src
 
 Same Python interpreter, same namespace. Variables, functions, imports—all persist.
 
@@ -173,7 +169,6 @@ x = 1
 #+BEGIN_SRC python :session project-b
 x = 2
 #+END_SRC
-#+end_src
 
 Separate environments, same document.
 
@@ -188,7 +183,6 @@ print(f"{name} is {age} years old")
 
 #+RESULTS:
 : Alice is 30 years old
-#+end_src
 
 ** Variables from Tables
 
@@ -210,7 +204,6 @@ print(df.sum(numeric_only=True))
 : Q2    40
 : Q3    42
 : Q4    46
-#+end_src
 
 Table becomes 2D list. Process with any language.
 
@@ -228,7 +221,6 @@ print(sum(numbers))
 
 #+RESULTS:
 : 15
-#+end_src
 
 Chain blocks together. One block's output feeds another's input.
 
@@ -252,7 +244,6 @@ return [
 | Alice |  28 | Portland  |
 | Bob   |  35 | Seattle   |
 | Carol |  42 | Vancouver |
-#+end_src
 
 Generate org tables from code. Add formulas. Instant data reports.
 
@@ -276,7 +267,6 @@ return 'sine.png'
 
 #+RESULTS:
 [[file:sine.png]]
-#+end_src
 
 The plot appears in your document. Update code, re-execute, plot updates.
 
@@ -286,7 +276,6 @@ With R:
 #+BEGIN_SRC R :results graphics file :file plot.png
 plot(cars)
 #+end_example
-#+end_src
 
 With gnuplot, ditaa, graphviz—dozens of options.
 
@@ -351,7 +340,6 @@ print(f"Recursive: {result1} in {time1:.4f}s")
 print(f"Iterative: {result2} in {time2:.6f}s")
 print(f"Speedup: {time1/time2:.0f}x")
 #+END_SRC
-#+end_src
 
 Code, explanation, tests, benchmarks—all in one document. Export to PDF for sharing, execute for verification.
 
@@ -373,7 +361,6 @@ def fibonacci(n):
 if __name__ == "__main__":
     print([fibonacci(i) for i in range(10)])
 #+end_example
-#+end_src
 
 Run =M-x org-babel-tangle= or =C-c C-v t=. Org extracts code to =fib.py=.
 
@@ -395,7 +382,6 @@ def main():
 if __name__ == "__main__":
     main()
 #+END_SRC
-#+end_src
 
 Tangle creates =program.py= with all blocks combined in order.
 
@@ -427,7 +413,6 @@ def main():
 if __name__ == "__main__":
     main()
 #+END_SRC
-#+end_src
 
 =<<blockname>>= inserts that block's content. Compose programs from pieces.
 
@@ -458,7 +443,6 @@ SELECT name, age FROM users WHERE age > 25;
 | Alice |  28 |
 | Bob   |  35 |
 | Carol |  42 |
-#+end_src
 
 Results as org tables. Add formulas, analyze data.
 
@@ -468,7 +452,6 @@ With PostgreSQL:
 #+BEGIN_SRC sql :engine postgresql :database mydb :user myuser
 SELECT * FROM orders WHERE status = 'pending';
 #+end_example
-#+end_src
 
 Your documentation queries production databases. Be careful, but powerful.
 
@@ -485,7 +468,6 @@ ls -la ~/org | head -10
 : drwxr-xr-x+  87 user  staff  2784 Jan 15 09:15 ..
 : -rw-r--r--    1 user  staff  2048 Jan 14 15:20 inbox.org
 : ...
-#+end_src
 
 Document system administration with executable examples.
 
@@ -496,14 +478,12 @@ Document system administration with executable examples.
 #+BEGIN_SRC shell :dir ~/projects/myapp
 ls
 #+end_example
-#+end_src
 
 *:file* - Output file:
 #+begin_example
 #+BEGIN_SRC dot :file diagram.png
 digraph { A -> B; B -> C; }
 #+end_example
-#+end_src
 
 *:cache* - Cache results:
 #+begin_example
@@ -513,7 +493,6 @@ import time
 time.sleep(5)
 return "Done"
 #+end_example
-#+end_src
 
 Re-run only if code changes.
 
@@ -522,7 +501,6 @@ Re-run only if code changes.
 #+BEGIN_SRC shell :cmdline -n 5
 head
 #+end_example
-#+end_src
 
 *:stdin* - Provide input:
 #+begin_example
@@ -530,7 +508,6 @@ head
 import sys
 print(sys.stdin.read().upper())
 #+end_example
-#+end_src
 
 * Document-Wide Defaults
 
@@ -554,7 +531,6 @@ Per-subtree:
 #+BEGIN_SRC python
 print("Uses :session py :results output")
 #+end_example
-#+end_src
 
 * Reproducible Research
 

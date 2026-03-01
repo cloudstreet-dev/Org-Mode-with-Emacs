@@ -154,7 +154,6 @@ Execute code on remote machines:
 #+BEGIN_SRC shell :dir /ssh:user@remote:/path/to/dir
 ls -la
 #+end_example
-#+end_src
 
 Tramp integration. Document remote operations.
 
@@ -176,7 +175,6 @@ return [[item['name'], item['value']] for item in parsed['items']]
 #+BEGIN_SRC R :var dataset=previous-block
 plot(dataset)
 #+END_SRC
-#+end_src
 
 Fetch with shell → Parse with Python → Visualize with R. All in one document.
 
@@ -199,7 +197,6 @@ assert calculate_tax(0) == 0
 assert calculate_tax(50) == 10
 print("All tests passed!")
 #+END_SRC
-#+end_src
 
 Tests live with documentation. Update function → re-run tests.
 

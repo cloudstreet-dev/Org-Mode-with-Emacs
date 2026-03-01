@@ -240,7 +240,6 @@ def fibonacci(n):
         return n
     return fibonacci(n-1) + fibonacci(n-2)
 #+end_example
-#+end_src
 
 We'll dive deep into code blocks in Chapter 11 (spoiler: they're executable).
 

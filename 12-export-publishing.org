@@ -330,7 +330,6 @@ Remember =:exports= from Chapter 11?
 #+BEGIN_SRC python :exports both
 print("Hello!")
 #+end_example
-#+end_src
 
 - =:exports code= - Show only code in export
 - =:exports results= - Show only output
