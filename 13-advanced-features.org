@@ -153,6 +153,7 @@ Execute code on remote machines:
 #+begin_example
 #+BEGIN_SRC shell :dir /ssh:user@remote:/path/to/dir
 ls -la
+#+end_src
 #+end_example
 
 Tramp integration. Document remote operations.
@@ -164,6 +165,7 @@ Chain multiple languages:
 #+begin_example
 #+BEGIN_SRC shell :results output
 curl -s https://api.example.com/data.json
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python :var data=previous-block
@@ -187,6 +189,7 @@ Fetch with shell → Parse with Python → Visualize with R. All in one document
 #+BEGIN_SRC python
 def calculate_tax(income, rate=0.2):
     return income * rate
+#+end_src
 #+end_example
 
 * Tests

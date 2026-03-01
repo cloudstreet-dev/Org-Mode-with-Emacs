@@ -17,6 +17,7 @@ We've seen this syntax:
 #+BEGIN_SRC python
 def hello():
     print("Hello from Org-Mode!")
+#+end_src
 #+end_example
 
 But here's the magic. Put cursor in the block and press =C-c C-c=:
@@ -95,6 +96,7 @@ Control execution with header arguments:
 print("Line 1")
 print("Line 2")
 print("Line 3")
+#+end_src
 #+end_example
 
 Execute with =C-c C-c=:
@@ -140,6 +142,7 @@ Without sessions, each block runs in isolation:
 #+begin_example
 #+BEGIN_SRC python
 x = 42
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python
@@ -151,6 +154,7 @@ With sessions, state persists:
 #+begin_example
 #+BEGIN_SRC python :session
 x = 42
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python :session
@@ -164,6 +168,7 @@ Multiple named sessions:
 #+begin_example
 #+BEGIN_SRC python :session project-a
 x = 1
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python :session project-b
@@ -179,6 +184,7 @@ Separate environments, same document.
 #+begin_example
 #+BEGIN_SRC python :var name="Alice" age=30
 print(f"{name} is {age} years old")
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -197,6 +203,7 @@ print(f"{name} is {age} years old")
 import pandas as pd
 df = pd.DataFrame(data[1:], columns=data[0])
 print(df.sum(numeric_only=True))
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -213,6 +220,7 @@ Table becomes 2D list. Process with any language.
 #+NAME: generate-data
 #+BEGIN_SRC python
 return [1, 2, 3, 4, 5]
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python :var numbers=generate-data
@@ -236,6 +244,7 @@ return [
     ['Bob', 35, 'Seattle'],
     ['Carol', 42, 'Vancouver']
 ]
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -263,6 +272,7 @@ plt.plot(x, y)
 plt.title('Sine Wave')
 plt.savefig('sine.png')
 return 'sine.png'
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -275,6 +285,7 @@ With R:
 #+begin_example
 #+BEGIN_SRC R :results graphics file :file plot.png
 plot(cars)
+#+end_src
 #+end_example
 
 With gnuplot, ditaa, graphviz—dozens of options.
@@ -298,6 +309,7 @@ def fib_recursive(n):
     if n <= 1:
         return n
     return fib_recursive(n-1) + fib_recursive(n-2)
+#+end_src
 #+end_example
 
 This is elegant but slow due to repeated calculations. Let's test it:
@@ -360,6 +372,7 @@ def fibonacci(n):
 
 if __name__ == "__main__":
     print([fibonacci(i) for i in range(10)])
+#+end_src
 #+end_example
 
 Run =M-x org-babel-tangle= or =C-c C-v t=. Org extracts code to =fib.py=.
@@ -370,6 +383,7 @@ Multiple blocks can contribute to one file:
 #+BEGIN_SRC python :tangle program.py
 import sys
 
+#+end_src
 #+end_example
 
 #+BEGIN_SRC python :tangle program.py
@@ -394,6 +408,7 @@ Reference other blocks by name:
 #+BEGIN_SRC python :tangle no
 import sys
 import os
+#+end_src
 #+end_example
 
 #+NAME: functions
@@ -435,6 +450,7 @@ Query databases directly:
 #+begin_example
 #+BEGIN_SRC sqlite :db mydatabase.db
 SELECT name, age FROM users WHERE age > 25;
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -451,6 +467,7 @@ With PostgreSQL:
 #+begin_example
 #+BEGIN_SRC sql :engine postgresql :database mydb :user myuser
 SELECT * FROM orders WHERE status = 'pending';
+#+end_src
 #+end_example
 
 Your documentation queries production databases. Be careful, but powerful.
@@ -460,6 +477,7 @@ Your documentation queries production databases. Be careful, but powerful.
 #+begin_example
 #+BEGIN_SRC shell
 ls -la ~/org | head -10
+#+end_src
 #+end_example
 
 #+RESULTS:
@@ -477,12 +495,14 @@ Document system administration with executable examples.
 #+begin_example
 #+BEGIN_SRC shell :dir ~/projects/myapp
 ls
+#+end_src
 #+end_example
 
 *:file* - Output file:
 #+begin_example
 #+BEGIN_SRC dot :file diagram.png
 digraph { A -> B; B -> C; }
+#+end_src
 #+end_example
 
 *:cache* - Cache results:
@@ -492,6 +512,7 @@ digraph { A -> B; B -> C; }
 import time
 time.sleep(5)
 return "Done"
+#+end_src
 #+end_example
 
 Re-run only if code changes.
@@ -500,6 +521,7 @@ Re-run only if code changes.
 #+begin_example
 #+BEGIN_SRC shell :cmdline -n 5
 head
+#+end_src
 #+end_example
 
 *:stdin* - Provide input:
@@ -507,6 +529,7 @@ head
 #+BEGIN_SRC python :stdin example-data
 import sys
 print(sys.stdin.read().upper())
+#+end_src
 #+end_example
 
 * Document-Wide Defaults
@@ -530,6 +553,7 @@ Per-subtree:
 ** Example 1
 #+BEGIN_SRC python
 print("Uses :session py :results output")
+#+end_src
 #+end_example
 
 * Reproducible Research

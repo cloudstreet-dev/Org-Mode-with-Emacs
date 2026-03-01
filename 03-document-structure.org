@@ -239,6 +239,7 @@ def fibonacci(n):
     if n <= 1:
         return n
     return fibonacci(n-1) + fibonacci(n-2)
+#+end_src
 #+end_example
 
 We'll dive deep into code blocks in Chapter 11 (spoiler: they're executable).
