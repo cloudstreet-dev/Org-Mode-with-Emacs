@@ -90,23 +90,21 @@
      "</div>\n")))
 
 (defun book-preamble (info)
-  "Generate HTML preamble using INFO plist from ox-html."
-  (let* ((file    (plist-get info :input-file))
-         (slug    (when file
-                    (file-name-sans-extension
-                     (file-name-nondirectory file)))))
+  "Generate HTML preamble using INFO plist from ox-html.
+org-html wraps our return value in <div id=\"preamble\"> automatically,
+so we must not add another one ourselves."
+  (let* ((file (plist-get info :input-file))
+         (slug (when file
+                 (file-name-sans-extension
+                  (file-name-nondirectory file)))))
     (concat
      (book-sidebar-html)
-     "<div id=\"preamble\">\n"
-     (book-chapter-nav-html (or slug ""))
-     "</div>\n")))
+     (book-chapter-nav-html (or slug "")))))
 
 (defun book-postamble (_info)
-  "Generate HTML postamble."
-  "<div id=\"postamble\">
-  <span>Org-Mode with Emacs — CC0 1.0 Universal</span>
-  <span>Built with <a href=\"https://orgmode.org\">Org-Mode</a> &amp; Emacs</span>
-</div>")
+  "Generate HTML postamble.
+org-html wraps this in <div id=\"postamble\"> automatically."
+  "Org-Mode with Emacs &mdash; CC0 1.0 Universal &nbsp;&middot;&nbsp; Built with <a href=\"https://orgmode.org\">Org-Mode</a> &amp; Emacs")
 
 ;; ──────────────────────────────────────────────
 ;; Publish project definition
