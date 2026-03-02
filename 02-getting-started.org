@@ -43,12 +43,12 @@ If you last tried Emacs in 1999, prepare to be pleasantly surprised. Modern Emac
 
 Here's the good news: if you're running Emacs 22.1 or later (and you definitely are), Org-Mode is already installed. No package manager wrestling required for basic functionality.
 
-That said, you might want to update to the latest version:
+That said, you might want to update to the latest version. Org-mode is available on GNU ELPA, which is included in Emacs by default:
 
 #+begin_src elisp
 ;; Add to your ~/.emacs or ~/.emacs.d/init.el
 (require 'package)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(package-initialize)
 #+end_src
 
 Then =M-x package-install RET org RET=

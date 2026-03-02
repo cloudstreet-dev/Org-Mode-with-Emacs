@@ -92,7 +92,7 @@ Boom. Time report. Update anytime with =C-c C-c=.
 - =:scope file= - Current file only
 - =:scope agenda= - All agenda files
 - =:scope subtree= - Current subtree only
-- =:scope nil= - Current subtree
+- =:scope nil= - Current buffer (or narrowed region)
 - =:scope ("file1.org" "file2.org")= - Specific files
 
 *Time range:*

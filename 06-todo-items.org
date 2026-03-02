@@ -272,18 +272,15 @@ Why track effort? Because agenda views can show your task load, help plan your d
 
 * Blocking and Dependencies
 
-Some tasks can't start until others finish:
+Some tasks can't start until others finish. The built-in approach uses the =:ORDERED:= property on a parent heading:
 
 #+begin_example
-* TODO Write code
+* TODO Project
   :PROPERTIES:
-  :ID: task-write-code
+  :ORDERED: t
   :END:
-
-* TODO Write tests
-  :PROPERTIES:
-  :DEPENDS: task-write-code
-  :END:
+** TODO Write code
+** TODO Write tests
 #+end_example
 
 Enable blocking:
@@ -292,9 +289,9 @@ Enable blocking:
 (setq org-enforce-todo-dependencies t)
 #+end_src
 
-Now you can't mark "Write tests" as DONE until "Write code" is complete. Org enforces task order.
+Now you can't mark "Write tests" as DONE until "Write code" is complete. Org enforces task order within any heading that has =:ORDERED: t=.
 
-For more complex dependencies, use =org-edna= package. It supports:
+For arbitrary dependencies between unrelated tasks (not parent/child), use the contributed =org-depend.el= or the =org-edna= package. Both support:
 - Task chains
 - Conditional triggers
 - Scheduled dependencies

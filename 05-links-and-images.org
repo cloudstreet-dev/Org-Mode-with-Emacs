@@ -302,9 +302,9 @@ The Org manual[fn:1] contains everything, though it's dense[fn::inline footnote 
 
 * Link Appearance
 
-By default, links show their description text. To see the underlying link:
+By default, links show their description text. To see the underlying link syntax:
 
-- =C-c C-x C-v= - Toggle link display (show raw links vs. descriptions)
+- =M-x org-toggle-link-display= - Toggle between showing descriptions and raw link syntax
 
 Useful when editing or debugging links.
 
